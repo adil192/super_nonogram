@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class TitlePage extends StatelessWidget {
-  const TitlePage({Key? key}) : super(key: key);
+  const TitlePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +15,9 @@ class TitlePage extends StatelessWidget {
       case < 400:
         titleFontSize = 24;
         buttonFontSize = 16;
-        break;
       case < 600:
         titleFontSize = 36;
         buttonFontSize = 24;
-        break;
       default:
         titleFontSize = 48;
         buttonFontSize = 32;
@@ -35,7 +33,7 @@ class TitlePage extends StatelessWidget {
               Hero(
                 tag: 'title',
                 child: Text(
-                  "Super Nonogram",
+                  'Super Nonogram',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: titleFontSize,
@@ -46,12 +44,12 @@ class TitlePage extends StatelessWidget {
               const SizedBox(height: 64),
               ElevatedButton(
                 onPressed: () {
-                  GoRouter.of(context).push("/play");
+                  GoRouter.of(context).push('/play');
                 },
                 child: Padding(
                   padding: EdgeInsets.all(buttonFontSize / 2),
                   child: Text(
-                    "Play",
+                    'Play',
                     style: TextStyle(
                       fontSize: buttonFontSize,
                     ),

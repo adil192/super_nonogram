@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PlayPage extends StatefulWidget {
-  const PlayPage({Key? key}) : super(key: key);
+  const PlayPage({super.key});
 
   @override
   State<PlayPage> createState() => _PlayPageState();
@@ -12,8 +12,8 @@ class _PlayPageState extends State<PlayPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Hero(
-          tag: "title",
-          child: Text("Super Nonogram"),
+          tag: 'title',
+          child: Text('Super Nonogram'),
         ),
         actions: [
           IconButton(
@@ -22,8 +22,8 @@ class _PlayPageState extends State<PlayPage> {
           ),
         ],
       ),
-      body: Center(
-        child: Text("Play"),
+      body: const Center(
+        child: Text('Play'),
       ),
     );
   }
