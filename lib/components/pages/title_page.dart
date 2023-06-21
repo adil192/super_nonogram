@@ -32,12 +32,15 @@ class TitlePage extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                "Super Nonogram",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: titleFontSize,
-                  color: colorScheme.onPrimary,
+              Hero(
+                tag: 'title',
+                child: Text(
+                  "Super Nonogram",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: titleFontSize,
+                    color: colorScheme.onPrimary,
+                  ),
                 ),
               ),
               const SizedBox(height: 64),

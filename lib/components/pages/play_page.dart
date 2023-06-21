@@ -11,7 +11,10 @@ class _PlayPageState extends State<PlayPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Super Nonogram"),
+        title: const Hero(
+          tag: "title",
+          child: Text("Super Nonogram"),
+        ),
         actions: [
           IconButton(
             onPressed: () {},
