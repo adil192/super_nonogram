@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:super_nonogram/components/pages/play_page.dart';
 import 'package:super_nonogram/components/pages/title_page.dart';
 
 final _router = GoRouter(
@@ -9,6 +10,10 @@ final _router = GoRouter(
       path: '/',
       builder: (context, state) => const TitlePage(),
     ),
+    GoRoute(
+      path: '/play',
+      builder: (context, state) => const PlayPage(),
+    )
   ]
 );
 

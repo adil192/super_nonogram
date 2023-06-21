@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class TitlePage extends StatelessWidget {
   const TitlePage({Key? key}) : super(key: key);
@@ -41,7 +42,9 @@ class TitlePage extends StatelessWidget {
               ),
               const SizedBox(height: 64),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  GoRouter.of(context).push("/play");
+                },
                 child: Padding(
                   padding: EdgeInsets.all(buttonFontSize / 2),
                   child: Text(
