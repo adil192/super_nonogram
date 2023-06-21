@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:super_nonogram/components/board/board.dart';
 
 class PlayPage extends StatefulWidget {
   const PlayPage({super.key});
@@ -23,7 +24,7 @@ class _PlayPageState extends State<PlayPage> {
         ],
       ),
       body: const Center(
-        child: Text('Play'),
+        child: Board(),
       ),
     );
   }
