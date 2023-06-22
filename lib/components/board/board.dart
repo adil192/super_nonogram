@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:super_nonogram/components/board/tile.dart';
 
 class Board extends StatefulWidget {
   const Board({super.key});
@@ -15,7 +16,7 @@ class _BoardState extends State<Board> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final r = Random(12);
     return FittedBox(
       child: SizedBox(
         width: 50.0 * width,
@@ -29,12 +30,7 @@ class _BoardState extends State<Board> {
             crossAxisSpacing: 10,
           ),
           padding: const EdgeInsets.all(20),
-          itemBuilder: (context, index) => Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: colorScheme.primary,
-            ),
-          ),
+          itemBuilder: (context, index) => Tile(selected: r.nextBool()),
         ),
       ),
     );
