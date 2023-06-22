@@ -2,21 +2,24 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:super_nonogram/components/board/tile.dart';
+import 'package:super_nonogram/components/board/tile_state.dart';
 
-class Board extends StatefulWidget {
+class Board extends StatelessWidget {
   const Board({super.key});
 
-  @override
-  State<Board> createState() => _BoardState();
-}
-
-class _BoardState extends State<Board> {
   static const width = 10;
   static const height = 10;
 
+  static final List<List<ValueNotifier<TileState>>> board = List.generate(
+    height,
+    (_) => List.generate(
+      width,
+      (_) => ValueNotifier(TileState()),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
-    final r = Random(12);
     return FittedBox(
       child: SizedBox(
         width: 50.0 * width,
@@ -30,7 +33,18 @@ class _BoardState extends State<Board> {
             crossAxisSpacing: 10,
           ),
           padding: const EdgeInsets.all(20),
-          itemBuilder: (context, index) => Tile(selected: r.nextBool()),
+          itemBuilder: (context, index) {
+            final int x = index % width;
+            final int y = index ~/ width;
+            return ValueListenableBuilder(
+              valueListenable: board[y][x],
+              builder: (context, tileState, child) {
+                return Tile(
+                  tileState: tileState,
+                );
+              },
+            );
+          },
         ),
       ),
     );

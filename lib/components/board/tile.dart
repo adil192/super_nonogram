@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:super_nonogram/components/board/tile_state.dart';
 
 class Tile extends StatelessWidget {
   const Tile({
     super.key,
-    required this.selected,
+    required this.tileState,
   });
 
-  final bool selected;
+  final TileState tileState;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class Tile extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: selected ? colorScheme.primary : colorScheme.primary.withOpacity(0.3),
+        color: tileState.selected ? colorScheme.primary : colorScheme.primary.withOpacity(0.3),
       ),
     );
   }
