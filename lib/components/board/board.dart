@@ -44,7 +44,12 @@ class Board extends StatelessWidget {
         width: tileSize * width,
         height: tileSize * height,
         child: GestureDetector(
-          onPanStart: (_) => onPanStart(),
+          onPanStart: (details) {
+            onPanStart();
+            final x = details.localPosition.dx ~/ tileSize;
+            final y = details.localPosition.dy ~/ tileSize;
+            onPanUpdate(x, y);
+          },
           onPanUpdate: (details) {
             final x = details.localPosition.dx ~/ tileSize;
             final y = details.localPosition.dy ~/ tileSize;
