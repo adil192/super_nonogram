@@ -20,3 +20,5 @@ jobs:
       # - run: flutter test
 
       - uses: bluefireteam/flutter-gh-pages@v7
+        with:
+            baseHref: /super_nonogram/
