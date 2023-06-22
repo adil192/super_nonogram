@@ -1,5 +1,4 @@
-import 'dart:math';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:super_nonogram/components/board/tile.dart';
 import 'package:super_nonogram/components/board/tile_state.dart';
@@ -10,41 +9,62 @@ class Board extends StatelessWidget {
   static const width = 10;
   static const height = 10;
 
-  static final List<List<ValueNotifier<TileState>>> board = List.generate(
+  static const tileSize = 50.0;
+
+  static final List<List<TileState>> board = List.generate(
     height,
     (_) => List.generate(
       width,
-      (_) => ValueNotifier(TileState()),
+      (_) => TileState(),
     ),
   );
+
+  void onPanUpdate(int x, int y) {
+    if (x < 0 || x >= width || y < 0 || y >= height) {
+      if (kDebugMode) print('Out of bounds: $x, $y');
+      return;
+    }
+
+    final tileState = board[y][x];
+    tileState.selected = !tileState.selected;
+    tileState.notifyListeners();
+  }
 
   @override
   Widget build(BuildContext context) {
     return FittedBox(
       child: SizedBox(
-        width: 50.0 * width,
-        height: 50.0 * height,
-        child: GridView.builder(
-          itemCount: width * height,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: width,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-          ),
-          padding: const EdgeInsets.all(20),
-          itemBuilder: (context, index) {
-            final int x = index % width;
-            final int y = index ~/ width;
-            return ValueListenableBuilder(
-              valueListenable: board[y][x],
-              builder: (context, tileState, child) {
-                return Tile(
-                  tileState: tileState,
-                );
-              },
-            );
+        width: tileSize * width,
+        height: tileSize * height,
+        child: GestureDetector(
+          onPanUpdate: (details) {
+            final x = details.localPosition.dx ~/ tileSize;
+            final y = details.localPosition.dy ~/ tileSize;
+            onPanUpdate(x, y);
           },
+          child: GridView.builder(
+            itemCount: width * height,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: width,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+            ),
+            padding: const EdgeInsets.all(20),
+            itemBuilder: (context, index) {
+              final int x = index % width;
+              final int y = index ~/ width;
+              return AnimatedBuilder(
+                animation: board[y][x],
+                builder: (context, child) {
+                  final tileState = board[y][x];
+                  return Tile(
+                    tileState: tileState,
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
     );
