@@ -18,7 +18,13 @@ class Board extends StatelessWidget {
       (_) => TileState(),
     ),
   );
+  static List<List<TileState>>? boardBackup;
 
+  void onPanStart() {
+    boardBackup = board
+        .map((row) => row.map((tileState) => tileState.clone()).toList())
+        .toList();
+  }
   void onPanUpdate(int x, int y) {
     if (x < 0 || x >= width || y < 0 || y >= height) {
       if (kDebugMode) print('Out of bounds: $x, $y');
@@ -26,7 +32,8 @@ class Board extends StatelessWidget {
     }
 
     final tileState = board[y][x];
-    tileState.selected = !tileState.selected;
+    final backupTileState = boardBackup![y][x];
+    tileState.selected = !backupTileState.selected;
     tileState.notifyListeners();
   }
 
@@ -37,6 +44,7 @@ class Board extends StatelessWidget {
         width: tileSize * width,
         height: tileSize * height,
         child: GestureDetector(
+          onPanStart: (_) => onPanStart(),
           onPanUpdate: (details) {
             final x = details.localPosition.dx ~/ tileSize;
             final y = details.localPosition.dy ~/ tileSize;

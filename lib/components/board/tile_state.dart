@@ -9,4 +9,10 @@ class TileState extends ChangeNotifier {
   void notifyListeners() {
     super.notifyListeners();
   }
+
+  TileState clone() {
+    final clone = TileState();
+    clone.selected = selected;
+    return clone;
+  }
 }
