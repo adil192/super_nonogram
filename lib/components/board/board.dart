@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class Board extends StatefulWidget {
@@ -8,20 +10,20 @@ class Board extends StatefulWidget {
 }
 
 class _BoardState extends State<Board> {
-  final width = 10;
-  final height = 10;
+  static const width = 10;
+  static const height = 10;
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     return FittedBox(
       child: SizedBox(
-        width: 1000,
-        height: 1000 * height / width,
+        width: 50.0 * width,
+        height: 50.0 * height,
         child: GridView.builder(
           itemCount: width * height,
           physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: width,
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
