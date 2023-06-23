@@ -15,4 +15,7 @@ class TileState extends ChangeNotifier {
     clone.selected = selected;
     return clone;
   }
+  void copyFrom(TileState other) {
+    selected = other.selected;
+  }
 }

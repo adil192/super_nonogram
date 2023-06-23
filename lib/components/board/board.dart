@@ -20,12 +20,12 @@ class Board extends StatelessWidget {
   );
   static List<List<TileState>>? boardBackup;
 
-  void onPanStart() {
+  static void onPanStart() {
     boardBackup = board
         .map((row) => row.map((tileState) => tileState.clone()).toList())
         .toList();
   }
-  void onPanUpdate(int x, int y) {
+  static void onPanUpdate(int x, int y) {
     if (x < 0 || x >= width || y < 0 || y >= height) {
       if (kDebugMode) print('Out of bounds: $x, $y');
       return;
@@ -37,22 +37,40 @@ class Board extends StatelessWidget {
     tileState.notifyListeners();
   }
 
+  /// Handles cases where a one-finger pan turns into a two-finger pan.
+  static bool isPanCancelled = false;
+  static bool checkIfPanCancelled(ScaleUpdateDetails details) {
+    if (isPanCancelled) return true;
+    if (details.pointerCount == 1) return false;
+
+    if (kDebugMode) print('Pan cancelled');
+    isPanCancelled = true;
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        board[y][x].copyFrom(boardBackup![y][x]);
+      }
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return FittedBox(
       child: SizedBox(
         width: tileSize * width,
         height: tileSize * height,
-        child: GestureDetector(
-          onPanStart: (details) {
+        child: InteractiveViewer(
+          onInteractionStart: (details) {
+            isPanCancelled = false;
             onPanStart();
-            final x = details.localPosition.dx ~/ tileSize;
-            final y = details.localPosition.dy ~/ tileSize;
+            final x = details.localFocalPoint.dx ~/ tileSize;
+            final y = details.localFocalPoint.dy ~/ tileSize;
             onPanUpdate(x, y);
           },
-          onPanUpdate: (details) {
-            final x = details.localPosition.dx ~/ tileSize;
-            final y = details.localPosition.dy ~/ tileSize;
+          onInteractionUpdate: (details) {
+            if (checkIfPanCancelled(details)) return;
+            final x = details.localFocalPoint.dx ~/ tileSize;
+            final y = details.localFocalPoint.dy ~/ tileSize;
             onPanUpdate(x, y);
           },
           child: GridView.builder(
