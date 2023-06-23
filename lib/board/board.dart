@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -155,17 +154,24 @@ class Board extends StatelessWidget {
             itemBuilder: (context, index) {
               final int x = index % (width + 1) - 1;
               final int y = index ~/ (width + 1) - 1;
+              late final colorScheme = Theme.of(context).colorScheme;
               return switch ((x, y)) {
                 (-1, -1) => const SizedBox(),
                 (-1, _) => Center(
                   child: Text(
                     answer.labelRow(y),
                     textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: colorScheme.onBackground,
+                    ),
                   ),
                 ),
                 (_, -1) => Text(
                   answer.labelColumn(x),
                   textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: colorScheme.onBackground,
+                  ),
                 ),
                 _ => AnimatedBuilder(
                   animation: board[y][x],
