@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:super_nonogram/components/pages/play_page.dart';
-import 'package:super_nonogram/components/pages/title_page.dart';
+import 'package:super_nonogram/pages/play_page.dart';
+import 'package:super_nonogram/pages/title_page.dart';
 
 final _router = GoRouter(
   routes: [

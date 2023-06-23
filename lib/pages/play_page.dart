@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:super_nonogram/components/board/board.dart';
+import 'package:super_nonogram/board/board.dart';
 
 class PlayPage extends StatefulWidget {
   const PlayPage({super.key});

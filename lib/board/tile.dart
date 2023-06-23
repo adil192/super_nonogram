@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:super_nonogram/components/board/tile_state.dart';
+import 'package:super_nonogram/board/tile_state.dart';
 
 class Tile extends StatelessWidget {
   const Tile({

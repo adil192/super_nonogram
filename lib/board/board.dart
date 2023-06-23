@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:super_nonogram/components/board/tile.dart';
-import 'package:super_nonogram/components/board/tile_state.dart';
+import 'package:super_nonogram/board/tile.dart';
+import 'package:super_nonogram/board/tile_state.dart';
 
 typedef Coordinate = ({int x, int y});
 
