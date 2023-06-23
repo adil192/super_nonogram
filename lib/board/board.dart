@@ -136,11 +136,11 @@ class Board extends StatelessWidget {
               return switch ((x, y)) {
                 (-1, -1) => const SizedBox(),
                 (-1, _) => Text(
-                  '$y',
+                  answer.labelRow(y),
                   textAlign: TextAlign.center,
                 ),
                 (_, -1) => Text(
-                  '$x',
+                  answer.labelColumn(x),
                   textAlign: TextAlign.center,
                 ),
                 _ => AnimatedBuilder(
