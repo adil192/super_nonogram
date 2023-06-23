@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:super_nonogram/board/board.dart';
+import 'package:super_nonogram/misc/title.dart';
 
 class PlayPage extends StatefulWidget {
   const PlayPage({super.key});
@@ -12,10 +13,7 @@ class _PlayPageState extends State<PlayPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Hero(
-          tag: 'title',
-          child: Text('Super Nonogram'),
-        ),
+        title: const TitleText(),
         actions: [
           IconButton(
             onPressed: () {},

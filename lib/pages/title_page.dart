@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:super_nonogram/misc/title.dart';
 
 class TitlePage extends StatelessWidget {
   const TitlePage({super.key});
@@ -30,15 +31,10 @@ class TitlePage extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Hero(
-                tag: 'title',
-                child: Text(
-                  'Super Nonogram',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: titleFontSize,
-                    color: colorScheme.onPrimary,
-                  ),
+              TitleText(
+                style: TextStyle(
+                  fontSize: titleFontSize,
+                  color: colorScheme.onPrimary,
                 ),
               ),
               const SizedBox(height: 64),
