@@ -1,8 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:super_nonogram/board/board_labels.dart';
 import 'package:super_nonogram/board/tile.dart';
 import 'package:super_nonogram/board/tile_state.dart';
 
+typedef BoardState = List<List<TileState>>;
 typedef Coordinate = ({int x, int y});
 
 class Board extends StatelessWidget {
@@ -13,20 +17,33 @@ class Board extends StatelessWidget {
 
   static const tileSize = 50.0;
 
-  static final List<List<TileState>> board = List.generate(
+  static final BoardState board = List.generate(
     height,
     (_) => List.generate(
       width,
       (_) => TileState(),
     ),
   );
-  static final List<List<TileState>> boardBackup = List.generate(
+  static final BoardLabels answer = generateAnswer(Random(12));
+  static final BoardState boardBackup = List.generate(
     height,
     (_) => List.generate(
       width,
       (_) => TileState(),
     ),
   );
+
+  @visibleForTesting
+  static BoardLabels generateAnswer(Random r) {
+    final BoardState boardState = List.generate(
+      height,
+      (_) => List.generate(
+        width,
+        (_) => TileState()..selected = r.nextBool(),
+      ),
+    );
+    return BoardLabels.fromBoardState(boardState, width, height);
+  }
 
   static Coordinate panStartCoordinate = (x: 0, y: 0);
 
