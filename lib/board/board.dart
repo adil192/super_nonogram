@@ -71,7 +71,7 @@ class Board extends StatelessWidget {
   }
   static void onPanUpdate(int x, int y) {
     final tileState = board[y][x];
-    final backupTileState = boardBackup[y][x];
+    final backupTileState = boardBackup[panStartCoordinate.y][panStartCoordinate.x];
     tileState.selected = !backupTileState.selected;
     tileState.notifyListeners();
   }
