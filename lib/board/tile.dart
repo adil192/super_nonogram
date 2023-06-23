@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:super_nonogram/board/board.dart';
 import 'package:super_nonogram/board/tile_state.dart';
 
 class Tile extends StatelessWidget {
@@ -14,7 +15,7 @@ class Tile extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(Board.tileSize * 0.2),
         color: tileState.selected ? colorScheme.primary : colorScheme.primary.withOpacity(0.3),
       ),
     );

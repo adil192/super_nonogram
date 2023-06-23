@@ -13,7 +13,7 @@ typedef Coordinate = ({int x, int y});
 class Board extends StatelessWidget {
   const Board({super.key});
 
-  static const tileSize = 50.0;
+  static const double tileSize = 100;
 
   static late int width;
   static late int height;
@@ -147,10 +147,10 @@ class Board extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: width + 1,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
+              mainAxisSpacing: tileSize * 0.1,
+              crossAxisSpacing: tileSize * 0.1,
             ),
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(tileSize * 0.2),
             itemBuilder: (context, index) {
               final int x = index % (width + 1) - 1;
               final int y = index ~/ (width + 1) - 1;
