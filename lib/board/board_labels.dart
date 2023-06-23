@@ -20,8 +20,8 @@ class BoardLabels {
   /// See [columns] for more information.
   final List<List<int>> rows;
 
-  String labelColumn(int x) => columns[x].join('');
-  String labelRow(int y) => rows[y].join('');
+  String labelColumn(int x) => columns[x].join(' ');
+  String labelRow(int y) => rows[y].join(' ');
 
   const BoardLabels._({
     required this.columns,

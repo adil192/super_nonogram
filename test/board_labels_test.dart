@@ -64,7 +64,7 @@ void main() {
       final labels = BoardLabels.fromBoardState(boardState, width, height);
 
       expect(labels.rows[0], equals([1, 1, 1]));
-      expect(labels.labelRow(0), '111');
+      expect(labels.labelRow(0), '1 1 1');
       for (int y = 1; y < height; ++y) {
         expect(labels.rows[y], isEmpty);
         expect(labels.labelRow(y), '');
