@@ -18,12 +18,20 @@ class Board extends StatelessWidget {
       (_) => TileState(),
     ),
   );
-  static List<List<TileState>>? boardBackup;
+  static final List<List<TileState>> boardBackup = List.generate(
+    height,
+    (_) => List.generate(
+      width,
+      (_) => TileState(),
+    ),
+  );
 
   static void onPanStart() {
-    boardBackup = board
-        .map((row) => row.map((tileState) => tileState.clone()).toList())
-        .toList();
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        boardBackup[y][x].copyFrom(board[y][x]);
+      }
+    }
   }
   static void onPanUpdate(int x, int y) {
     if (x < 0 || x >= width || y < 0 || y >= height) {
@@ -32,7 +40,7 @@ class Board extends StatelessWidget {
     }
 
     final tileState = board[y][x];
-    final backupTileState = boardBackup![y][x];
+    final backupTileState = boardBackup[y][x];
     tileState.selected = !backupTileState.selected;
     tileState.notifyListeners();
   }
@@ -47,7 +55,7 @@ class Board extends StatelessWidget {
     isPanCancelled = true;
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
-        board[y][x].copyFrom(boardBackup![y][x]);
+        board[y][x].copyFrom(boardBackup[y][x]);
       }
     }
     return true;
