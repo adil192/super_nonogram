@@ -2,6 +2,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:super_nonogram/board/board.dart';
 import 'package:super_nonogram/pages/play_page.dart';
 import 'package:super_nonogram/pages/title_page.dart';
 
@@ -18,7 +19,9 @@ final _router = GoRouter(
   ]
 );
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Board.importUsb();
   runApp(const MyApp());
 }
 

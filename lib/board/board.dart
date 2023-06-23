@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:super_nonogram/board/board_labels.dart';
 import 'package:super_nonogram/board/tile.dart';
 import 'package:super_nonogram/board/tile_state.dart';
@@ -12,20 +14,19 @@ typedef Coordinate = ({int x, int y});
 class Board extends StatelessWidget {
   const Board({super.key});
 
-  static const width = 10;
-  static const height = 10;
-
   static const tileSize = 50.0;
 
-  static final BoardState board = List.generate(
+  static late int width;
+  static late int height;
+  static late BoardLabels answer;
+  static BoardState board = List.generate(
     height,
     (_) => List.generate(
       width,
       (_) => TileState(),
     ),
   );
-  static final BoardLabels answer = generateAnswer(Random(12));
-  static final BoardState boardBackup = List.generate(
+  static BoardState boardBackup = List.generate(
     height,
     (_) => List.generate(
       width,
@@ -33,16 +34,37 @@ class Board extends StatelessWidget {
     ),
   );
 
-  @visibleForTesting
-  static BoardLabels generateAnswer(Random r) {
-    final BoardState boardState = List.generate(
+  static Future importUsb() async {
+    final usbNgb = await rootBundle.load('assets/board_images/usb.ngb');
+    final usbNgbString = String.fromCharCodes(usbNgb.buffer.asUint8List());
+    final lines = usbNgbString.split('\n');
+
+    if (jsonDecode(lines[0]) case [int width, int height]) {
+      Board.width = width;
+      Board.height = height;
+    } else {
+      throw Exception('Invalid usb.ngb file');
+    }
+
+    final BoardState board = List.generate(
       height,
       (_) => List.generate(
         width,
-        (_) => TileState()..selected = r.nextBool(),
+        (_) => TileState(),
       ),
     );
-    return BoardLabels.fromBoardState(boardState, width, height);
+    for (int y = 0; y < height; y++) {
+      final line = lines[y + 1];
+      for (int x = 0; x < width; x++) {
+        final char = line[x];
+        if (char == '1') {
+          board[y][x].selected = true;
+        } else {
+          board[y][x].selected = false;
+        }
+      }
+    }
+    answer = BoardLabels.fromBoardState(board, width, height);
   }
 
   static Coordinate panStartCoordinate = (x: 0, y: 0);
@@ -124,7 +146,7 @@ class Board extends StatelessWidget {
           child: GridView.builder(
             itemCount: width * height + width + height + 1,
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: width + 1,
               mainAxisSpacing: 10,
               crossAxisSpacing: 10,
