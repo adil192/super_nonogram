@@ -40,6 +40,8 @@ dependencies:
 
   go_router: ^8.0.5
 
+  dynamic_color: ^1.6.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
