@@ -6,7 +6,7 @@ class BoardLabels {
   /// Each group is represented by an integer,
   /// and unselected tiles are omitted.
   /// 
-  /// Multiple [BoardState]s can have the same [BoardLabel]s,
+  /// Multiple [BoardState]s can have the same [BoardLabels],
   /// so the player can solve the puzzle in multiple ways.
   /// 
   /// For example:
@@ -20,8 +20,8 @@ class BoardLabels {
   /// See [columns] for more information.
   final List<List<int>> rows;
 
-  String labelColumn(int x) => columns[x].join('\n');
-  String labelRow(int y) => rows[y].join(' ');
+  String labelColumn(int x) => columns[x].join('');
+  String labelRow(int y) => rows[y].join('');
 
   const BoardLabels._({
     required this.columns,
