@@ -65,43 +65,54 @@ class Board extends StatelessWidget {
   Widget build(BuildContext context) {
     return FittedBox(
       child: SizedBox(
-        width: tileSize * width,
-        height: tileSize * height,
+        width: tileSize * (width + 1),
+        height: tileSize * (height + 1),
         child: InteractiveViewer(
           onInteractionStart: (details) {
             isPanCancelled = false;
             onPanStart();
-            final x = details.localFocalPoint.dx ~/ tileSize;
-            final y = details.localFocalPoint.dy ~/ tileSize;
+            final x = details.localFocalPoint.dx ~/ tileSize - 1;
+            final y = details.localFocalPoint.dy ~/ tileSize - 1;
             onPanUpdate(x, y);
           },
           onInteractionUpdate: (details) {
             if (checkIfPanCancelled(details)) return;
-            final x = details.localFocalPoint.dx ~/ tileSize;
-            final y = details.localFocalPoint.dy ~/ tileSize;
+            final x = details.localFocalPoint.dx ~/ tileSize - 1;
+            final y = details.localFocalPoint.dy ~/ tileSize - 1;
             onPanUpdate(x, y);
           },
           child: GridView.builder(
-            itemCount: width * height,
+            itemCount: width * height + width + height + 1,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: width,
+              crossAxisCount: width + 1,
               mainAxisSpacing: 10,
               crossAxisSpacing: 10,
             ),
             padding: const EdgeInsets.all(20),
             itemBuilder: (context, index) {
-              final int x = index % width;
-              final int y = index ~/ width;
-              return AnimatedBuilder(
-                animation: board[y][x],
-                builder: (context, child) {
-                  final tileState = board[y][x];
-                  return Tile(
-                    tileState: tileState,
-                  );
-                },
-              );
+              final int x = index % (width + 1) - 1;
+              final int y = index ~/ (width + 1) - 1;
+              return switch ((x, y)) {
+                (-1, -1) => const SizedBox(),
+                (-1, _) => Text(
+                  '$y',
+                  textAlign: TextAlign.center,
+                ),
+                (_, -1) => Text(
+                  '$x',
+                  textAlign: TextAlign.center,
+                ),
+                _ => AnimatedBuilder(
+                  animation: board[y][x],
+                  builder: (context, child) {
+                    final tileState = board[y][x];
+                    return Tile(
+                      tileState: tileState,
+                    );
+                  },
+                ),
+              };
             },
           ),
         ),
