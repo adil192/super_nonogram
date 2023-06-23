@@ -157,20 +157,27 @@ class Board extends StatelessWidget {
               late final colorScheme = Theme.of(context).colorScheme;
               return switch ((x, y)) {
                 (-1, -1) => const SizedBox(),
-                (-1, _) => Center(
+                (-1, _) => Align(
+                  alignment: Alignment.centerRight,
                   child: Text(
                     answer.labelRow(y),
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontSize: tileSize * 0.2,
                       color: colorScheme.onBackground,
                     ),
                   ),
                 ),
-                (_, -1) => Text(
-                  answer.labelColumn(x),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: colorScheme.onBackground,
+                (_, -1) => Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Text(
+                    answer.labelColumn(x),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      height: 1.2,
+                      fontSize: tileSize * 0.2,
+                      color: colorScheme.onBackground,
+                    ),
                   ),
                 ),
                 _ => AnimatedBuilder(
