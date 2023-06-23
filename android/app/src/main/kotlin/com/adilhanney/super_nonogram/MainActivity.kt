@@ -1,4 +1,4 @@
-package com.example.super_nonogram
+package com.adilhanney.super_nonogram
 
 import io.flutter.embedding.android.FlutterActivity
 
