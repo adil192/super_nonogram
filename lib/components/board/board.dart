@@ -30,6 +30,16 @@ class Board extends StatelessWidget {
 
   static Coordinate panStartCoordinate = (x: 0, y: 0);
 
+  static TileRelation getTileRelation(int x, int y) {
+    if (x < 0 || x >= width || y < 0 || y >= height) {
+      return TileRelation.outOfBounds;
+    }
+    if (x != panStartCoordinate.x && y != panStartCoordinate.y) {
+      return TileRelation.notInSameRowOrColumn;
+    }
+    return TileRelation.valid;
+  }
+
   static void onPanStart() {
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
@@ -38,11 +48,6 @@ class Board extends StatelessWidget {
     }
   }
   static void onPanUpdate(int x, int y) {
-    if (x < 0 || x >= width || y < 0 || y >= height) {
-      if (kDebugMode) print('Out of bounds: $x, $y');
-      return;
-    }
-
     final tileState = board[y][x];
     final backupTileState = boardBackup[y][x];
     tileState.selected = !backupTileState.selected;
@@ -77,22 +82,24 @@ class Board extends StatelessWidget {
             onPanStart();
             final x = details.localFocalPoint.dx ~/ tileSize - 1;
             final y = details.localFocalPoint.dy ~/ tileSize - 1;
-            if (x < 0 || x >= width || y < 0 || y >= height) {
-              isPanCancelled = true;
-              return;
-            }
             panStartCoordinate = (x: x, y: y);
-            onPanUpdate(x, y);
+            switch (getTileRelation(x, y)) {
+              case TileRelation.valid:
+                panStartCoordinate = (x: x, y: y);
+                onPanUpdate(x, y);
+              case TileRelation.outOfBounds:
+              case TileRelation.notInSameRowOrColumn:
+                panStartCoordinate = (x: 0, y: 0);
+                isPanCancelled = true;
+            }
           },
           onInteractionUpdate: (details) {
             if (checkIfPanCancelled(details)) return;
             final x = details.localFocalPoint.dx ~/ tileSize - 1;
             final y = details.localFocalPoint.dy ~/ tileSize - 1;
-            if (x != panStartCoordinate.x && y != panStartCoordinate.y) {
-              // Ignore pans that aren't in the same row or column as the start.
-              return;
+            if (getTileRelation(x, y) == TileRelation.valid) {
+              onPanUpdate(x, y);
             }
-            onPanUpdate(x, y);
           },
           child: GridView.builder(
             itemCount: width * height + width + height + 1,
@@ -132,4 +139,11 @@ class Board extends StatelessWidget {
       ),
     );
   }
+}
+
+@visibleForTesting
+enum TileRelation {
+  valid,
+  outOfBounds,
+  notInSameRowOrColumn,
 }
