@@ -135,9 +135,11 @@ class Board extends StatelessWidget {
               final int y = index ~/ (width + 1) - 1;
               return switch ((x, y)) {
                 (-1, -1) => const SizedBox(),
-                (-1, _) => Text(
-                  answer.labelRow(y),
-                  textAlign: TextAlign.center,
+                (-1, _) => Center(
+                  child: Text(
+                    answer.labelRow(y),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 (_, -1) => Text(
                   answer.labelColumn(x),
