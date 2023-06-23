@@ -5,16 +5,19 @@ import 'package:super_nonogram/board/tile_state.dart';
 
 void main() {
   group('BoardLabels:', () {
+    const height = 5;
+    const width = 5;
+
     test('empty board', () {
       final BoardState boardState = List.generate(
-        Board.height,
+        height,
         (_) => List.generate(
-          Board.width,
+          width,
           (_) => TileState()..selected = false,
         ),
       );
 
-      final labels = BoardLabels.fromBoardState(boardState, Board.width, Board.height);
+      final labels = BoardLabels.fromBoardState(boardState, width, height);
 
       for (List<int> column in labels.columns) {
         expect(column, isEmpty);
@@ -26,29 +29,26 @@ void main() {
 
     test('full board', () {
       final BoardState boardState = List.generate(
-        Board.height,
+        height,
         (_) => List.generate(
-          Board.width,
+          width,
           (_) => TileState()..selected = true,
         ),
       );
 
-      final labels = BoardLabels.fromBoardState(boardState, Board.width, Board.height);
+      final labels = BoardLabels.fromBoardState(boardState, width, height);
 
       for (List<int> column in labels.columns) {
         expect(column, hasLength(1));
-        expect(column.first, equals(Board.height));
+        expect(column.first, equals(height));
       }
       for (List<int> row in labels.rows) {
         expect(row, hasLength(1));
-        expect(row.first, equals(Board.width));
+        expect(row.first, equals(width));
       }
     });
 
     test('1 1 1', () {
-      const height = 5;
-      const width = 5;
-
       final BoardState boardState = List.generate(
         height,
         (_) => List.generate(
