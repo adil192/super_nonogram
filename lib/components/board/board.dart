@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:super_nonogram/components/board/tile.dart';
 import 'package:super_nonogram/components/board/tile_state.dart';
 
+typedef Coordinate = ({int x, int y});
+
 class Board extends StatelessWidget {
   const Board({super.key});
 
@@ -25,6 +27,8 @@ class Board extends StatelessWidget {
       (_) => TileState(),
     ),
   );
+
+  static Coordinate panStartCoordinate = (x: 0, y: 0);
 
   static void onPanStart() {
     for (int x = 0; x < width; x++) {
@@ -73,12 +77,21 @@ class Board extends StatelessWidget {
             onPanStart();
             final x = details.localFocalPoint.dx ~/ tileSize - 1;
             final y = details.localFocalPoint.dy ~/ tileSize - 1;
+            if (x < 0 || x >= width || y < 0 || y >= height) {
+              isPanCancelled = true;
+              return;
+            }
+            panStartCoordinate = (x: x, y: y);
             onPanUpdate(x, y);
           },
           onInteractionUpdate: (details) {
             if (checkIfPanCancelled(details)) return;
             final x = details.localFocalPoint.dx ~/ tileSize - 1;
             final y = details.localFocalPoint.dy ~/ tileSize - 1;
+            if (x != panStartCoordinate.x && y != panStartCoordinate.y) {
+              // Ignore pans that aren't in the same row or column as the start.
+              return;
+            }
             onPanUpdate(x, y);
           },
           child: GridView.builder(
