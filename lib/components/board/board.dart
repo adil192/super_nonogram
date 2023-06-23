@@ -30,6 +30,11 @@ class Board extends StatelessWidget {
 
   static Coordinate panStartCoordinate = (x: 0, y: 0);
 
+  static Coordinate getCoordinateOfPosition(Offset position) {
+    final x = position.dx ~/ tileSize - 1;
+    final y = position.dy ~/ tileSize - 1;
+    return (x: x, y: y);
+  }
   static TileRelation getTileRelation(int x, int y) {
     if (x < 0 || x >= width || y < 0 || y >= height) {
       return TileRelation.outOfBounds;
@@ -80,8 +85,7 @@ class Board extends StatelessWidget {
           onInteractionStart: (details) {
             isPanCancelled = false;
             onPanStart();
-            final x = details.localFocalPoint.dx ~/ tileSize - 1;
-            final y = details.localFocalPoint.dy ~/ tileSize - 1;
+            final (:x, :y) = getCoordinateOfPosition(details.localFocalPoint);
             panStartCoordinate = (x: x, y: y);
             switch (getTileRelation(x, y)) {
               case TileRelation.valid:
@@ -95,8 +99,7 @@ class Board extends StatelessWidget {
           },
           onInteractionUpdate: (details) {
             if (checkIfPanCancelled(details)) return;
-            final x = details.localFocalPoint.dx ~/ tileSize - 1;
-            final y = details.localFocalPoint.dy ~/ tileSize - 1;
+            final (:x, :y) = getCoordinateOfPosition(details.localFocalPoint);
             if (getTileRelation(x, y) == TileRelation.valid) {
               onPanUpdate(x, y);
             }
