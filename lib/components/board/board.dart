@@ -49,7 +49,7 @@ class Board extends StatelessWidget {
   static bool isPanCancelled = false;
   static bool checkIfPanCancelled(ScaleUpdateDetails details) {
     if (isPanCancelled) return true;
-    if (details.pointerCount == 1) return false;
+    if (details.pointerCount == 1 && details.scale == 1.0) return false;
 
     if (kDebugMode) print('Pan cancelled');
     isPanCancelled = true;
