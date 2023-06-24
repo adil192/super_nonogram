@@ -47,6 +47,14 @@ class PixabayResponse {
       images: images,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'total': total,
+      'totalHits': totalHits,
+      'images': images,
+    };
+  }
 }
 
 class PixabayImage {
@@ -83,5 +91,18 @@ class PixabayImage {
         json['webformatHeight'].toDouble(),
       ),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'pageURL': pageUrl,
+      'previewURL': previewUrl,
+      'previewWidth': previewSize.width,
+      'previewHeight': previewSize.height,
+      'webformatURL': webformatUrl,
+      'webformatWidth': webformatSize.width,
+      'webformatHeight': webformatSize.height,
+    };
   }
 }
