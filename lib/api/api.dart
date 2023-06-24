@@ -20,7 +20,7 @@ abstract class PixabayApi {
     if (response.statusCode == 200) {
       return PixabayResponse.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('PixaBay API error: ${response.statusCode}');
+      throw Exception('Pixabay API error: ${response.statusCode}');
     }
   }
 }

@@ -44,6 +44,8 @@ dependencies:
 
   http: ^1.0.0
 
+  image: ^4.0.17
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
