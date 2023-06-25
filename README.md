@@ -1,16 +1,12 @@
-# super_nonogram
+# Super Nonogram
 
-A new Flutter project.
+[<img src='https://github.com/adil192/super_nonogram/blob/main/assets_raw/PWA-dark-en.svg'
+    alt='Launch as web app'
+    height=80>][web_app]
 
-## Getting Started
+This is a Flutter reimplementation of my [old Nonogram web app](https://adil.hanney.org/nonogram/).
 
-This project is a starting point for a Flutter application.
+It automatically generates boards based on your search term
+(images are sourced from [Pixabay](https://pixabay.com/) using the [Pixabay API](https://pixabay.com/api/docs/)).
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+[web_app]: https://adil192.github.io/super_nonogram/
