@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:http/http.dart' as http;
+import 'package:super_nonogram/api/image_to_board.dart';
+import 'package:super_nonogram/board/board.dart';
 
 abstract class PixabayApi {
   static const apiKey = '25286000-bf7eb8ff8e6d2d1630cf59fae';
@@ -22,6 +24,12 @@ abstract class PixabayApi {
     } else {
       throw Exception('Pixabay API error: ${response.statusCode}');
     }
+  }
+
+  static Future<BoardState> getBoardFromSearch(String query) async {
+    final searchResults = await search(query);
+    final image = searchResults.images[0];
+    return await ImageToBoard.importFromUrl(image.webformatUrl);
   }
 }
 
