@@ -39,24 +39,38 @@ class _PlayPageState extends State<PlayPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const TitleText(),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.settings),
+    final parentTheme = Theme.of(context);
+    return FutureBuilder(
+      future: srcImage == null ? null : ColorScheme.fromImageProvider(
+        provider: MemoryImage(srcImage!),
+        brightness: parentTheme.brightness,
+      ),
+      builder: (context, snapshot) {
+        return Theme(
+          data: ThemeData(
+            colorScheme: snapshot.data ?? parentTheme.colorScheme,
           ),
-        ],
-      ),
-      body: Center(
-        child: answerBoard == null
-          ? const CircularProgressIndicator()
-          : Board(
-              answerBoard: answerBoard!,
-              srcImage: srcImage!,
+          child: Scaffold(
+            appBar: AppBar(
+              title: const TitleText(),
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.settings),
+                ),
+              ],
             ),
-      ),
+            body: Center(
+              child: answerBoard == null
+                ? const CircularProgressIndicator()
+                : Board(
+                    answerBoard: answerBoard!,
+                    srcImage: srcImage!,
+                  ),
+            ),
+          ),
+        );
+      }
     );
   }
 }
