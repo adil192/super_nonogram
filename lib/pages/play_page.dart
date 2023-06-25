@@ -47,7 +47,7 @@ class _PlayPageState extends State<PlayPage> {
       ),
       builder: (context, snapshot) {
         return Theme(
-          data: ThemeData(
+          data: parentTheme.copyWith(
             colorScheme: snapshot.data ?? parentTheme.colorScheme,
           ),
           child: Scaffold(
