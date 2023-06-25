@@ -1,11 +1,11 @@
 {
-    "name": "super_nonogram",
-    "short_name": "super_nonogram",
+    "name": "Super Nonogram",
+    "short_name": "Super Nonogram",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "A procedurally generated nonogram game.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
