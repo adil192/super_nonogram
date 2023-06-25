@@ -8,7 +8,7 @@ abstract class PixabayApi {
   static const maxResults = 3;
   static const baseUrl = 'https://pixabay.com/api/';
   
-  static Future<PixabayResponse> search(String query) async {
+  static Future<PixabaySearchResults> search(String query) async {
     final url = '$baseUrl'
         '?key=$apiKey'
         '&q=${Uri.encodeQueryComponent(query)}'
@@ -18,30 +18,30 @@ abstract class PixabayApi {
         '&per_page=$maxResults';
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
-      return PixabayResponse.fromJson(jsonDecode(response.body));
+      return PixabaySearchResults.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Pixabay API error: ${response.statusCode}');
     }
   }
 }
 
-class PixabayResponse {
+class PixabaySearchResults {
   final int total;
   final int totalHits;
   final List<PixabayImage> images;
 
-  PixabayResponse._({
+  PixabaySearchResults._({
     required this.total,
     required this.totalHits,
     required this.images,
   });
 
-  factory PixabayResponse.fromJson(Map<String, dynamic> json) {
+  factory PixabaySearchResults.fromJson(Map<String, dynamic> json) {
     final images = <PixabayImage>[];
     for (final imageJson in json['hits']) {
       images.add(PixabayImage.fromJson(imageJson));
     }
-    return PixabayResponse._(
+    return PixabaySearchResults._(
       total: json['total'],
       totalHits: json['totalHits'],
       images: images,

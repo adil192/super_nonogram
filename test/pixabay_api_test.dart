@@ -6,12 +6,12 @@ import 'package:super_nonogram/api/api.dart';
 
 void main() {
   test('Pixabay API response parsing', () {
-    final PixabayResponse response = PixabayResponse.fromJson(jsonDecode(_apiResponse));
-    expect(response.total, 4692);
-    expect(response.totalHits, 500);
-    expect(response.images.length, 1);
+    final searchResults = PixabaySearchResults.fromJson(jsonDecode(_apiResponse));
+    expect(searchResults.total, 4692);
+    expect(searchResults.totalHits, 500);
+    expect(searchResults.images.length, 1);
 
-    final PixabayImage image = response.images.first;
+    final image = searchResults.images.first;
     expect(image.id, 195893);
     expect(image.pageUrl, 'https://pixabay.com/en/blossom-bloom-flower-195893/');
     expect(image.previewUrl, 'https://cdn.pixabay.com/photo/2013/10/15/09/12/flower-195893_150.jpg');
