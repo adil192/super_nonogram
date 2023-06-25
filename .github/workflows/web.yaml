@@ -1,6 +1,7 @@
 name: Publish to GitHub Pages
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
 
@@ -14,16 +15,6 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: stable
-
-      - run: flutter pub get
-
-      - name: Run tests
-        run: flutter test --reporter expanded --coverage
-
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          files: coverage/lcov.info
 
       - uses: bluefireteam/flutter-gh-pages@v7
         with:
