@@ -25,14 +25,14 @@ class _BoardState extends State<Board> {
   late final int width = widget.answerBoard[0].length;
   late final int height = widget.answerBoard.length;
   late final BoardLabels answer = BoardLabels.fromBoardState(widget.answerBoard, width, height);
-  late BoardState board = List.generate(
+  late final BoardState board = List.generate(
     height,
     (_) => List.generate(
       width,
       (_) => TileState(),
     ),
   );
-  late BoardState boardBackup = List.generate(
+  late final BoardState boardBackup = List.generate(
     height,
     (_) => List.generate(
       width,
@@ -85,6 +85,29 @@ class _BoardState extends State<Board> {
       }
     }
     return true;
+  }
+
+  void autoselectCompleteRowsCols() {
+    for (int x = 0; x < width; ++x) {
+      if (answer.labelColumn(x) == '$height') {
+        for (int y = 0; y < height; ++y) {
+          board[y][x].selected = true;
+        }
+      }
+    }
+    for (int y = 0; y < height; ++y) {
+      if (answer.labelRow(y) == '$width') {
+        for (int x = 0; x < width; ++x) {
+          board[y][x].selected = true;
+        }
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    autoselectCompleteRowsCols();
+    super.initState();
   }
 
   @override
