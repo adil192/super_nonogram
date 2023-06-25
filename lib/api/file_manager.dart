@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -9,32 +10,61 @@ abstract class FileManager {
   static Directory? _documentsDir;
   static const String _documentsSubDir = '/nonogram';
 
-  static Future<void> writeFile(String path, String contents) async {
+  static Future<void> writeFile(String path, {String? string, Uint8List? bytes}) async {
     assert(path.startsWith('/'));
-    assert(path.endsWith('.ngb'));
+    if (string != null) {
+      assert(path.endsWith('.ngb'));
+    } else if (bytes != null) {
+      assert(path.endsWith('.png'));
+    } else {
+      assert(false, 'FileManager.writeFile: At least one of string or bytes must be provided');
+    }
 
     if (kIsWeb) {
       _prefs ??= await SharedPreferences.getInstance();
-      await _prefs!.setString(path, contents);
+      if (string != null) {
+        await _prefs!.setString(path, string);
+      } else if (bytes != null) {
+        await _prefs!.setString(path, base64Encode(bytes));
+      }
     } else {
       _documentsDir ??= await getApplicationDocumentsDirectory();
       final file = File('${_documentsDir!.path}$_documentsSubDir$path');
       await file.create(recursive: true);
-      await file.writeAsString(contents);
+      if (string != null) {
+        await file.writeAsString(string);
+      } else if (bytes != null) {
+        await file.writeAsBytes(bytes);
+      }
     }
   }
 
-  static Future<String> readFile(String path) async {
+  static Future<T> readFile<T>(String path) async {
     assert(path.startsWith('/'));
-    assert(path.endsWith('.ngb'));
+    if (T == String) {
+      assert(path.endsWith('.ngb'));
+    } else if (T == Uint8List) {
+      assert(path.endsWith('.png'));
+    } else {
+      assert(false, 'FileManager.readFile: T ($T) must be either String or Uint8List');
+    }
 
     if (kIsWeb) {
       _prefs ??= await SharedPreferences.getInstance();
-      return _prefs!.getString(path)!;
+      final string = _prefs!.getString(path);
+      if (T == Uint8List) {
+        return base64Decode(string!) as T;
+      } else {
+        return string as T;
+      }
     } else {
       _documentsDir ??= await getApplicationDocumentsDirectory();
       final file = File('${_documentsDir!.path}$_documentsSubDir$path');
-      return await file.readAsString();
+      if (T == Uint8List) {
+        return await file.readAsBytes() as T;
+      } else {
+        return await file.readAsString() as T;
+      }
     }
   }
 

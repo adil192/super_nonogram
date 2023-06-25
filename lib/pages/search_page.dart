@@ -70,13 +70,14 @@ class _SearchPageState extends State<SearchPage> {
                       final query = _searchController.text;
                       final file = '/${Uri.encodeComponent(query)}.ngb';
                       if (!await FileManager.doesFileExist(file)) {
-                        final board = await PixabayApi.getBoardFromSearch(query);
-                        if (board == null) {
+                        final (srcImage, board) = await PixabayApi.getBoardFromSearch(query);
+                        if (board == null || srcImage == null) {
                           _failedSearch = true;
                           return;
                         }
                         final ngb = Ngb.writeNgb(board);
-                        await FileManager.writeFile(file, ngb);
+                        await FileManager.writeFile(file, string: ngb);
+                        await FileManager.writeFile('/${Uri.encodeComponent(query)}.png', bytes: srcImage);
                       }
                       if (!mounted) return;
                       GoRouter.of(context).push('/play/${Uri.encodeComponent(query)}');

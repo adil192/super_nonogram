@@ -9,17 +9,8 @@ import 'package:super_nonogram/board/tile_state.dart';
 abstract class ImageToBoard {
   static const minSelectedRatio = 0.2;
 
-  static Future<BoardState?> importFromUrl(String url) async {
-    final response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      return await importFromBytes(response.bodyBytes);
-    } else {
-      throw Exception('Pixabay image download error: ${response.statusCode}');
-    }
-  }
-
   // todo: make this async
-  static Future<BoardState?> importFromBytes(Uint8List bytes, [int width = 20]) async {
+  static Future<BoardState?> importFromBytes(Uint8List bytes, [int width = 10]) async {
     var cmd = img.Command()
       ..decodeImage(bytes)
       ..copyResize(width: width);

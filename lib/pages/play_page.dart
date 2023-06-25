@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:super_nonogram/api/file_manager.dart';
 import 'package:super_nonogram/board/board.dart';
@@ -17,6 +19,7 @@ class PlayPage extends StatefulWidget {
 }
 
 class _PlayPageState extends State<PlayPage> {
+  Uint8List? srcImage;
   BoardState? answerBoard;
 
   @override
@@ -26,7 +29,8 @@ class _PlayPageState extends State<PlayPage> {
   }
 
   void loadBoard() async {
-    final ngbContents = await FileManager.readFile('/${Uri.encodeComponent(widget.query)}.ngb');
+    final ngbContents = await FileManager.readFile<String>('/${Uri.encodeComponent(widget.query)}.ngb');
+    srcImage = await FileManager.readFile<Uint8List>('/${Uri.encodeComponent(widget.query)}.png');
     if (!mounted) return;
     setState(() {
       answerBoard = Ngb.readNgb(ngbContents);

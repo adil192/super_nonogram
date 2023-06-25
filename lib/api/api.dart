@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:super_nonogram/api/image_to_board.dart';
 import 'package:super_nonogram/board/board.dart';
@@ -26,13 +28,20 @@ abstract class PixabayApi {
     }
   }
 
-  static Future<BoardState?> getBoardFromSearch(String query) async {
+  static Future<(Uint8List?, BoardState?)> getBoardFromSearch(String query) async {
     final searchResults = await search(query);
     for (final image in searchResults.images) {
-      final board = await ImageToBoard.importFromUrl(image.webformatUrl);
-      if (board != null) return board;
+      if (kDebugMode) print('Trying to import image ${image.id} from ${image.webformatUrl}');
+
+      final response = await http.get(Uri.parse(image.webformatUrl));
+      if (response.statusCode != 200) {
+        throw Exception('Pixabay image download error: ${response.statusCode}');
+      }
+
+      final board = await ImageToBoard.importFromBytes(response.bodyBytes);
+      if (board != null) return (response.bodyBytes, board);
     }
-    return null;
+    return (null, null);
   }
 }
 
