@@ -1,32 +1,38 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:super_nonogram/board/board_labels.dart';
-import 'package:super_nonogram/board/ngb.dart';
 import 'package:super_nonogram/board/tile.dart';
 import 'package:super_nonogram/board/tile_state.dart';
 
 typedef BoardState = List<List<TileState>>;
 typedef Coordinate = ({int x, int y});
 
-class Board extends StatelessWidget {
-  const Board({super.key});
+class Board extends StatefulWidget {
+  const Board({
+    super.key,
+    required this.answerBoard,
+  });
+
+  final BoardState answerBoard;
 
   static const double tileSize = 100;
 
-  static late int width;
-  static late int height;
-  static late BoardLabels answer;
-  static BoardState board = List.generate(
+  @override
+  State<Board> createState() => _BoardState();
+}
+
+class _BoardState extends State<Board> {
+  late final int width = widget.answerBoard[0].length;
+  late final int height = widget.answerBoard.length;
+  late final BoardLabels answer = BoardLabels.fromBoardState(widget.answerBoard, width, height);
+  late BoardState board = List.generate(
     height,
     (_) => List.generate(
       width,
       (_) => TileState(),
     ),
   );
-  static BoardState boardBackup = List.generate(
+  late BoardState boardBackup = List.generate(
     height,
     (_) => List.generate(
       width,
@@ -34,21 +40,14 @@ class Board extends StatelessWidget {
     ),
   );
 
-  static Future importUsb() async {
-    final usbNgb = await rootBundle.load('assets/board_images/usb.ngb');
-    final usbNgbString = String.fromCharCodes(usbNgb.buffer.asUint8List());
-    final board = Ngb.readNgb(usbNgbString);
-    answer = BoardLabels.fromBoardState(board, width, height);
-  }
+  Coordinate panStartCoordinate = (x: 0, y: 0);
 
-  static Coordinate panStartCoordinate = (x: 0, y: 0);
-
-  static Coordinate getCoordinateOfPosition(Offset position) {
-    final x = position.dx ~/ tileSize - 1;
-    final y = position.dy ~/ tileSize - 1;
+  Coordinate getCoordinateOfPosition(Offset position) {
+    final x = position.dx ~/ Board.tileSize - 1;
+    final y = position.dy ~/ Board.tileSize - 1;
     return (x: x, y: y);
   }
-  static TileRelation getTileRelation(int x, int y) {
+  TileRelation getTileRelation(int x, int y) {
     if (x < 0 || x >= width || y < 0 || y >= height) {
       return TileRelation.outOfBounds;
     }
@@ -58,14 +57,14 @@ class Board extends StatelessWidget {
     return TileRelation.valid;
   }
 
-  static void onPanStart() {
+  void onPanStart() {
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
         boardBackup[y][x].copyFrom(board[y][x]);
       }
     }
   }
-  static void onPanUpdate(int x, int y) {
+  void onPanUpdate(int x, int y) {
     final tileState = board[y][x];
     final backupTileState = boardBackup[panStartCoordinate.y][panStartCoordinate.x];
     tileState.selected = !backupTileState.selected;
@@ -73,8 +72,8 @@ class Board extends StatelessWidget {
   }
 
   /// Handles cases where a one-finger pan turns into a two-finger pan.
-  static bool isPanCancelled = false;
-  static bool checkIfPanCancelled(ScaleUpdateDetails details) {
+  bool isPanCancelled = false;
+  bool checkIfPanCancelled(ScaleUpdateDetails details) {
     if (isPanCancelled) return true;
     if (details.pointerCount == 1 && details.scale == 1.0) return false;
 
@@ -92,8 +91,8 @@ class Board extends StatelessWidget {
   Widget build(BuildContext context) {
     return FittedBox(
       child: SizedBox(
-        width: tileSize * (width + 1),
-        height: tileSize * (height + 1),
+        width: Board.tileSize * (width + 1),
+        height: Board.tileSize * (height + 1),
         child: InteractiveViewer(
           onInteractionStart: (details) {
             isPanCancelled = false;
@@ -122,10 +121,10 @@ class Board extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: width + 1,
-              mainAxisSpacing: tileSize * 0.1,
-              crossAxisSpacing: tileSize * 0.1,
+              mainAxisSpacing: Board.tileSize * 0.1,
+              crossAxisSpacing: Board.tileSize * 0.1,
             ),
-            padding: const EdgeInsets.all(tileSize * 0.2),
+            padding: const EdgeInsets.all(Board.tileSize * 0.2),
             itemBuilder: (context, index) {
               final int x = index % (width + 1) - 1;
               final int y = index ~/ (width + 1) - 1;
@@ -138,7 +137,7 @@ class Board extends StatelessWidget {
                     answer.labelRow(y),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: tileSize * 0.2,
+                      fontSize: Board.tileSize * 0.2,
                       color: colorScheme.onBackground,
                     ),
                   ),
@@ -150,7 +149,7 @@ class Board extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       height: 1.2,
-                      fontSize: tileSize * 0.2,
+                      fontSize: Board.tileSize * 0.2,
                       color: colorScheme.onBackground,
                     ),
                   ),

@@ -40,7 +40,7 @@ class TitlePage extends StatelessWidget {
               const SizedBox(height: 64),
               ElevatedButton(
                 onPressed: () {
-                  GoRouter.of(context).push('/play');
+                  GoRouter.of(context).push('/search');
                 },
                 child: Padding(
                   padding: EdgeInsets.all(buttonFontSize / 2),

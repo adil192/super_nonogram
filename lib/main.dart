@@ -2,8 +2,8 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:super_nonogram/board/board.dart';
 import 'package:super_nonogram/pages/play_page.dart';
+import 'package:super_nonogram/pages/search_page.dart';
 import 'package:super_nonogram/pages/title_page.dart';
 
 final _router = GoRouter(
@@ -13,15 +13,19 @@ final _router = GoRouter(
       builder: (context, state) => const TitlePage(),
     ),
     GoRoute(
-      path: '/play',
-      builder: (context, state) => const PlayPage(),
-    )
+      path: '/search',
+      builder: (context, state) => const SearchPage(),
+    ),
+    GoRoute(
+      path: '/play/:query',
+      builder: (context, state) => PlayPage(
+        query: state.pathParameters['query']!,
+      ),
+    ),
   ]
 );
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Board.importUsb();
+void main() {
   runApp(const MyApp());
 }
 
