@@ -9,14 +9,13 @@ import 'package:super_nonogram/board/board.dart';
 
 abstract class PixabayApi {
   static const apiKey = '25286000-bf7eb8ff8e6d2d1630cf59fae';
-  static const maxResults = 3;
+  static const maxResults = 5;
   static const baseUrl = 'https://pixabay.com/api/';
   
   static Future<PixabaySearchResults> search(String query) async {
     final url = '$baseUrl'
         '?key=$apiKey'
         '&q=${Uri.encodeQueryComponent(query)}'
-        '&image_type=vector'
         '&colors=transparent'
         '&safesearch=true'
         '&per_page=$maxResults';
