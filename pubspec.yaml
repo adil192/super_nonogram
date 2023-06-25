@@ -49,6 +49,8 @@ dependencies:
   path_provider: ^2.0.15
   shared_preferences: ^2.1.2
 
+  icons_launcher: ^2.1.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -101,3 +103,20 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+# dart run icons_launcher:create
+icons_launcher:
+  image_path: "assets_raw/icon.png"
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true
+    linux:
+      enable: true
+    windows:
+      enable: true
+    macos:
+      enable: true
+    web:
+      enable: true
