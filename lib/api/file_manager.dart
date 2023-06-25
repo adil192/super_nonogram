@@ -37,4 +37,18 @@ abstract class FileManager {
       return await file.readAsString();
     }
   }
+
+  static Future<bool> doesFileExist(String path) async {
+    assert(path.startsWith('/'));
+    assert(path.endsWith('.ngb'));
+
+    if (kIsWeb) {
+      _prefs ??= await SharedPreferences.getInstance();
+      return _prefs!.containsKey(path);
+    } else {
+      _documentsDir ??= await getApplicationDocumentsDirectory();
+      final file = File('${_documentsDir!.path}$_documentsSubDir$path');
+      return file.existsSync();
+    }
+  }
 }

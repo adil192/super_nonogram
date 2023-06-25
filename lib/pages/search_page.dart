@@ -59,9 +59,12 @@ class _SearchPageState extends State<SearchPage> {
                     setState(() => _disableInput = true);
                     try {
                       final query = _searchController.text;
-                      final board = await PixabayApi.getBoardFromSearch(query);
-                      final ngb = Ngb.writeNgb(board);
-                      await FileManager.writeFile('/${Uri.encodeComponent(query)}.ngb', ngb);
+                      final file = '/${Uri.encodeComponent(query)}.ngb';
+                      if (!await FileManager.doesFileExist(file)) {
+                        final board = await PixabayApi.getBoardFromSearch(query);
+                        final ngb = Ngb.writeNgb(board);
+                        await FileManager.writeFile(file, ngb);
+                      }
                       if (!mounted) return;
                       GoRouter.of(context).go('/play/${Uri.encodeComponent(query)}');
                     } finally {
