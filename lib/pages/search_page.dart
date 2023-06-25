@@ -18,6 +18,8 @@ class _SearchPageState extends State<SearchPage> {
 
   bool _disableInput = false;
 
+  bool _failedSearch = false;
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -51,17 +53,28 @@ class _SearchPageState extends State<SearchPage> {
                   },
                   enabled: !_disableInput,
                 ),
+                if (_failedSearch) ...[
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Failed to generate board, please try another prompt',
+                  ),
+                ],
                 const SizedBox(height: 8),
                 ElevatedButton(
                   onPressed: _disableInput ? null : () async {
                     if (_disableInput) return;
                     if (!_formKey.currentState!.validate()) return;
+                    _failedSearch = false;
                     setState(() => _disableInput = true);
                     try {
                       final query = _searchController.text;
                       final file = '/${Uri.encodeComponent(query)}.ngb';
                       if (!await FileManager.doesFileExist(file)) {
                         final board = await PixabayApi.getBoardFromSearch(query);
+                        if (board == null) {
+                          _failedSearch = true;
+                          return;
+                        }
                         final ngb = Ngb.writeNgb(board);
                         await FileManager.writeFile(file, ngb);
                       }

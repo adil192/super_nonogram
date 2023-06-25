@@ -10,7 +10,8 @@ void main() {
     final bytes = await file.readAsBytes();
 
     final boardState = await ImageToBoard.importFromBytes(bytes, 8);
-    expect(boardState.length, 8);
+    expect(boardState, isNotNull);
+    expect(boardState!.length, 8);
     expect(boardState[0].length, 8);
 
     const expectedColumnLabels = [

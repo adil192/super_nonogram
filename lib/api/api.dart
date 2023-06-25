@@ -26,10 +26,13 @@ abstract class PixabayApi {
     }
   }
 
-  static Future<BoardState> getBoardFromSearch(String query) async {
+  static Future<BoardState?> getBoardFromSearch(String query) async {
     final searchResults = await search(query);
-    final image = searchResults.images[0];
-    return await ImageToBoard.importFromUrl(image.webformatUrl);
+    for (final image in searchResults.images) {
+      final board = await ImageToBoard.importFromUrl(image.webformatUrl);
+      if (board != null) return board;
+    }
+    return null;
   }
 }
 
