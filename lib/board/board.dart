@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:super_nonogram/board/board_labels.dart';
+import 'package:super_nonogram/board/ngb.dart';
 import 'package:super_nonogram/board/tile.dart';
 import 'package:super_nonogram/board/tile_state.dart';
 
@@ -36,33 +37,7 @@ class Board extends StatelessWidget {
   static Future importUsb() async {
     final usbNgb = await rootBundle.load('assets/board_images/usb.ngb');
     final usbNgbString = String.fromCharCodes(usbNgb.buffer.asUint8List());
-    final lines = usbNgbString.split('\n');
-
-    if (jsonDecode(lines[0]) case [int width, int height]) {
-      Board.width = width;
-      Board.height = height;
-    } else {
-      throw Exception('Invalid usb.ngb file');
-    }
-
-    final BoardState board = List.generate(
-      height,
-      (_) => List.generate(
-        width,
-        (_) => TileState(),
-      ),
-    );
-    for (int y = 0; y < height; y++) {
-      final line = lines[y + 1];
-      for (int x = 0; x < width; x++) {
-        final char = line[x];
-        if (char == '1') {
-          board[y][x].selected = true;
-        } else {
-          board[y][x].selected = false;
-        }
-      }
-    }
+    final board = Ngb.readNgb(usbNgbString);
     answer = BoardLabels.fromBoardState(board, width, height);
   }
 
