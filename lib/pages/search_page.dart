@@ -79,7 +79,7 @@ class _SearchPageState extends State<SearchPage> {
                         await FileManager.writeFile(file, ngb);
                       }
                       if (!mounted) return;
-                      GoRouter.of(context).go('/play/${Uri.encodeComponent(query)}');
+                      GoRouter.of(context).push('/play/${Uri.encodeComponent(query)}');
                     } finally {
                       setState(() => _disableInput = false);
                     }
