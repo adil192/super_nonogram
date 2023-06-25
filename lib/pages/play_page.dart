@@ -54,6 +54,7 @@ class _PlayPageState extends State<PlayPage> {
           ? const CircularProgressIndicator()
           : Board(
               answerBoard: answerBoard!,
+              srcImage: srcImage!,
             ),
       ),
     );

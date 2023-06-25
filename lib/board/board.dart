@@ -11,9 +11,11 @@ class Board extends StatefulWidget {
   const Board({
     super.key,
     required this.answerBoard,
+    required this.srcImage,
   });
 
   final BoardState answerBoard;
+  final Uint8List srcImage;
 
   static const double tileSize = 100;
 
@@ -139,55 +141,73 @@ class _BoardState extends State<Board> {
               onPanUpdate(x, y);
             }
           },
-          child: GridView.builder(
-            itemCount: width * height + width + height + 1,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: width + 1,
-              mainAxisSpacing: Board.tileSize * 0.1,
-              crossAxisSpacing: Board.tileSize * 0.1,
-            ),
-            padding: const EdgeInsets.all(Board.tileSize * 0.2),
-            itemBuilder: (context, index) {
-              final int x = index % (width + 1) - 1;
-              final int y = index ~/ (width + 1) - 1;
-              late final colorScheme = Theme.of(context).colorScheme;
-              return switch ((x, y)) {
-                (-1, -1) => const SizedBox(),
-                (-1, _) => Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    answer.labelRow(y),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: Board.tileSize * 0.2,
-                      color: colorScheme.onBackground,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              GridView.builder(
+                itemCount: width * height + width + height + 1,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: width + 1,
+                  mainAxisSpacing: Board.tileSize * 0.1,
+                  crossAxisSpacing: Board.tileSize * 0.1,
+                ),
+                padding: const EdgeInsets.all(Board.tileSize * 0.2),
+                itemBuilder: (context, index) {
+                  final int x = index % (width + 1) - 1;
+                  final int y = index ~/ (width + 1) - 1;
+                  late final colorScheme = Theme.of(context).colorScheme;
+                  return switch ((x, y)) {
+                    (-1, -1) => const SizedBox(),
+                    (-1, _) => Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        answer.labelRow(y),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: Board.tileSize * 0.2,
+                          color: colorScheme.onBackground,
+                        ),
+                      ),
                     ),
+                    (_, -1) => Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        answer.labelColumn(x),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          height: 1.2,
+                          fontSize: Board.tileSize * 0.2,
+                          color: colorScheme.onBackground,
+                        ),
+                      ),
+                    ),
+                    _ => AnimatedBuilder(
+                      animation: board[y][x],
+                      builder: (context, child) {
+                        final tileState = board[y][x];
+                        return Tile(
+                          tileState: tileState,
+                        );
+                      },
+                    ),
+                  };
+                },
+              ),
+              Opacity(
+                opacity: 0.2,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: Board.tileSize,
+                    left: Board.tileSize,
+                  ),
+                  child: Image.memory(
+                    widget.srcImage,
+                    fit: BoxFit.fill,
                   ),
                 ),
-                (_, -1) => Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Text(
-                    answer.labelColumn(x),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      height: 1.2,
-                      fontSize: Board.tileSize * 0.2,
-                      color: colorScheme.onBackground,
-                    ),
-                  ),
-                ),
-                _ => AnimatedBuilder(
-                  animation: board[y][x],
-                  builder: (context, child) {
-                    final tileState = board[y][x];
-                    return Tile(
-                      tileState: tileState,
-                    );
-                  },
-                ),
-              };
-            },
+              ),
+            ],
           ),
         ),
       ),
