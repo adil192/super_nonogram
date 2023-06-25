@@ -1,7 +1,5 @@
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
 import 'package:super_nonogram/board/board.dart';
 import 'package:super_nonogram/board/tile_state.dart';
