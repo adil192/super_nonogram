@@ -27,6 +27,7 @@ class _BoardState extends State<Board> {
   late final int width = widget.answerBoard[0].length;
   late final int height = widget.answerBoard.length;
   late final BoardLabels answer = BoardLabels.fromBoardState(widget.answerBoard, width, height);
+  late ValueNotifier<BoardLabels> currentAnswers = ValueNotifier(BoardLabels.fromBoardState(board, width, height));
   late final BoardState board = List.generate(
     height,
     (_) => List.generate(
@@ -70,6 +71,7 @@ class _BoardState extends State<Board> {
     final tileState = board[y][x];
     final backupTileState = boardBackup[panStartCoordinate.y][panStartCoordinate.x];
     tileState.selected = !backupTileState.selected;
+    currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
     tileState.notifyListeners();
   }
 
@@ -86,6 +88,7 @@ class _BoardState extends State<Board> {
         board[y][x].copyFrom(boardBackup[y][x]);
       }
     }
+    currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
     return true;
   }
 
@@ -104,6 +107,7 @@ class _BoardState extends State<Board> {
         }
       }
     }
+    currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
   }
 
   @override
@@ -161,24 +165,50 @@ class _BoardState extends State<Board> {
                     (-1, -1) => const SizedBox(),
                     (-1, _) => Align(
                       alignment: Alignment.centerRight,
-                      child: Text(
-                        answer.labelRow(y),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: Board.tileSize * 0.2,
-                          color: colorScheme.onBackground,
+                      child: ValueListenableBuilder(
+                        valueListenable: currentAnswers,
+                        builder: (context, _, child) {
+                          final correct = currentAnswers.value.labelRow(y) == answer.labelRow(y);
+                          return AnimatedOpacity(
+                            opacity: correct ? 0.0 : 1.0,
+                            duration: const Duration(milliseconds: 500),
+                            child: DefaultTextStyle.merge(
+                              style: TextStyle(
+                                fontSize: Board.tileSize * 0.2,
+                                color: correct ? colorScheme.primary : colorScheme.onBackground,
+                              ),
+                              child: child!,
+                            ),
+                          );
+                        },
+                        child: Text(
+                          answer.labelRow(y),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
                     (_, -1) => Align(
                       alignment: Alignment.bottomCenter,
-                      child: Text(
-                        answer.labelColumn(x),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          height: 1.2,
-                          fontSize: Board.tileSize * 0.2,
-                          color: colorScheme.onBackground,
+                      child: ValueListenableBuilder(
+                        valueListenable: currentAnswers,
+                        builder: (context, _, child) {
+                          final correct = currentAnswers.value.labelColumn(x) == answer.labelColumn(x);
+                          return AnimatedOpacity(
+                            opacity: correct ? 0.0 : 1.0,
+                            duration: const Duration(milliseconds: 500),
+                            child: DefaultTextStyle.merge(
+                              style: TextStyle(
+                                height: 1.2,
+                                fontSize: Board.tileSize * 0.2,
+                                color: correct ? colorScheme.primary : colorScheme.onBackground,
+                              ),
+                              child: child!,
+                            ),
+                          );
+                        },
+                        child: Text(
+                          answer.labelColumn(x),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
