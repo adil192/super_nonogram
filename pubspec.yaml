@@ -51,6 +51,9 @@ dependencies:
 
   icons_launcher: ^2.1.2
 
+  slang: ^3.19.0
+  slang_flutter: ^3.19.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

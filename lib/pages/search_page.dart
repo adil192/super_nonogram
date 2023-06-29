@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:super_nonogram/api/api.dart';
 import 'package:super_nonogram/api/file_manager.dart';
 import 'package:super_nonogram/board/ngb.dart';
+import 'package:super_nonogram/i18n/strings.g.dart';
 import 'package:super_nonogram/misc/title.dart';
 
 class SearchPage extends StatefulWidget {
@@ -34,18 +35,18 @@ class _SearchPageState extends State<SearchPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  'Create a new puzzle',
+                Text(
+                  t.search.createNewPuzzle,
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _searchController,
-                  decoration: const InputDecoration(
-                    labelText: 'Prompt',
+                  decoration: InputDecoration(
+                    labelText: t.search.prompt,
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter a prompt';
+                      return t.search.enterPrompt;
                     }
                     return null;
                   },
@@ -53,8 +54,8 @@ class _SearchPageState extends State<SearchPage> {
                 ),
                 if (_failedSearch) ...[
                   const SizedBox(height: 8),
-                  const Text(
-                    'Failed to generate board, please try another prompt',
+                  Text(
+                    t.search.failedToGenerateBoard,
                   ),
                 ],
                 const SizedBox(height: 8),
@@ -83,7 +84,9 @@ class _SearchPageState extends State<SearchPage> {
                       setState(() => _disableInput = false);
                     }
                   },
-                  child: const Text('Create'),
+                  child: Text(
+                    t.search.create,
+                  ),
                 ),
               ],
             ),

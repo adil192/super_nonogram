@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:super_nonogram/i18n/strings.g.dart';
 
 class TitleText extends StatelessWidget {
   const TitleText({
@@ -14,11 +15,11 @@ class TitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTextStyle.merge(
       style: style,
-      child: const Hero(
+      child: Hero(
         tag: 'title',
         flightShuttleBuilder: flightShuttleBuilder,
         child: Text(
-          'Super Nonogram',
+          t.appName,
         ),
       ),
     );
