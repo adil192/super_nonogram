@@ -41,14 +41,14 @@ jobs:
         id: rename_apk
         run: |
           buildName=$(grep "version: " pubspec.yaml | sed 's/version: //g' | sed 's/+.*//g')
-          apkName="Saber_v${buildName}.apk"
+          apkName="Super_Nonogram_v${buildName}.apk"
           mv ${{ steps.sign_app.outputs.signedFile }} output/$apkName
           echo "apkName=$apkName" >> $GITHUB_OUTPUT
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: Saber-Android
+          name: Super-Nonogram-Android
           path: output/${{ steps.rename_apk.outputs.apkName }}
 
       - name: Upload to GitHub release
