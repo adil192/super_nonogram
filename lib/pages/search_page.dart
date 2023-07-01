@@ -4,7 +4,6 @@ import 'package:super_nonogram/api/api.dart';
 import 'package:super_nonogram/api/file_manager.dart';
 import 'package:super_nonogram/board/ngb.dart';
 import 'package:super_nonogram/i18n/strings.g.dart';
-import 'package:super_nonogram/misc/title.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -25,7 +24,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(),
+        title: Text(t.appName),
       ),
       body: Form(
         key: _formKey,

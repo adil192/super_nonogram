@@ -1,6 +1,7 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:super_nonogram/misc/title.dart';
+import 'package:super_nonogram/i18n/strings.g.dart';
+import 'package:super_nonogram/pages/search_page.dart';
 
 class TitlePage extends StatelessWidget {
   const TitlePage({super.key});
@@ -24,6 +25,10 @@ class TitlePage extends StatelessWidget {
         buttonFontSize = 32;
     }
 
+    final buttonShape = RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(32),
+    );
+
     return Scaffold(
       body: ColoredBox(
         color: colorScheme.primary,
@@ -31,26 +36,41 @@ class TitlePage extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              TitleText(
+              Text(
+                t.appName,
                 style: TextStyle(
                   fontSize: titleFontSize,
                   color: colorScheme.onPrimary,
                 ),
               ),
               const SizedBox(height: 64),
-              ElevatedButton(
-                onPressed: () {
-                  GoRouter.of(context).push('/search');
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(buttonFontSize / 2),
-                  child: Text(
-                    'Play',
-                    style: TextStyle(
-                      fontSize: buttonFontSize,
+              OpenContainer(
+                tappable: false,
+                closedShape: buttonShape,
+                closedColor: Colors.transparent,
+                closedElevation: 0,
+                openColor: Colors.transparent,
+                openElevation: 0,
+                closedBuilder: (context, action) {
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: buttonShape,
                     ),
-                  ),
-                ),
+                    onPressed: action,
+                    child: Padding(
+                      padding: EdgeInsets.all(buttonFontSize / 2),
+                      child: Text(
+                        'Play',
+                        style: TextStyle(
+                          fontSize: buttonFontSize,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                openBuilder: (context, action) {
+                  return const SearchPage();
+                },
               ),
             ],
           ),
