@@ -26,7 +26,7 @@ class TitlePage extends StatelessWidget {
     }
 
     final buttonShape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(32),
+      borderRadius: BorderRadius.circular(buttonFontSize * 2),
     );
 
     return Scaffold(
