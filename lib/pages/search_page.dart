@@ -22,6 +22,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
         title: Text(t.appName),
@@ -36,6 +37,10 @@ class _SearchPageState extends State<SearchPage> {
               children: [
                 Text(
                   t.search.createNewPuzzle,
+                  style: TextStyle(
+                    color: colorScheme.onBackground,
+                    fontSize: 24,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
