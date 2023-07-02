@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:super_nonogram/ads/banner_ad_widget.dart';
 import 'package:super_nonogram/api/file_manager.dart';
 import 'package:super_nonogram/api/level_to_board.dart';
 import 'package:super_nonogram/board/board.dart';
@@ -97,13 +98,20 @@ class _PlayPageState extends State<PlayPage> {
                 ),
               ),
             ),
-            body: Center(
-              child: answerBoard == null
-                ? const CircularProgressIndicator()
-                : Board(
-                    answerBoard: answerBoard!,
-                    srcImage: srcImage,
+            body: Column(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: answerBoard == null
+                      ? const CircularProgressIndicator()
+                      : Board(
+                          answerBoard: answerBoard!,
+                          srcImage: srcImage,
+                        ),
                   ),
+                ),
+                const BannerAdWidget(),
+              ],
             ),
           ),
         );
