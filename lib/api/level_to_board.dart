@@ -17,7 +17,7 @@ abstract class LevelToBoard {
       ),
     );
 
-    final r = Random();
+    final r = Random(level);
     for (final row in board) {
       for (final tile in row) {
         tile.selected = r.nextDouble() < pValue;
