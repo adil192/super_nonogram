@@ -3,20 +3,20 @@ import 'package:super_nonogram/api/level_to_board.dart';
 
 void main() {
   group('P values of randomized boards', () {
-    test('pValueAtLevel(1) = 0.5', () {
-      expect(LevelToBoard.pValueAtLevel(1), 0.5);
+    test('pValueAtLevel(1) = 0.9', () {
+      expect(LevelToBoard.pValueAtLevel(1), 0.9);
     });
-    test('pValueAtLevel(infinity) = 0.2', () {
-      expect(LevelToBoard.pValueAtLevel(1000000), closeTo(0.2, 0.01));
+    test('pValueAtLevel(infinity) = 0.4', () {
+      expect(LevelToBoard.pValueAtLevel(1000000), closeTo(0.4, 0.01));
     });
-    test('pValueAtLevel(2) = 0.48', () {
-      expect(LevelToBoard.pValueAtLevel(2), closeTo(0.48, 0.01));
+    test('pValueAtLevel(2) = 0.87', () {
+      expect(LevelToBoard.pValueAtLevel(2), closeTo(0.87, 0.01));
     });
-    test('pValueAtLevel(3) = 0.45', () {
-      expect(LevelToBoard.pValueAtLevel(3), closeTo(0.45, 0.01));
+    test('pValueAtLevel(3) = 0.80', () {
+      expect(LevelToBoard.pValueAtLevel(3), closeTo(0.80, 0.01));
     });
-    test('pValueAtLevel(10) = 0.3', () {
-      expect(LevelToBoard.pValueAtLevel(10), closeTo(0.3, 0.01));
+    test('pValueAtLevel(10) = 0.57', () {
+      expect(LevelToBoard.pValueAtLevel(10), closeTo(0.57, 0.01));
     });
   });
 
