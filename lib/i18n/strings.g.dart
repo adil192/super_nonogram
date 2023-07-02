@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 1
-/// Strings: 6
+/// Strings: 7
 ///
-/// Built on 2023-06-29 at 00:05 UTC
+/// Built on 2023-07-02 at 22:55 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -141,6 +141,7 @@ class _StringsEn implements BaseTranslations<AppLocale, _StringsEn> {
 	// Translations
 	String get appName => 'Super Nonogram';
 	late final _StringsSearchEn search = _StringsSearchEn._(_root);
+	late final _StringsPlayEn play = _StringsPlayEn._(_root);
 }
 
 // Path: search
@@ -155,4 +156,14 @@ class _StringsSearchEn {
 	String get prompt => 'Prompt';
 	String get failedToGenerateBoard => 'Failed to generate board, please try another prompt';
 	String get create => 'Create';
+}
+
+// Path: play
+class _StringsPlayEn {
+	_StringsPlayEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String level({required Object n}) => 'Level ${n}';
 }

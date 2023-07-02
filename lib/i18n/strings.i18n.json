@@ -6,5 +6,8 @@
     "prompt": "Prompt",
     "failedToGenerateBoard": "Failed to generate board, please try another prompt",
     "create": "Create"
+  },
+  "play": {
+    "level": "Level $n"
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:super_nonogram/api/file_manager.dart';
 import 'package:super_nonogram/api/level_to_board.dart';
 import 'package:super_nonogram/board/board.dart';
@@ -66,6 +67,33 @@ class _PlayPageState extends State<PlayPage> {
                   icon: const Icon(Icons.settings),
                 ),
               ],
+              // Display level selector
+              bottom: widget.level == null ? null : PreferredSize(
+                preferredSize: const Size.fromHeight(48),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (widget.level! > 1) IconButton(
+                      onPressed: () {
+                        context.pushReplacement('/play?level=${widget.level! - 1}');
+                      },
+                      icon: const Icon(Icons.arrow_left),
+                    ),
+                    Text(
+                      t.play.level(n: widget.level!),
+                      style: const TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        context.pushReplacement('/play?level=${widget.level! + 1}');
+                      },
+                      icon: const Icon(Icons.arrow_right),
+                    ),
+                  ],
+                ),
+              ),
             ),
             body: Center(
               child: answerBoard == null
