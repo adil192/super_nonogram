@@ -19,7 +19,8 @@ final _router = GoRouter(
     GoRoute(
       path: '/play/:query',
       builder: (context, state) => PlayPage(
-        query: state.pathParameters['query']!,
+        query: state.pathParameters['query'],
+        level: int.tryParse(state.queryParameters['level'] ?? ''),
       ),
     ),
   ]

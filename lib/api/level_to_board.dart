@@ -5,6 +5,28 @@ import 'package:super_nonogram/board/board.dart';
 import 'package:super_nonogram/board/tile_state.dart';
 
 abstract class LevelToBoard {
+  static BoardState? generate(int level) {
+    final size = sizeAtLevel(level);
+    final pValue = pValueAtLevel(level);
+
+    final BoardState board = List.generate(
+      size,
+      (_) => List.generate(
+        size,
+        (_) => TileState(),
+      ),
+    );
+
+    final r = Random();
+    for (final row in board) {
+      for (final tile in row) {
+        tile.selected = r.nextDouble() < pValue;
+      }
+    }
+
+    return board;
+  }
+
   /// Returns the probability of a given tile being selected at the given level.
   /// Values are between 0.5 and 0.2, with 0.5 being the easiest and 0.2 being the hardest.
   /// The [level] must be greater than 0.
