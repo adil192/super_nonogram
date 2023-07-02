@@ -54,9 +54,10 @@ class _PlayPageState extends State<PlayPage> {
         brightness: parentTheme.brightness,
       ),
       builder: (context, snapshot) {
+        final colorScheme = snapshot.data ?? parentTheme.colorScheme;
         return Theme(
           data: parentTheme.copyWith(
-            colorScheme: snapshot.data ?? parentTheme.colorScheme,
+            colorScheme: colorScheme,
           ),
           child: Scaffold(
             appBar: AppBar(
@@ -81,8 +82,9 @@ class _PlayPageState extends State<PlayPage> {
                     ),
                     Text(
                       t.play.level(n: widget.level!),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 24,
+                        color: colorScheme.onBackground,
                       ),
                     ),
                     IconButton(
