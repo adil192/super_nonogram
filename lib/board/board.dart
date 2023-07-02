@@ -15,7 +15,7 @@ class Board extends StatefulWidget {
   });
 
   final BoardState answerBoard;
-  final Uint8List srcImage;
+  final Uint8List? srcImage;
 
   static const double tileSize = 100;
 
@@ -224,7 +224,7 @@ class _BoardState extends State<Board> {
                   };
                 },
               ),
-              Opacity(
+              if (widget.srcImage != null) Opacity(
                 opacity: 0.2,
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -232,7 +232,7 @@ class _BoardState extends State<Board> {
                     left: Board.tileSize,
                   ),
                   child: Image.memory(
-                    widget.srcImage,
+                    widget.srcImage!,
                     fit: BoxFit.fill,
                   ),
                 ),

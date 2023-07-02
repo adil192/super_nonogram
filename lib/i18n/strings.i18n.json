@@ -1,5 +1,9 @@
 {
-  "appName": "Super Nonogram",
+  "title": {
+    "appName": "Super Nonogram",
+    "playLevels": "Play levels",
+    "playCustom": "Play custom"
+  },
   "search": {
     "createNewPuzzle": "Create a new puzzle",
     "enterPrompt": "Please enter a prompt",

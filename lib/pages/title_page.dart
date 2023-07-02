@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:super_nonogram/i18n/strings.g.dart';
 import 'package:super_nonogram/pages/search_page.dart';
 
@@ -37,13 +38,31 @@ class TitlePage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                t.appName,
+                t.title.appName,
                 style: TextStyle(
                   fontSize: titleFontSize,
                   color: colorScheme.onPrimary,
                 ),
               ),
               const SizedBox(height: 64),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: buttonShape,
+                ),
+                onPressed: () {
+                  context.push('/play?level=1');
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(buttonFontSize / 2),
+                  child: Text(
+                    t.title.playLevels,
+                    style: TextStyle(
+                      fontSize: buttonFontSize,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
               OpenContainer(
                 tappable: false,
                 closedShape: buttonShape,
@@ -60,7 +79,7 @@ class TitlePage extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.all(buttonFontSize / 2),
                       child: Text(
-                        'Play',
+                        t.title.playCustom,
                         style: TextStyle(
                           fontSize: buttonFontSize,
                         ),

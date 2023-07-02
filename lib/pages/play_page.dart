@@ -60,7 +60,7 @@ class _PlayPageState extends State<PlayPage> {
           ),
           child: Scaffold(
             appBar: AppBar(
-              title: Text(t.appName),
+              title: Text(t.title.appName),
               actions: [
                 IconButton(
                   onPressed: () {},
@@ -100,7 +100,7 @@ class _PlayPageState extends State<PlayPage> {
                 ? const CircularProgressIndicator()
                 : Board(
                     answerBoard: answerBoard!,
-                    srcImage: srcImage!,
+                    srcImage: srcImage,
                   ),
             ),
           ),

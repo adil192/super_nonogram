@@ -17,9 +17,9 @@ final _router = GoRouter(
       builder: (context, state) => const SearchPage(),
     ),
     GoRoute(
-      path: '/play/:query',
+      path: '/play',
       builder: (context, state) => PlayPage(
-        query: state.pathParameters['query'],
+        query: state.queryParameters['query'],
         level: int.tryParse(state.queryParameters['level'] ?? ''),
       ),
     ),

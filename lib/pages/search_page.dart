@@ -25,7 +25,7 @@ class _SearchPageState extends State<SearchPage> {
     final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text(t.appName),
+        title: Text(t.title.appName),
       ),
       body: Form(
         key: _formKey,
@@ -83,7 +83,7 @@ class _SearchPageState extends State<SearchPage> {
                         await FileManager.writeFile('/${Uri.encodeComponent(query)}.png', bytes: srcImage);
                       }
                       if (!mounted) return;
-                      GoRouter.of(context).push('/play/${Uri.encodeComponent(query)}');
+                      GoRouter.of(context).push('/play?query=${Uri.encodeComponent(query)}');
                     } finally {
                       setState(() => _disableInput = false);
                     }

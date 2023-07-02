@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 1
-/// Strings: 7
+/// Strings: 9
 ///
-/// Built on 2023-07-02 at 22:55 UTC
+/// Built on 2023-07-02 at 23:05 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -139,9 +139,21 @@ class _StringsEn implements BaseTranslations<AppLocale, _StringsEn> {
 	late final _StringsEn _root = this; // ignore: unused_field
 
 	// Translations
-	String get appName => 'Super Nonogram';
+	late final _StringsTitleEn title = _StringsTitleEn._(_root);
 	late final _StringsSearchEn search = _StringsSearchEn._(_root);
 	late final _StringsPlayEn play = _StringsPlayEn._(_root);
+}
+
+// Path: title
+class _StringsTitleEn {
+	_StringsTitleEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get appName => 'Super Nonogram';
+	String get playLevels => 'Play levels';
+	String get playCustom => 'Play custom';
 }
 
 // Path: search
