@@ -119,12 +119,6 @@ class _PlayPageState extends State<PlayPage> {
           child: Scaffold(
             appBar: AppBar(
               title: Text(t.title.appName),
-              actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.settings),
-                ),
-              ],
               // Display level selector
               bottom: widget.level == null ? null : PreferredSize(
                 preferredSize: const Size.fromHeight(48),

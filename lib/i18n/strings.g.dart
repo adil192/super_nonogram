@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 1
-/// Strings: 15
+/// Strings: 17
 ///
-/// Built on 2023-07-03 at 02:51 UTC
+/// Built on 2023-07-03 at 03:28 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -142,6 +142,7 @@ class _StringsEn implements BaseTranslations<AppLocale, _StringsEn> {
 	late final _StringsTitleEn title = _StringsTitleEn._(_root);
 	late final _StringsSearchEn search = _StringsSearchEn._(_root);
 	late final _StringsPlayEn play = _StringsPlayEn._(_root);
+	late final _StringsSettingsEn settings = _StringsSettingsEn._(_root);
 }
 
 // Path: title
@@ -184,4 +185,15 @@ class _StringsPlayEn {
 	String get restartLevel => 'Restart level';
 	String get restartPuzzle => 'Restart puzzle';
 	String get backToTitlePage => 'Back to title page';
+}
+
+// Path: settings
+class _StringsSettingsEn {
+	_StringsSettingsEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get settings => 'Settings';
+	String get configureAdsConsent => 'Configure ads consent';
 }

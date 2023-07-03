@@ -92,6 +92,24 @@ class TitlePage extends StatelessWidget {
                   return const SearchPage();
                 },
               ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: buttonShape,
+                ),
+                onPressed: () {
+                  context.push('/settings');
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(buttonFontSize / 2),
+                  child: Text(
+                    t.settings.settings,
+                    style: TextStyle(
+                      fontSize: buttonFontSize,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

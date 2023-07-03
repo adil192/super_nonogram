@@ -6,6 +6,7 @@ import 'package:super_nonogram/ads/banner_ad_widget.dart';
 import 'package:super_nonogram/data/prefs.dart';
 import 'package:super_nonogram/pages/play_page.dart';
 import 'package:super_nonogram/pages/search_page.dart';
+import 'package:super_nonogram/pages/settings_page.dart';
 import 'package:super_nonogram/pages/title_page.dart';
 
 final _router = GoRouter(
@@ -24,6 +25,10 @@ final _router = GoRouter(
         query: state.queryParameters['query'],
         level: int.tryParse(state.queryParameters['level'] ?? ''),
       ),
+    ),
+    GoRoute(
+      path: '/settings',
+      builder: (context, state) => const SettingsPage(),
     ),
   ]
 );

@@ -19,5 +19,9 @@
     "restartLevel": "Restart level",
     "restartPuzzle": "Restart puzzle",
     "backToTitlePage": "Back to title page"
+  },
+  "settings": {
+    "settings": "Settings",
+    "configureAdsConsent": "Configure ads consent"
   }
 }

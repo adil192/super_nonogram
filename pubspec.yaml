@@ -59,6 +59,8 @@ dependencies:
   google_mobile_ads: ^3.0.0
   font_awesome_flutter: ^10.5.0
 
+  blobs: ^2.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
