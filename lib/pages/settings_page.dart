@@ -59,6 +59,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 }
               ),
             ),
+
+            if (AdState.adsSupported) const BannerAdWidget(),
           ],
         ),
       ),
