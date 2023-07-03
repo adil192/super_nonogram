@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+export 'package:google_mobile_ads/google_mobile_ads.dart' show AdSize;
+
 abstract class AdState {
   static bool _initializeStarted = false;
   static bool _initializeCompleted = false;
@@ -78,9 +80,8 @@ abstract class AdState {
       (formError) {},
     );
   }
-  
-  static const _bannerSize = AdSize.largeBanner;
-  static Future<BannerAd?> _createBannerAd() async {
+
+  static Future<BannerAd?> _createBannerAd(AdSize adSize) async {
     if (!adsSupported) {
       if (kDebugMode) print('Banner ad unit ID is empty.');
       return null;
@@ -96,7 +97,7 @@ abstract class AdState {
     return BannerAd(
       adUnitId: _bannerAdUnitId,
       request: const AdRequest(),
-      size: _bannerSize,
+      size: adSize,
       listener: BannerAdListener(
         onAdLoaded: (Ad ad) {
           if (kDebugMode) print('Ad loaded!');
@@ -111,7 +112,12 @@ abstract class AdState {
 }
 
 class BannerAdWidget extends StatefulWidget {
-  const BannerAdWidget({super.key});
+  const BannerAdWidget({
+    super.key,
+    required this.adSize,
+  });
+
+  final AdSize adSize;
 
   @override
   State<BannerAdWidget> createState() => _BannerAdWidgetState();
@@ -123,7 +129,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> with AutomaticKeepAlive
   @override
   void initState() {
     super.initState();
-    AdState._createBannerAd().then((bannerAd) {
+    AdState._createBannerAd(widget.adSize).then((bannerAd) {
       if (mounted) {
         setState(() => _bannerAd = bannerAd);
       } else {
@@ -149,8 +155,8 @@ class _BannerAdWidgetState extends State<BannerAdWidget> with AutomaticKeepAlive
         child: FittedBox(
           fit: BoxFit.fill,
           child: SizedBox(
-            width: AdState._bannerSize.width.toDouble(),
-            height: AdState._bannerSize.height.toDouble(),
+            width: widget.adSize.width.toDouble(),
+            height: widget.adSize.height.toDouble(),
             child: _bannerAd == null
                 ? Center(
                     child: FaIcon(

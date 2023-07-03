@@ -164,7 +164,9 @@ class _PlayPageState extends State<PlayPage> {
                   ),
                 ),
                 if (AdState.adsSupported)
-                  const BannerAdWidget(),
+                  const BannerAdWidget(
+                    adSize: AdSize.largeBanner,
+                  ),
               ],
             ),
           ),
