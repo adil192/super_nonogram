@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:super_nonogram/data/prefs.dart';
 import 'package:super_nonogram/i18n/strings.g.dart';
 import 'package:super_nonogram/pages/search_page.dart';
+import 'package:super_nonogram/pages/settings_page.dart';
 
 class TitlePage extends StatelessWidget {
   const TitlePage({super.key});
@@ -93,22 +94,33 @@ class TitlePage extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 16),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: buttonShape,
-                ),
-                onPressed: () {
-                  context.push('/settings');
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(buttonFontSize / 2),
-                  child: Text(
-                    t.settings.settings,
-                    style: TextStyle(
-                      fontSize: buttonFontSize,
+              OpenContainer(
+                tappable: false,
+                closedShape: buttonShape,
+                closedColor: Colors.transparent,
+                closedElevation: 0,
+                openColor: Colors.transparent,
+                openElevation: 0,
+                closedBuilder: (context, action) {
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: buttonShape,
                     ),
-                  ),
-                ),
+                    onPressed: action,
+                    child: Padding(
+                      padding: EdgeInsets.all(buttonFontSize / 2),
+                      child: Text(
+                        t.settings.settings,
+                        style: TextStyle(
+                          fontSize: buttonFontSize,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                openBuilder: (context, action) {
+                  return const SettingsPage();
+                },
               ),
             ],
           ),
