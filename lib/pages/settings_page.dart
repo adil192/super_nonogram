@@ -37,6 +37,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   return Blob.animatedRandom(
                     size: constraints.minWidth,
                     minGrowth: 7,
+                    styles: BlobStyles(
+                      color: colorScheme.primary.withOpacity(0.3),
+                      fillType: BlobFillType.fill,
+                    ),
                     controller: blobController,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
