@@ -93,6 +93,12 @@ class _BoardState extends State<Board> {
   }
 
   void autoselectCompleteRowsCols() {
+    if (width <= 6 && height <= 6) {
+      // Don't autoselect if the board is too small,
+      // because we might accidentally solve the puzzle.
+      return;
+    }
+
     for (int x = 0; x < width; ++x) {
       if (answer.labelColumn(x) == '$height') {
         for (int y = 0; y < height; ++y) {
