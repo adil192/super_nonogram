@@ -15,7 +15,9 @@ abstract class AdState {
 
   static void init() {
     if (kDebugMode) { // test ads
-      if (Platform.isAndroid) {
+      if (kIsWeb) {
+        _bannerAdUnitId = '';
+      } else if (Platform.isAndroid) {
         _bannerAdUnitId = 'ca-app-pub-3940256099942544/6300978111';
       } else if (Platform.isIOS) {
         _bannerAdUnitId = 'ca-app-pub-3940256099942544/2934735716';
@@ -23,7 +25,9 @@ abstract class AdState {
         _bannerAdUnitId = '';
       }
     } else { // actual ads
-      if (Platform.isAndroid) {
+      if (kIsWeb) {
+        _bannerAdUnitId = '';
+      } else if (Platform.isAndroid) {
         _bannerAdUnitId = 'ca-app-pub-1312561055261176/9717836949';
       } else if (Platform.isIOS) {
         _bannerAdUnitId = 'ca-app-pub-1312561055261176/6851683226';
