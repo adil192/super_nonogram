@@ -60,8 +60,11 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
 
-            if (AdState.adsSupported) const BannerAdWidget(
-              adSize: AdSize.mediumRectangle,
+            if (AdState.adsSupported) const Padding(
+              padding: EdgeInsets.all(32),
+              child: BannerAdWidget(
+                adSize: AdSize.mediumRectangle,
+              ),
             ),
           ],
         ),
