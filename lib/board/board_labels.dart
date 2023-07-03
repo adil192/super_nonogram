@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:super_nonogram/board/board.dart';
 
 class BoardLabels {
@@ -58,4 +59,27 @@ class BoardLabels {
       rows: rows.map((row) => row.where((group) => group != 0).toList()).toList(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    if (other is! BoardLabels) return false;
+    
+    for (int r = 0; r < rows.length; ++r) {
+      if (!listEquals(rows[r], other.rows[r])) {
+        return false;
+      }
+    }
+    for (int c = 0; c < columns.length; ++c) {
+      if (!listEquals(columns[c], other.columns[c])) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  @override
+  int get hashCode => Object.hash(columns, rows);
 }

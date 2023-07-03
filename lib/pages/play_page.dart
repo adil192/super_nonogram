@@ -47,6 +47,50 @@ class _PlayPageState extends State<PlayPage> {
     }
   }
 
+  void onSolved() {
+    bool onALevel = widget.level != null;
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: Text(
+          onALevel
+              ? t.play.levelCompleted(n: widget.level!)
+              : t.play.puzzleCompleted,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              context.pushReplacement('/');
+            },
+            child: Text(t.play.backToTitlePage),
+          ),
+          TextButton(
+            onPressed: () {
+              context.pushReplacement(
+                onALevel
+                    ? '/play?level=${Prefs.currentLevel.value}'
+                    : '/play?query=${Uri.encodeComponent(widget.query!)}',
+              );
+            },
+            child: Text(
+              onALevel
+                  ? t.play.restartLevel
+                  : t.play.restartPuzzle,
+            ),
+          ),
+          if (onALevel) TextButton(
+            onPressed: () {
+              Prefs.currentLevel.value = widget.level! + 1;
+              context.pushReplacement('/play?level=${Prefs.currentLevel.value}');
+            },
+            child: Text(t.play.nextLevel),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final parentTheme = Theme.of(context);
@@ -110,6 +154,7 @@ class _PlayPageState extends State<PlayPage> {
                       : Board(
                           answerBoard: answerBoard!,
                           srcImage: srcImage,
+                          onSolved: onSolved,
                         ),
                   ),
                 ),

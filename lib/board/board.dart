@@ -12,10 +12,12 @@ class Board extends StatefulWidget {
     super.key,
     required this.answerBoard,
     required this.srcImage,
+    required this.onSolved,
   });
 
   final BoardState answerBoard;
   final Uint8List? srcImage;
+  final VoidCallback onSolved;
 
   static const double tileSize = 100;
 
@@ -28,6 +30,8 @@ class _BoardState extends State<Board> {
   late final int height = widget.answerBoard.length;
   late final BoardLabels answer = BoardLabels.fromBoardState(widget.answerBoard, width, height);
   late ValueNotifier<BoardLabels> currentAnswers = ValueNotifier(BoardLabels.fromBoardState(board, width, height));
+  bool get isSolved => currentAnswers.value == answer;
+
   late final BoardState board = List.generate(
     height,
     (_) => List.generate(
@@ -116,10 +120,17 @@ class _BoardState extends State<Board> {
     currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
   }
 
+  void _onCurrentAnswersChanged() {
+    if (!isSolved) return;
+    widget.onSolved();
+  }
+
   @override
   void initState() {
     autoselectCompleteRowsCols();
     super.initState();
+
+    currentAnswers.addListener(_onCurrentAnswersChanged);
   }
 
   @override
@@ -248,6 +259,12 @@ class _BoardState extends State<Board> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    currentAnswers.removeListener(_onCurrentAnswersChanged);
+    super.dispose();
   }
 }
 

@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 1
-/// Strings: 9
+/// Strings: 15
 ///
-/// Built on 2023-07-02 at 23:05 UTC
+/// Built on 2023-07-03 at 02:51 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -178,4 +178,10 @@ class _StringsPlayEn {
 
 	// Translations
 	String level({required Object n}) => 'Level ${n}';
+	String levelCompleted({required Object n}) => 'Level ${n} completed!';
+	String get puzzleCompleted => 'Puzzle completed!';
+	String get nextLevel => 'Next level';
+	String get restartLevel => 'Restart level';
+	String get restartPuzzle => 'Restart puzzle';
+	String get backToTitlePage => 'Back to title page';
 }
