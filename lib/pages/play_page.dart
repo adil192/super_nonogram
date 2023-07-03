@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:super_nonogram/ads/banner_ad_widget.dart';
@@ -47,8 +48,9 @@ class _PlayPageState extends State<PlayPage> {
     }
   }
 
-  void onSolved() {
+  void onSolved() async {
     bool onALevel = widget.level != null;
+
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -57,6 +59,9 @@ class _PlayPageState extends State<PlayPage> {
           onALevel
               ? t.play.levelCompleted(n: widget.level!)
               : t.play.puzzleCompleted,
+        ),
+        content: srcImage == null ? null : Image(
+          image: MemoryImage(srcImage!),
         ),
         actions: [
           TextButton(
