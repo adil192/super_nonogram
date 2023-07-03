@@ -6,17 +6,17 @@ void main() {
     test('pValueAtLevel(1) = 0.9', () {
       expect(LevelToBoard.pValueAtLevel(1), 0.9);
     });
-    test('pValueAtLevel(infinity) = 0.4', () {
-      expect(LevelToBoard.pValueAtLevel(1000000), closeTo(0.4, 0.01));
+    test('pValueAtLevel(infinity) = 0.6', () {
+      expect(LevelToBoard.pValueAtLevel(1000000), closeTo(0.6, 0.01));
     });
-    test('pValueAtLevel(2) = 0.87', () {
-      expect(LevelToBoard.pValueAtLevel(2), closeTo(0.87, 0.01));
+    test('pValueAtLevel(2) = 0.89', () {
+      expect(LevelToBoard.pValueAtLevel(2), closeTo(0.89, 0.01));
     });
-    test('pValueAtLevel(3) = 0.80', () {
-      expect(LevelToBoard.pValueAtLevel(3), closeTo(0.80, 0.01));
+    test('pValueAtLevel(3) = 0.88', () {
+      expect(LevelToBoard.pValueAtLevel(3), closeTo(0.88, 0.01));
     });
-    test('pValueAtLevel(10) = 0.57', () {
-      expect(LevelToBoard.pValueAtLevel(10), closeTo(0.57, 0.01));
+    test('pValueAtLevel(10) = 0.77', () {
+      expect(LevelToBoard.pValueAtLevel(10), closeTo(0.77, 0.01));
     });
   });
 
