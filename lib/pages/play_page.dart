@@ -7,6 +7,7 @@ import 'package:super_nonogram/api/file_manager.dart';
 import 'package:super_nonogram/api/level_to_board.dart';
 import 'package:super_nonogram/board/board.dart';
 import 'package:super_nonogram/board/ngb.dart';
+import 'package:super_nonogram/data/prefs.dart';
 import 'package:super_nonogram/i18n/strings.g.dart';
 
 class PlayPage extends StatefulWidget {
@@ -77,7 +78,8 @@ class _PlayPageState extends State<PlayPage> {
                   children: [
                     if (widget.level! > 1) IconButton(
                       onPressed: () {
-                        context.pushReplacement('/play?level=${widget.level! - 1}');
+                        Prefs.currentLevel.value = widget.level! - 1;
+                        context.pushReplacement('/play?level=${Prefs.currentLevel.value}');
                       },
                       icon: const Icon(Icons.arrow_left),
                     ),
@@ -90,7 +92,8 @@ class _PlayPageState extends State<PlayPage> {
                     ),
                     IconButton(
                       onPressed: () {
-                        context.pushReplacement('/play?level=${widget.level! + 1}');
+                        Prefs.currentLevel.value = widget.level! + 1;
+                        context.pushReplacement('/play?level=${Prefs.currentLevel.value}');
                       },
                       icon: const Icon(Icons.arrow_right),
                     ),

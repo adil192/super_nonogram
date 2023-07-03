@@ -18,10 +18,10 @@ abstract class Prefs {
   @visibleForTesting
   static bool warnIfPrefAccessedBeforeLoaded = true;
 
-  static late final PlainPref<bool> exPref;
+  static late final PlainPref<int> currentLevel;
 
   static void init() {
-    exPref = PlainPref('exPref', false);
+    currentLevel = PlainPref('currentLevel', 1);
   }
 }
 
