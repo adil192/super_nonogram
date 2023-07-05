@@ -46,8 +46,25 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  void _setState() => setState(() {});
+  @override
+  void initState() {
+    super.initState();
+    Prefs.hyperlegibleFont.addListener(_setState);
+  }
+  @override
+  void dispose() {
+    Prefs.hyperlegibleFont.removeListener(_setState);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,18 +79,25 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
         );
 
+        final TextTheme textTheme;
+        if (Prefs.hyperlegibleFont.value) {
+          textTheme = GoogleFonts.atkinsonHyperlegibleTextTheme();
+        } else {
+          textTheme = GoogleFonts.righteousTextTheme();
+        }
+
         return MaterialApp.router(
           title: 'Super Nonogram',
           theme: ThemeData(
             useMaterial3: true,
             colorScheme: lightDynamic,
-            textTheme: GoogleFonts.righteousTextTheme(),
+            textTheme: textTheme,
             scaffoldBackgroundColor: lightDynamic.background,
           ),
           darkTheme: ThemeData(
             useMaterial3: true,
             colorScheme: darkDynamic,
-            textTheme: GoogleFonts.righteousTextTheme(),
+            textTheme: textTheme,
             scaffoldBackgroundColor: darkDynamic.background,
           ),
           routerConfig: _router,

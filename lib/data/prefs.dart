@@ -19,9 +19,13 @@ abstract class Prefs {
   static bool warnIfPrefAccessedBeforeLoaded = true;
 
   static late final PlainPref<int> currentLevel;
+  
+  static late final PlainPref<bool> hyperlegibleFont;
 
   static void init() {
     currentLevel = PlainPref('currentLevel', 1);
+
+    hyperlegibleFont = PlainPref('hyperlegibleFont', false);
   }
 }
 

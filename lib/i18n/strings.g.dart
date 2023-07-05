@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 1
-/// Strings: 17
+/// Strings: 18
 ///
-/// Built on 2023-07-03 at 03:28 UTC
+/// Built on 2023-07-05 at 10:58 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -196,4 +196,5 @@ class _StringsSettingsEn {
 	// Translations
 	String get settings => 'Settings';
 	String get configureAdsConsent => 'Configure ads consent';
+	String get hyperlegibleFont => 'Use Atkinson Hyperlegible font';
 }

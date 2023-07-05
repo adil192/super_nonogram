@@ -22,6 +22,7 @@
   },
   "settings": {
     "settings": "Settings",
-    "configureAdsConsent": "Configure ads consent"
+    "configureAdsConsent": "Configure ads consent",
+    "hyperlegibleFont": "Use Atkinson Hyperlegible font"
   }
 }
