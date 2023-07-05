@@ -1,6 +1,9 @@
 # Super Nonogram
 
-[<img src='https://github.com/adil192/super_nonogram/blob/main/assets_raw/PWA-dark-en.svg'
+[<img src='https://github.com/adil192/super_nonogram/blob/main/assets_raw/google-play-badge.png'
+    alt='Get it on Google Play'
+    height=80>][google_play]
+[<img src='https://github.com/adil192/super_nonogram/blob/main/assets_raw/pwa-badge.png'
     alt='Launch as web app'
     height=80>][web_app]
 
@@ -49,4 +52,5 @@ Check [_missing_translations.json](https://github.com/adil192/super_nonogram/blo
 
 Also see [`slang`'s Getting Started](https://pub.dev/packages/slang#getting-started) for more information.
 
+[google_play]: https://play.google.com/store/apps/details?id=com.adilhanney.super_nonogram
 [web_app]: https://adil192.github.io/super_nonogram/
