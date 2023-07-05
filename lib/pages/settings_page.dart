@@ -1,21 +1,15 @@
-import 'package:blobs/blobs.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:super_nonogram/ads/banner_ad_widget.dart';
 import 'package:super_nonogram/i18n/strings.g.dart';
+import 'package:super_nonogram/settings/settings_blob.dart';
 
-class SettingsPage extends StatefulWidget {
+class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
   @override
-  State<SettingsPage> createState() => _SettingsPageState();
-}
-
-class _SettingsPageState extends State<SettingsPage> {
-  BlobController blobController = BlobController();
-
-  @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
         title: Text(t.settings.settings),
@@ -26,45 +20,26 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
         child: ListView(
           children: [
-            if (AdState.adsSupported) GestureDetector(
-              onTap: () {
-                blobController.change();
-                AdState.showConsentForm();
-              },
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  final colorScheme = Theme.of(context).colorScheme;
-                  return Blob.animatedRandom(
-                    size: constraints.minWidth,
-                    minGrowth: 7,
-                    styles: BlobStyles(
-                      color: colorScheme.primary.withOpacity(0.3),
-                      fillType: BlobFillType.fill,
-                    ),
-                    controller: blobController,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const FaIcon(FontAwesomeIcons.rectangleAd),
-                        Text(
-                          t.settings.configureAdsConsent,
-                          style: TextStyle(
-                            color: colorScheme.onBackground,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              ),
-            ),
-
+            // ad banner
             if (AdState.adsSupported) const Padding(
               padding: EdgeInsets.all(32),
               child: BannerAdWidget(
                 adSize: AdSize.mediumRectangle,
               ),
+            ),
+
+            // ad consent
+            if (AdState.adsSupported) SettingsBlob(
+              onTap: AdState.showConsentForm,
+              children: [
+                const FaIcon(FontAwesomeIcons.rectangleAd),
+                Text(
+                  t.settings.configureAdsConsent,
+                  style: TextStyle(
+                    color: colorScheme.onBackground,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
