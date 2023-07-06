@@ -26,6 +26,7 @@
 				"cp -r SuperNonogram /app/",
 				"chmod +x /app/SuperNonogram/super_nonogram",
 				"mkdir -p /app/bin",
+				"mkdir -p /app/lib",
 				"ln -s /app/SuperNonogram/super_nonogram /app/bin/super_nonogram",
 				"ln -s /app/SuperNonogram/lib/* /app/lib/",
 
