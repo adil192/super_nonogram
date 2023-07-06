@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+
+Name=Super Nonogram
+Comment=Solve unlimited procedurally-generated nonogram puzzles!
+Categories=Game;LogicGame;
+
+Icon=com.adilhanney.super_nonogram
+Exec=super_nonogram
+Terminal=false
+StartupWMClass=super_nonogram

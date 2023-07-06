@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Generator for metainfo & .desktop files:
+    https://www.freedesktop.org/software/appstream/metainfocreator/#/
+-->
+<component type="desktop-application">
+    <id>com.adilhanney.super_nonogram</id>
+
+    <name>Super Nonogram</name>
+    <summary>Solve unlimited procedurally-generated nonogram puzzles!</summary>
+
+    <developer_name>Adil Hanney</developer_name>
+    <url type="homepage">https://github.com/adil192/super_nonogram</url>
+
+    <metadata_license>MIT</metadata_license>
+    <project_license>AGPL-3.0-only</project_license>
+
+    <supports>
+        <control>pointing</control>
+        <control>keyboard</control>
+        <control>touch</control>
+    </supports>
+
+    <recommends>
+        <internet>always</internet>
+    </recommends>
+
+    <provides>
+        <mediatype>application/ngb</mediatype>
+    </provides>
+
+    <description>
+        <p>
+            Super Nonogram is the sequel to my old Nonogram app and includes two game modes...
+        </p>
+        <p>
+            Levels: Make your way through an unlimited number of levels that get harder as your go.
+        </p>
+        <p>
+            Custom: Enter a search term e.g. &quot;frog&quot; and the game will automatically generate a frog nonogram!
+        </p>
+    </description>
+
+    <launchable type="desktop-id">com.adilhanney.super_nonogram.desktop</launchable>
+
+    <content_rating type="oars-1.1" />
+
+    <categories>
+        <category>Game</category>
+        <category>LogicGame</category>
+    </categories>
+
+    <keywords>
+        <keyword>nonogram</keyword>
+        <keyword>puzzle</keyword>
+    </keywords>
+
+    <releases>
+        <release version="0.4.1" type="development" date="2023-07-03">
+            <description>
+                <ul>
+                    <li>Levels get hard more slowly</li>
+                    <li>UI improvements</li>
+                </ul>
+            </description>
+        </release>
+    </releases>
+</component>
