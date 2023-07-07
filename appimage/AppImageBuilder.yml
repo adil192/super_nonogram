@@ -4,7 +4,7 @@ AppDir:
   path: ./AppDir
   app_info:
     id: com.adilhanney.super_nonogram
-    name: Super Nonogram
+    name: SuperNonogram
     icon: com.adilhanney.super_nonogram
     version: latest
     exec: super_nonogram
