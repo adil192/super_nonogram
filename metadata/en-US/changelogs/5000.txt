@@ -1,0 +1,2 @@
+• Option to use the Atkinson Hyperlegible font for low vision users
+• Added incorrect answer feedback for individual rows and columns
