@@ -185,14 +185,21 @@ class _BoardState extends State<Board> {
                       child: ValueListenableBuilder(
                         valueListenable: currentAnswers,
                         builder: (context, _, child) {
-                          final correct = currentAnswers.value.labelRow(y) == answer.labelRow(y);
+                          final status = BoardLabels.statusOfRow(y, answer, currentAnswers.value);
                           return AnimatedOpacity(
-                            opacity: correct ? 0.0 : 1.0,
+                            opacity: switch (status) {
+                              BoardLabelStatus.correct => 0,
+                              _ => 1,
+                            },
                             duration: const Duration(milliseconds: 500),
                             child: DefaultTextStyle.merge(
                               style: TextStyle(
                                 fontSize: Board.tileSize * 0.2,
-                                color: correct ? colorScheme.primary : colorScheme.onBackground,
+                                color: switch (status) {
+                                  BoardLabelStatus.correct => colorScheme.primary,
+                                  BoardLabelStatus.incorrect => colorScheme.error,
+                                  BoardLabelStatus.incomplete => colorScheme.onBackground,
+                                },
                               ),
                               child: child!,
                             ),
@@ -209,15 +216,22 @@ class _BoardState extends State<Board> {
                       child: ValueListenableBuilder(
                         valueListenable: currentAnswers,
                         builder: (context, _, child) {
-                          final correct = currentAnswers.value.labelColumn(x) == answer.labelColumn(x);
+                          final status = BoardLabels.statusOfColumn(x, answer, currentAnswers.value);
                           return AnimatedOpacity(
-                            opacity: correct ? 0.0 : 1.0,
+                            opacity: switch (status) {
+                              BoardLabelStatus.correct => 0,
+                              _ => 1,
+                            },
                             duration: const Duration(milliseconds: 500),
                             child: DefaultTextStyle.merge(
                               style: TextStyle(
                                 height: 1.2,
                                 fontSize: Board.tileSize * 0.2,
-                                color: correct ? colorScheme.primary : colorScheme.onBackground,
+                                color: switch (status) {
+                                  BoardLabelStatus.correct => colorScheme.primary,
+                                  BoardLabelStatus.incorrect => colorScheme.error,
+                                  BoardLabelStatus.incomplete => colorScheme.onBackground,
+                                },
                               ),
                               child: child!,
                             ),
