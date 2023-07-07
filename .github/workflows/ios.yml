@@ -77,8 +77,8 @@ jobs:
           flutter build ipa \
             --export-options-plist=$HOME/export_options.plist
 
-          export ipaPath="SuperNonogram_v${{ needs.get-version.outputs.buildName }}.ipa"
-          mv $(find $(pwd) -name "*.ipa") $ipaPath
+          export ipaPath="Super Nonogram_v${{ needs.get-version.outputs.buildName }}.ipa"
+          mv "$(find $(pwd) -name "*.ipa")" "$ipaPath"
           echo "ipaPath=$ipaPath" >> $GITHUB_OUTPUT
 
       - name: Restore keychain
@@ -88,7 +88,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: SuperNonogram-iOS-Archive
+          name: Super-Nonogram-iOS-Archive
           path: ${{ steps.build.outputs.ipaPath }}
 
       - name: Publish to App Store

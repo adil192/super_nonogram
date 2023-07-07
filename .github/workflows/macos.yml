@@ -83,8 +83,8 @@ jobs:
       - name: Package for App Store
         id: package
         run: |
-          APP_NAME="build/macos/Build/Products/Release/SuperNonogram.app"
-          PACKAGE_NAME="build/macos/Build/Products/Release/SuperNonogram.pkg"
+          APP_NAME="build/macos/Build/Products/Release/super_nonogram.app"
+          PACKAGE_NAME="build/macos/Build/Products/Release/super_nonogram.pkg"
           echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_OUTPUT
 
           xcrun productbuild --component "$APP_NAME" /Applications/ unsigned.pkg
@@ -101,11 +101,11 @@ jobs:
       - name: Compress macOS build
         id: compress
         run: |
-          zipName="SuperNonogram_v${{ needs.get-version.outputs.buildName }}.app.zip"
+          zipName="Super Nonogram_v${{ needs.get-version.outputs.buildName }}.app.zip"
           echo "zipName=$zipName" >> $GITHUB_OUTPUT
 
           pushd build/macos/Build/Products/Release
-          zip -r $zipName SuperNonogram.app
+          zip -r "$zipName" "super_nonogram.app"
           popd
 
       - name: Restore keychain
@@ -115,7 +115,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: SuperNonogram-macOS-Archive
+          name: Super-Nonogram-macOS-Archive
           path: build/macos/Build/Products/Release/${{ steps.compress.outputs.zipName }}
 
       - name: Publish to App Store
