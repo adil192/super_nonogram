@@ -55,6 +55,21 @@
         <keyword>puzzle</keyword>
     </keywords>
 
+    <screenshots>
+        <screenshot type="default">
+            <image>https://raw.githubusercontent.com/adil192/super_nonogram/main/metadata/en-US/images/tvScreenshots/1-title.png</image>
+        </screenshot>
+        <screenshot>
+            <image>https://raw.githubusercontent.com/adil192/super_nonogram/main/metadata/en-US/images/tvScreenshots/2-search.png</image>
+        </screenshot>
+        <screenshot>
+            <image>https://raw.githubusercontent.com/adil192/super_nonogram/main/metadata/en-US/images/tvScreenshots/3-frog.png</image>
+        </screenshot>
+        <screenshot>
+            <image>https://raw.githubusercontent.com/adil192/super_nonogram/main/metadata/en-US/images/tvScreenshots/4-level-1.png</image>
+        </screenshot>
+    </screenshots>
+
     <releases>
         <release version="0.4.1" type="development" date="2023-07-03">
             <description>
