@@ -77,7 +77,7 @@ jobs:
           flutter build ipa \
             --export-options-plist=$HOME/export_options.plist
 
-          export ipaPath="Super Nonogram_v${{ needs.get-version.outputs.buildName }}.ipa"
+          export ipaPath="SuperNonogram_v${{ needs.get-version.outputs.buildName }}.ipa"
           mv "$(find $(pwd) -name "*.ipa")" "$ipaPath"
           echo "ipaPath=$ipaPath" >> $GITHUB_OUTPUT
 
