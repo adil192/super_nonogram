@@ -3,7 +3,7 @@
 /// Locales: 1
 /// Strings: 18
 ///
-/// Built on 2023-07-05 at 10:58 UTC
+/// Built on 2023-07-08 at 16:59 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -154,7 +154,7 @@ class _StringsTitleEn {
 	// Translations
 	String get appName => 'Super Nonogram';
 	String get playLevels => 'Play levels';
-	String get playCustom => 'Play custom';
+	String get playImages => 'Play images';
 }
 
 // Path: search

@@ -81,7 +81,7 @@ class TitlePage extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.all(buttonFontSize / 2),
                       child: Text(
-                        t.title.playCustom,
+                        t.title.playImages,
                         style: TextStyle(
                           fontSize: buttonFontSize,
                         ),
