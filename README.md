@@ -3,9 +3,22 @@
 [<img src='https://github.com/adil192/super_nonogram/blob/main/assets_raw/google-play-badge.png'
     alt='Get it on Google Play'
     height=80>][google_play]
+&nbsp;
 [<img src='https://github.com/adil192/super_nonogram/blob/main/assets_raw/pwa-badge.png'
     alt='Launch as web app'
     height=80>][web_app]
+&nbsp;
+[<img src="https://github.com/adil192/super_nonogram/blob/main/assets_raw/windows-badge.png"
+    alt="Download for Windows"
+    height=80>][download_windows]
+&nbsp;
+[<img src="https://github.com/adil192/super_nonogram/blob/main/assets_raw/flathub-badge.svg"
+    alt="Download on Flathub"
+    height=80>][flathub]
+&nbsp;
+[<img src="https://github.com/adil192/super_nonogram/blob/main/assets_raw/appimage-logo.png"
+    alt="Get it as an AppImage"
+    height=80>][download_appimage]
 
 This is a Flutter reimplementation of my [old Nonogram web app](https://adil.hanney.org/nonogram/).
 
@@ -54,3 +67,6 @@ Also see [`slang`'s Getting Started](https://pub.dev/packages/slang#getting-star
 
 [google_play]: https://play.google.com/store/apps/details?id=com.adilhanney.super_nonogram
 [web_app]: https://adil192.github.io/super_nonogram/
+[flathub]: https://flathub.org/apps/details/com.adilhanney.super_nonogram
+[download_windows]: https://github.com/adil192/super_nonogram/releases/download/v0.5.0/SuperNonogramInstaller_v0.5.0.exe
+[download_appimage]: https://github.com/adil192/super_nonogram/releases/download/v0.5.0/SuperNonogram-0.5.0-x86_64.AppImage
