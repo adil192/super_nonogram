@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Super Nonogram"
-#define MyAppVersion "0.4.1"
+#define MyAppVersion "0.5.0"
 #define MyAppPublisher "Adil Hanney"
 #define MyAppURL "https://github.com/adil192/super_nonogram"
 #define MyAppExeName "super_nonogram.exe"

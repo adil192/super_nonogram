@@ -71,6 +71,14 @@
     </screenshots>
 
     <releases>
+        <release version="0.5.0" type="development" date="2023-07-10">
+            <description>
+                <ul>
+                    <li>Option to use the Atkinson Hyperlegible font for low vision users</li>
+                    <li>Added incorrect answer feedback for individual rows and columns</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.4.1" type="development" date="2023-07-03">
             <description>
                 <ul>
