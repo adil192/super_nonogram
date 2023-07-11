@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:super_nonogram/board/board.dart';
 import 'package:super_nonogram/board/tile_state.dart';
 
@@ -21,7 +22,7 @@ abstract class Ngb {
       height,
       (_) => List.generate(
         width,
-        (_) => TileState(),
+        (_) => ValueNotifier(TileState.empty),
       ),
     );
 
@@ -30,9 +31,9 @@ abstract class Ngb {
       for (int x = 0; x < width; x++) {
         final char = line[x];
         if (char == '1') {
-          board[y][x].selected = true;
+          board[y][x].value = TileState.selected;
         } else {
-          board[y][x].selected = false;
+          board[y][x].value = TileState.empty;
         }
       }
     }
@@ -49,7 +50,8 @@ abstract class Ngb {
     for (int y = 0; y < height; y++) {
       final line = StringBuffer();
       for (int x = 0; x < width; x++) {
-        line.write(board[y][x].selected ? '1' : '-');
+        final selected = board[y][x].value == TileState.selected;
+        line.write(selected ? '1' : '-');
       }
       sb.writeln(line);
     }

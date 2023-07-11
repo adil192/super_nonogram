@@ -20,15 +20,16 @@ abstract class ImageToBoard {
       image.height,
       (_) => List.generate(
         width,
-        (_) => TileState(),
+        (_) => ValueNotifier(TileState.empty),
       ),
     );
     
     int selectedTiles = 0;
     for (final pixel in image) {
       final selected = pixel.aNormalized > 0.5;
-      if (selected) selectedTiles++;
-      board[pixel.y][pixel.x].selected = selected;
+      if (!selected) continue;
+      board[pixel.y][pixel.x].value = TileState.selected;
+      selectedTiles++;
     }
 
     final totalTiles = width * image.height;

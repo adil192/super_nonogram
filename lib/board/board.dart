@@ -4,7 +4,7 @@ import 'package:super_nonogram/board/board_labels.dart';
 import 'package:super_nonogram/board/tile.dart';
 import 'package:super_nonogram/board/tile_state.dart';
 
-typedef BoardState = List<List<TileState>>;
+typedef BoardState = List<List<ValueNotifier<TileState>>>;
 typedef Coordinate = ({int x, int y});
 
 class Board extends StatefulWidget {
@@ -37,14 +37,14 @@ class _BoardState extends State<Board> {
     height,
     (_) => List.generate(
       width,
-      (_) => TileState(),
+      (_) => ValueNotifier(TileState.empty),
     ),
   );
   late final BoardState boardBackup = List.generate(
     height,
     (_) => List.generate(
       width,
-      (_) => TileState(),
+      (_) => ValueNotifier(TileState.empty),
     ),
   );
 
@@ -68,21 +68,27 @@ class _BoardState extends State<Board> {
   void onPanStart() {
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
-        boardBackup[y][x].copyFrom(board[y][x]);
+        boardBackup[y][x].value = board[y][x].value;
       }
     }
   }
   void onPanUpdate(int x, int y) {
     final tileState = board[y][x];
     final backupTileState = boardBackup[panStartCoordinate.y][panStartCoordinate.x];
-    switch (currentTileAction) {
-      case TileAction.select:
-        tileState.selected = !backupTileState.selected;
-        currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
-      case TileAction.cross:
-        tileState.crossed = !backupTileState.crossed;
+
+    final targetTileState = switch (currentTileAction) {
+      TileAction.select => TileState.selected,
+      TileAction.cross => TileState.crossed,
+    };
+    if (backupTileState.value == targetTileState) {
+      if (tileState.value == targetTileState) {
+        tileState.value = TileState.empty;
+      }
+    } else {
+      tileState.value = targetTileState;
     }
-    tileState.notifyListeners();
+
+    currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
   }
 
   /// Handles cases where a one-finger pan turns into a two-finger pan.
@@ -95,7 +101,7 @@ class _BoardState extends State<Board> {
     isPanCancelled = true;
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
-        board[y][x].copyFrom(boardBackup[y][x]);
+        board[y][x].value = boardBackup[y][x].value;
       }
     }
     currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
@@ -112,14 +118,14 @@ class _BoardState extends State<Board> {
     for (int x = 0; x < width; ++x) {
       if (answer.labelColumn(x) == '$height') {
         for (int y = 0; y < height; ++y) {
-          board[y][x].selected = true;
+          board[y][x].value = TileState.selected;
         }
       }
     }
     for (int y = 0; y < height; ++y) {
       if (answer.labelRow(y) == '$width') {
         for (int x = 0; x < width; ++x) {
-          board[y][x].selected = true;
+          board[y][x].value = TileState.selected;
         }
       }
     }
@@ -249,10 +255,9 @@ class _BoardState extends State<Board> {
                         ),
                       ),
                     ),
-                    _ => AnimatedBuilder(
-                      animation: board[y][x],
-                      builder: (context, child) {
-                        final tileState = board[y][x];
+                    _ => ValueListenableBuilder(
+                      valueListenable: board[y][x],
+                      builder: (context, tileState, child) {
                         return Tile(
                           tileState: tileState,
                         );

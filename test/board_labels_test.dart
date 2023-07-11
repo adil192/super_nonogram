@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:super_nonogram/board/board.dart';
 import 'package:super_nonogram/board/board_labels.dart';
@@ -13,7 +14,7 @@ void main() {
         height,
         (_) => List.generate(
           width,
-          (_) => TileState()..selected = false,
+          (_) => ValueNotifier(TileState.empty),
         ),
       );
 
@@ -32,7 +33,7 @@ void main() {
         height,
         (_) => List.generate(
           width,
-          (_) => TileState()..selected = true,
+          (_) => ValueNotifier(TileState.selected),
         ),
       );
 
@@ -53,12 +54,13 @@ void main() {
         height,
         (_) => List.generate(
           width,
-          (_) => TileState()..selected = false,
+          (_) => ValueNotifier(TileState.empty),
         ),
       );
       
       for (int x = 0; x < width; ++x) {
-        boardState[0][x].selected = x.isEven;
+        if (x.isOdd) continue;
+        boardState[0][x].value = TileState.selected;
       }
 
       final labels = BoardLabels.fromBoardState(boardState, width, height);

@@ -13,14 +13,16 @@ abstract class LevelToBoard {
       size,
       (_) => List.generate(
         size,
-        (_) => TileState(),
+        (_) => ValueNotifier(TileState.empty),
       ),
     );
 
     final r = Random(level);
     for (final row in board) {
       for (final tile in row) {
-        tile.selected = r.nextDouble() < pValue;
+        if (r.nextDouble() < pValue) {
+          tile.value = TileState.selected;
+        }
       }
     }
 

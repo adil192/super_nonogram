@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:super_nonogram/board/board.dart';
+import 'package:super_nonogram/board/tile_state.dart';
 
 class BoardLabels {
   /// List of groups of selected tiles for each column.
@@ -36,20 +37,20 @@ class BoardLabels {
 
     for (int y = 0; y < height; ++y) {
       for (int x = 0; x < width; ++x) {
-        final tileState = boardState[y][x];
+        final selected = boardState[y][x].value == TileState.selected;
         
-        if (columns[x].last != 0 && !tileState.selected) {
+        if (columns[x].last != 0 && !selected) {
           // Tile not selected so break column's previous group
           columns[x].add(0);
-        } else if (tileState.selected) {
+        } else if (selected) {
           // Add 1 to column's last group
           columns[x].last += 1;
         }
 
-        if (rows[y].last != 0 && !tileState.selected) {
+        if (rows[y].last != 0 && !selected) {
           // Tile not selected so break row's previous group
           rows[y].add(0);
-        } else if (tileState.selected) {
+        } else if (selected) {
           // Add 1 to row's last group
           rows[y].last += 1;
         }

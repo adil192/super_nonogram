@@ -16,17 +16,19 @@ class Tile extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Board.tileSize * 0.2),
-        color: tileState.selected ? colorScheme.primary : colorScheme.primary.withOpacity(0.3),
+        color: switch (tileState) {
+          TileState.selected => colorScheme.primary,
+          TileState.crossed => colorScheme.primary.withOpacity(0.1),
+          TileState.empty => colorScheme.primary.withOpacity(0.3),
+        },
       ),
-      child: Center(
-        child: tileState.crossed
-            ? Icon(
-                Icons.close,
-                color: colorScheme.onBackground.withOpacity(0.7),
-                size: Board.tileSize * 0.5,
-              )
-            : null,
-      ),
+      child: tileState == TileState.crossed ? Center(
+        child: Icon(
+          Icons.close,
+          color: colorScheme.onBackground.withOpacity(0.7),
+          size: Board.tileSize * 0.5,
+        ),
+      ) : null,
     );
   }
 }
