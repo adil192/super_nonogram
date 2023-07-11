@@ -13,10 +13,19 @@ class Tile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Board.tileSize * 0.2),
         color: tileState.selected ? colorScheme.primary : colorScheme.primary.withOpacity(0.3),
+      ),
+      child: Center(
+        child: tileState.crossed
+            ? Icon(
+                Icons.close,
+                color: colorScheme.onBackground.withOpacity(0.7),
+                size: Board.tileSize * 0.5,
+              )
+            : null,
       ),
     );
   }

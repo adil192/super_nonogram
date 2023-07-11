@@ -31,6 +31,7 @@ class _BoardState extends State<Board> {
   late final BoardLabels answer = BoardLabels.fromBoardState(widget.answerBoard, width, height);
   late ValueNotifier<BoardLabels> currentAnswers = ValueNotifier(BoardLabels.fromBoardState(board, width, height));
   bool get isSolved => currentAnswers.value == answer;
+  TileAction currentTileAction = TileAction.select;
 
   late final BoardState board = List.generate(
     height,
@@ -74,8 +75,13 @@ class _BoardState extends State<Board> {
   void onPanUpdate(int x, int y) {
     final tileState = board[y][x];
     final backupTileState = boardBackup[panStartCoordinate.y][panStartCoordinate.x];
-    tileState.selected = !backupTileState.selected;
-    currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
+    switch (currentTileAction) {
+      case TileAction.select:
+        tileState.selected = !backupTileState.selected;
+        currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
+      case TileAction.cross:
+        tileState.crossed = !backupTileState.crossed;
+    }
     tileState.notifyListeners();
   }
 
@@ -287,4 +293,10 @@ enum TileRelation {
   valid,
   outOfBounds,
   notInSameRowOrColumn,
+}
+
+@visibleForTesting
+enum TileAction {
+  select,
+  cross,
 }
