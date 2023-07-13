@@ -13,11 +13,13 @@ class Board extends StatefulWidget {
     required this.answerBoard,
     required this.srcImage,
     required this.onSolved,
+    required this.currentTileAction,
   });
 
   final BoardState answerBoard;
   final Uint8List? srcImage;
   final VoidCallback onSolved;
+  final TileState currentTileAction;
 
   static const double tileSize = 100;
 
@@ -31,7 +33,6 @@ class _BoardState extends State<Board> {
   late final BoardLabels answer = BoardLabels.fromBoardState(widget.answerBoard, width, height);
   late ValueNotifier<BoardLabels> currentAnswers = ValueNotifier(BoardLabels.fromBoardState(board, width, height));
   bool get isSolved => currentAnswers.value == answer;
-  TileAction currentTileAction = TileAction.select;
 
   late final BoardState board = List.generate(
     height,
@@ -76,16 +77,12 @@ class _BoardState extends State<Board> {
     final tileState = board[y][x];
     final backupTileState = boardBackup[panStartCoordinate.y][panStartCoordinate.x];
 
-    final targetTileState = switch (currentTileAction) {
-      TileAction.select => TileState.selected,
-      TileAction.cross => TileState.crossed,
-    };
-    if (backupTileState.value == targetTileState) {
-      if (tileState.value == targetTileState) {
+    if (backupTileState.value == widget.currentTileAction) {
+      if (tileState.value == widget.currentTileAction) {
         tileState.value = TileState.empty;
       }
     } else {
-      tileState.value = targetTileState;
+      tileState.value = widget.currentTileAction;
     }
 
     currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
@@ -298,10 +295,4 @@ enum TileRelation {
   valid,
   outOfBounds,
   notInSameRowOrColumn,
-}
-
-@visibleForTesting
-enum TileAction {
-  select,
-  cross,
 }

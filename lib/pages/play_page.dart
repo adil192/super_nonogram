@@ -8,6 +8,8 @@ import 'package:super_nonogram/api/file_manager.dart';
 import 'package:super_nonogram/api/level_to_board.dart';
 import 'package:super_nonogram/board/board.dart';
 import 'package:super_nonogram/board/ngb.dart';
+import 'package:super_nonogram/board/tile_state.dart';
+import 'package:super_nonogram/board/toolbar.dart';
 import 'package:super_nonogram/data/prefs.dart';
 import 'package:super_nonogram/i18n/strings.g.dart';
 
@@ -29,6 +31,8 @@ class PlayPage extends StatefulWidget {
 class _PlayPageState extends State<PlayPage> {
   Uint8List? srcImage;
   BoardState? answerBoard;
+  
+  TileState currentTileAction = TileState.selected;
 
   @override
   void initState() {
@@ -160,8 +164,15 @@ class _PlayPageState extends State<PlayPage> {
                           answerBoard: answerBoard!,
                           srcImage: srcImage,
                           onSolved: onSolved,
+                          currentTileAction: currentTileAction,
                         ),
                   ),
+                ),
+                Toolbar(
+                  currentTileAction: currentTileAction,
+                  setTileAction: (tileAction) => setState(() {
+                    currentTileAction = tileAction;
+                  }),
                 ),
                 if (AdState.adsSupported)
                   const BannerAdWidget(
