@@ -71,6 +71,14 @@
     </screenshots>
 
     <releases>
+        <release version="0.6.0" type="development" date="2023-07-13">
+            <description>
+                <ul>
+                    <li>You can now cross out tiles on the board</li>
+                    <li>Centered the settings page on desktop and tablets</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.5.0" type="development" date="2023-07-10">
             <description>
                 <ul>

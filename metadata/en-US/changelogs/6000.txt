@@ -1,0 +1,2 @@
+• You can now cross out tiles on the board
+• Centered the settings page on desktop and tablets
