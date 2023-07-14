@@ -1,0 +1,1 @@
+• Fixed internal files being placed in the Documents directory

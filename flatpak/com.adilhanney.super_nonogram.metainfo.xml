@@ -71,6 +71,13 @@
     </screenshots>
 
     <releases>
+        <release version="0.6.1" type="development" date="2023-07-14">
+            <description>
+                <ul>
+                    <li>Fixed internal files being placed in the Documents directory</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.6.0" type="development" date="2023-07-13">
             <description>
                 <ul>
