@@ -28,7 +28,7 @@ abstract class FileManager {
         await _prefs!.setString(path, base64Encode(bytes));
       }
     } else {
-      _documentsDir ??= await getApplicationDocumentsDirectory();
+      _documentsDir ??= await getApplicationSupportDirectory();
       final file = File('${_documentsDir!.path}$_documentsSubDir$path');
       await file.create(recursive: true);
       if (string != null) {
@@ -58,7 +58,7 @@ abstract class FileManager {
         return string as T;
       }
     } else {
-      _documentsDir ??= await getApplicationDocumentsDirectory();
+      _documentsDir ??= await getApplicationSupportDirectory();
       final file = File('${_documentsDir!.path}$_documentsSubDir$path');
       if (T == Uint8List) {
         return await file.readAsBytes() as T;
@@ -76,7 +76,7 @@ abstract class FileManager {
       _prefs ??= await SharedPreferences.getInstance();
       return _prefs!.containsKey(path);
     } else {
-      _documentsDir ??= await getApplicationDocumentsDirectory();
+      _documentsDir ??= await getApplicationSupportDirectory();
       final file = File('${_documentsDir!.path}$_documentsSubDir$path');
       return file.existsSync();
     }
