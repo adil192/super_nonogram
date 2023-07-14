@@ -168,15 +168,19 @@ class _PlayPageState extends State<PlayPage> {
                         ),
                   ),
                 ),
-                Toolbar(
-                  currentTileAction: currentTileAction,
-                  setTileAction: (tileAction) => setState(() {
-                    currentTileAction = tileAction;
-                  }),
+                SafeArea(
+                  child: Toolbar(
+                    currentTileAction: currentTileAction,
+                    setTileAction: (tileAction) => setState(() {
+                      currentTileAction = tileAction;
+                    }),
+                  ),
                 ),
                 if (AdState.adsSupported)
-                  const BannerAdWidget(
-                    adSize: AdSize.largeBanner,
+                  const SafeArea(
+                    child: BannerAdWidget(
+                      adSize: AdSize.largeBanner,
+                    ),
                   ),
               ],
             ),
