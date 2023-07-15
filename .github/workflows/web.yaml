@@ -17,5 +17,3 @@ jobs:
           channel: stable
 
       - uses: bluefireteam/flutter-gh-pages@v7
-        with:
-            baseHref: /super_nonogram/
