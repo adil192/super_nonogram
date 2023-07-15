@@ -1,7 +1,9 @@
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:games_services/games_services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:super_nonogram/ads/banner_ad_widget.dart';
 import 'package:super_nonogram/api/file_manager.dart';
@@ -11,6 +13,8 @@ import 'package:super_nonogram/board/ngb.dart';
 import 'package:super_nonogram/board/tile_state.dart';
 import 'package:super_nonogram/board/toolbar.dart';
 import 'package:super_nonogram/data/prefs.dart';
+import 'package:super_nonogram/games_services/achievement_ids.dart';
+import 'package:super_nonogram/games_services/games_services_helper.dart';
 import 'package:super_nonogram/i18n/strings.g.dart';
 
 class PlayPage extends StatefulWidget {
@@ -54,6 +58,10 @@ class _PlayPageState extends State<PlayPage> {
 
   void onSolved() {
     bool onALevel = widget.level != null;
+
+    if (onALevel) {
+      recordLevelCompleteAchievement(widget.level!);
+    }
 
     showDialog(
       context: context,
@@ -189,4 +197,37 @@ class _PlayPageState extends State<PlayPage> {
       }
     );
   }
+
+  static Future recordLevelCompleteAchievement(int level) => runAfterGamesSignIn(() async {
+    await GamesServices.unlock(achievement: Achievement(
+      androidID: androidAchievements.level1,
+      iOSID: iosAchievements.level1,
+      percentComplete: min(100, level / 1 * 100),
+    ));
+    await GamesServices.unlock(achievement: Achievement(
+      androidID: androidAchievements.level10,
+      iOSID: iosAchievements.level10,
+      percentComplete: min(100, level / 10 * 100),
+    ));
+    await GamesServices.unlock(achievement: Achievement(
+      androidID: androidAchievements.level50,
+      iOSID: iosAchievements.level50,
+      percentComplete: min(100, level / 50 * 100),
+    ));
+    await GamesServices.unlock(achievement: Achievement(
+      androidID: androidAchievements.level100,
+      iOSID: iosAchievements.level100,
+      percentComplete: min(100, level / 100 * 100),
+    ));
+    await GamesServices.unlock(achievement: Achievement(
+      androidID: androidAchievements.level500,
+      iOSID: iosAchievements.level500,
+      percentComplete: min(100, level / 500 * 100),
+    ));
+    await GamesServices.unlock(achievement: Achievement(
+      androidID: androidAchievements.level1000,
+      iOSID: iosAchievements.level1000,
+      percentComplete: min(100, level / 1000 * 100),
+    ));
+  });
 }

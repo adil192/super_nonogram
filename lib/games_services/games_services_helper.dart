@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:games_services/games_services.dart';
 
-class GamesServicesHelper {
+abstract class GamesServicesHelper {
   static bool get osSupported => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
 
   static bool _signedIn = false;
