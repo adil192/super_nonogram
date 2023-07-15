@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 1
-/// Strings: 18
+/// Strings: 19
 ///
-/// Built on 2023-07-08 at 16:59 UTC
+/// Built on 2023-07-15 at 20:46 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -155,6 +155,7 @@ class _StringsTitleEn {
 	String get appName => 'Super Nonogram';
 	String get playLevels => 'Play levels';
 	String get playImages => 'Play images';
+	String get achievements => 'Achievements';
 }
 
 // Path: search

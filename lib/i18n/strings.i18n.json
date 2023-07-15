@@ -2,7 +2,8 @@
   "title": {
     "appName": "Super Nonogram",
     "playLevels": "Play levels",
-    "playImages": "Play images"
+    "playImages": "Play images",
+    "achievements": "Achievements"
   },
   "search": {
     "createNewPuzzle": "Create a new puzzle",

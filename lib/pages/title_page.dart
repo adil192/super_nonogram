@@ -1,7 +1,9 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:games_services/games_services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:super_nonogram/data/prefs.dart';
+import 'package:super_nonogram/games_services/games_services.dart';
 import 'package:super_nonogram/i18n/strings.g.dart';
 import 'package:super_nonogram/pages/search_page.dart';
 import 'package:super_nonogram/pages/settings_page.dart';
@@ -92,6 +94,22 @@ class TitlePage extends StatelessWidget {
                 openBuilder: (context, action) {
                   return const SearchPage();
                 },
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: buttonShape,
+                ),
+                onPressed: () => runAfterGamesSignIn(() => GamesServices.showAchievements()),
+                child: Padding(
+                  padding: EdgeInsets.all(buttonFontSize / 2),
+                  child: Text(
+                    t.title.achievements,
+                    style: TextStyle(
+                      fontSize: buttonFontSize,
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(height: 16),
               OpenContainer(
