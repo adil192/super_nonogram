@@ -71,6 +71,15 @@
     </screenshots>
 
     <releases>
+        <release version="0.6.2" type="development" date="2023-07-15">
+            <description>
+                <ul>
+                    <li>Fixed toolbar overlapping the system UI</li>
+                    <li>Improvements to the board's swipe-to-select gesture</li>
+                    <li>Fixed the first row and column always being blank when using "Play images"</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.6.1" type="development" date="2023-07-14">
             <description>
                 <ul>

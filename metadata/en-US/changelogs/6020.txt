@@ -1,0 +1,3 @@
+• Fixed toolbar overlapping the system UI
+• Improvements to the board's swipe-to-select gesture
+• Fixed the first row and column always being blank when using "Play images"
