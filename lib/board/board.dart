@@ -14,7 +14,7 @@ class Board extends StatefulWidget {
     required this.srcImage,
     required this.onSolved,
     required this.currentTileAction,
-  });
+  }): assert(currentTileAction != TileState.empty);
 
   final BoardState answerBoard;
   final Uint8List? srcImage;
@@ -81,7 +81,13 @@ class _BoardState extends State<Board> {
       if (tileState.value == widget.currentTileAction) {
         tileState.value = TileState.empty;
       }
+    } else if (backupTileState.value == TileState.empty) {
+      if (tileState.value == TileState.empty) {
+        tileState.value = widget.currentTileAction;
+      }
     } else {
+      // we started with a tile that was neither empty nor the current tile action,
+      // so just set the tile state indiscriminately
       tileState.value = widget.currentTileAction;
     }
 
