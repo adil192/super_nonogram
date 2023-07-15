@@ -168,6 +168,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "10.5.0"
+  games_services:
+    dependency: "direct main"
+    description:
+      name: games_services
+      sha256: "13ba17d7ab037f8b62909629e9c87b4b20816bd7fef1ab6f40c1ec6797376893"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
+  games_services_platform_interface:
+    dependency: transitive
+    description:
+      name: games_services_platform_interface
+      sha256: e3173860bdd2b02aca3bd1325c79b97e6bbf909ba6ceca21df4b73828dba2785
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   go_router:
     dependency: "direct main"
     description:
