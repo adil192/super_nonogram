@@ -68,5 +68,5 @@ Also see [`slang`'s Getting Started](https://pub.dev/packages/slang#getting-star
 [google_play]: https://play.google.com/store/apps/details?id=com.adilhanney.super_nonogram
 [web_app]: https://adil192.github.io/super_nonogram/
 [flathub]: https://flathub.org/apps/details/com.adilhanney.super_nonogram
-[download_windows]: https://github.com/adil192/super_nonogram/releases/download/v0.6.2/SuperNonogramInstaller_v0.6.2.exe
-[download_appimage]: https://github.com/adil192/super_nonogram/releases/download/v0.6.2/SuperNonogram-0.6.2-x86_64.AppImage
+[download_windows]: https://github.com/adil192/super_nonogram/releases/download/v0.7.0/SuperNonogramInstaller_v0.7.0.exe
+[download_appimage]: https://github.com/adil192/super_nonogram/releases/download/v0.7.0/SuperNonogram-0.7.0-x86_64.AppImage

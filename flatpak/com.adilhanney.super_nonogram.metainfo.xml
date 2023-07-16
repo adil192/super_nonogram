@@ -71,6 +71,13 @@
     </screenshots>
 
     <releases>
+        <release version="0.7.0" type="development" date="2023-07-16">
+            <description>
+                <ul>
+                    <li>Added achievements for completing levels on Android, iOS, and macOS</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.6.2" type="development" date="2023-07-15">
             <description>
                 <ul>
