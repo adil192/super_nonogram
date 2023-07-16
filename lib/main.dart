@@ -91,6 +91,7 @@ class _MyAppState extends State<MyApp> {
 
         return MaterialApp.router(
           title: 'Super Nonogram',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             useMaterial3: true,
             colorScheme: lightDynamic,
