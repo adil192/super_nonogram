@@ -83,7 +83,7 @@ jobs:
       - name: Package for App Store
         id: package
         run: |
-          APP_NAME="build/macos/Build/Products/Release/super_nonogram.app"
+          APP_NAME="build/macos/Build/Products/Release/Super Nonogram.app"
           PACKAGE_NAME="build/macos/Build/Products/Release/super_nonogram.pkg"
           echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_OUTPUT
 
@@ -105,7 +105,7 @@ jobs:
           echo "zipName=$zipName" >> $GITHUB_OUTPUT
 
           pushd build/macos/Build/Products/Release
-          zip -r "$zipName" "super_nonogram.app"
+          zip -r "$zipName" "Super Nonogram.app"
           popd
 
       - name: Restore keychain
