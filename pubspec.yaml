@@ -134,5 +134,6 @@ icons_launcher:
       enable: true
     macos:
       enable: true
+      image_path: "assets/icon/icon_macos.png"
     web:
       enable: true
