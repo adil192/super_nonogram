@@ -71,6 +71,13 @@
     </screenshots>
 
     <releases>
+        <release version="0.7.1" type="development" date="2023-07-16">
+            <description>
+                <ul>
+                    <li>Added a new icon</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.7.0" type="development" date="2023-07-16">
             <description>
                 <ul>
