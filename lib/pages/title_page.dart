@@ -38,111 +38,114 @@ class TitlePage extends StatelessWidget {
       body: ColoredBox(
         color: colorScheme.primary,
         child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                t.title.appName,
-                style: TextStyle(
-                  fontSize: titleFontSize,
-                  color: colorScheme.onPrimary,
-                ),
-              ),
-              const SizedBox(height: 64),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: buttonShape,
-                ),
-                onPressed: () {
-                  context.push('/play?level=${Prefs.currentLevel.value}');
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(buttonFontSize / 2),
-                  child: Text(
-                    t.title.playLevels,
-                    style: TextStyle(
-                      fontSize: buttonFontSize,
-                    ),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(vertical: 32),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  t.title.appName,
+                  style: TextStyle(
+                    fontSize: titleFontSize,
+                    color: colorScheme.onPrimary,
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              OpenContainer(
-                tappable: false,
-                closedShape: buttonShape,
-                closedColor: Colors.transparent,
-                closedElevation: 0,
-                openColor: Colors.transparent,
-                openElevation: 0,
-                closedBuilder: (context, action) {
-                  return ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: buttonShape,
-                    ),
-                    onPressed: action,
-                    child: Padding(
-                      padding: EdgeInsets.all(buttonFontSize / 2),
-                      child: Text(
-                        t.title.playImages,
-                        style: TextStyle(
-                          fontSize: buttonFontSize,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-                openBuilder: (context, action) {
-                  return const SearchPage();
-                },
-              ),
-              if (GamesServicesHelper.osSupported) ...[
-                const SizedBox(height: 16),
+                const SizedBox(height: 64),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     shape: buttonShape,
                   ),
-                  onPressed: () => runAfterGamesSignIn(() => GamesServices.showAchievements()),
+                  onPressed: () {
+                    context.push('/play?level=${Prefs.currentLevel.value}');
+                  },
                   child: Padding(
                     padding: EdgeInsets.all(buttonFontSize / 2),
                     child: Text(
-                      t.title.achievements,
+                      t.title.playLevels,
                       style: TextStyle(
                         fontSize: buttonFontSize,
                       ),
                     ),
                   ),
                 ),
-              ],
-              const SizedBox(height: 16),
-              OpenContainer(
-                tappable: false,
-                closedShape: buttonShape,
-                closedColor: Colors.transparent,
-                closedElevation: 0,
-                openColor: Colors.transparent,
-                openElevation: 0,
-                closedBuilder: (context, action) {
-                  return ElevatedButton(
+                const SizedBox(height: 16),
+                OpenContainer(
+                  tappable: false,
+                  closedShape: buttonShape,
+                  closedColor: Colors.transparent,
+                  closedElevation: 0,
+                  openColor: Colors.transparent,
+                  openElevation: 0,
+                  closedBuilder: (context, action) {
+                    return ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: buttonShape,
+                      ),
+                      onPressed: action,
+                      child: Padding(
+                        padding: EdgeInsets.all(buttonFontSize / 2),
+                        child: Text(
+                          t.title.playImages,
+                          style: TextStyle(
+                            fontSize: buttonFontSize,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  openBuilder: (context, action) {
+                    return const SearchPage();
+                  },
+                ),
+                if (GamesServicesHelper.osSupported) ...[
+                  const SizedBox(height: 16),
+                  ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       shape: buttonShape,
                     ),
-                    onPressed: action,
+                    onPressed: () => runAfterGamesSignIn(() => GamesServices.showAchievements()),
                     child: Padding(
                       padding: EdgeInsets.all(buttonFontSize / 2),
                       child: Text(
-                        t.settings.settings,
+                        t.title.achievements,
                         style: TextStyle(
                           fontSize: buttonFontSize,
                         ),
                       ),
                     ),
-                  );
-                },
-                openBuilder: (context, action) {
-                  return const SettingsPage();
-                },
-              ),
-            ],
+                  ),
+                ],
+                const SizedBox(height: 16),
+                OpenContainer(
+                  tappable: false,
+                  closedShape: buttonShape,
+                  closedColor: Colors.transparent,
+                  closedElevation: 0,
+                  openColor: Colors.transparent,
+                  openElevation: 0,
+                  closedBuilder: (context, action) {
+                    return ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: buttonShape,
+                      ),
+                      onPressed: action,
+                      child: Padding(
+                        padding: EdgeInsets.all(buttonFontSize / 2),
+                        child: Text(
+                          t.settings.settings,
+                          style: TextStyle(
+                            fontSize: buttonFontSize,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  openBuilder: (context, action) {
+                    return const SettingsPage();
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
