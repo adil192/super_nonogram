@@ -122,8 +122,12 @@ icons_launcher:
   platforms:
     android:
       enable: true
+      adaptive_background_color: "#fefbff"
+      adaptive_foreground_image: "assets/icon/icon_adaptive.png"
+      adaptive_monochrome_image: "assets/icon/icon_monochrome.png"
     ios:
       enable: true
+      image_path: "assets/icon/icon_ios.png"
     linux:
       enable: true
     windows:
