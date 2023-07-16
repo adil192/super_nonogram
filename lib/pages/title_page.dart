@@ -95,22 +95,24 @@ class TitlePage extends StatelessWidget {
                   return const SearchPage();
                 },
               ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: buttonShape,
-                ),
-                onPressed: () => runAfterGamesSignIn(() => GamesServices.showAchievements()),
-                child: Padding(
-                  padding: EdgeInsets.all(buttonFontSize / 2),
-                  child: Text(
-                    t.title.achievements,
-                    style: TextStyle(
-                      fontSize: buttonFontSize,
+              if (GamesServicesHelper.osSupported) ...[
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: buttonShape,
+                  ),
+                  onPressed: () => runAfterGamesSignIn(() => GamesServices.showAchievements()),
+                  child: Padding(
+                    padding: EdgeInsets.all(buttonFontSize / 2),
+                    child: Text(
+                      t.title.achievements,
+                      style: TextStyle(
+                        fontSize: buttonFontSize,
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
               const SizedBox(height: 16),
               OpenContainer(
                 tappable: false,
