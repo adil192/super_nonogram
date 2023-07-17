@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:super_nonogram/board/board_labels.dart';
 import 'package:super_nonogram/board/tile.dart';
@@ -33,6 +34,10 @@ class _BoardState extends State<Board> {
   late final BoardLabels answer = BoardLabels.fromBoardState(widget.answerBoard, width, height);
   late ValueNotifier<BoardLabels> currentAnswers = ValueNotifier(BoardLabels.fromBoardState(board, width, height));
   bool get isSolved => currentAnswers.value == answer;
+
+  /// Whether secondary input is currently active
+  /// (right-click or stylus button)
+  bool secondaryInput = false;
 
   late final BoardState board = List.generate(
     height,
@@ -77,18 +82,22 @@ class _BoardState extends State<Board> {
     final tileState = board[y][x];
     final backupTileState = boardBackup[panStartCoordinate.y][panStartCoordinate.x];
 
-    if (backupTileState.value == widget.currentTileAction) {
-      if (tileState.value == widget.currentTileAction) {
+    final TileState targetTileState = secondaryInput
+        ? TileState.crossed
+        : widget.currentTileAction;
+
+    if (backupTileState.value == targetTileState) {
+      if (tileState.value == targetTileState) {
         tileState.value = TileState.empty;
       }
     } else if (backupTileState.value == TileState.empty) {
       if (tileState.value == TileState.empty) {
-        tileState.value = widget.currentTileAction;
+        tileState.value = targetTileState;
       }
     } else {
-      // we started with a tile that was neither empty nor the current tile action,
+      // we started with a tile that was neither empty nor the target tile state,
       // so just set the tile state indiscriminately
-      tileState.value = widget.currentTileAction;
+      tileState.value = targetTileState;
     }
 
     currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
@@ -154,135 +163,143 @@ class _BoardState extends State<Board> {
       child: SizedBox(
         width: Board.tileSize * (width + 1),
         height: Board.tileSize * (height + 1),
-        child: InteractiveViewer(
-          onInteractionStart: (details) {
-            isPanCancelled = false;
-            onPanStart();
-            final (:x, :y) = getCoordinateOfPosition(details.localFocalPoint);
-            panStartCoordinate = (x: x, y: y);
-            switch (getTileRelation(x, y)) {
-              case TileRelation.valid:
-                panStartCoordinate = (x: x, y: y);
+        child: Listener(
+          onPointerDown: (event) {
+            secondaryInput = event.buttons == kSecondaryButton;
+          },
+          onPointerUp: (event) {
+            secondaryInput = false;
+          },
+          child: InteractiveViewer(
+            onInteractionStart: (details) {
+              isPanCancelled = false;
+              onPanStart();
+              final (:x, :y) = getCoordinateOfPosition(details.localFocalPoint);
+              panStartCoordinate = (x: x, y: y);
+              switch (getTileRelation(x, y)) {
+                case TileRelation.valid:
+                  panStartCoordinate = (x: x, y: y);
+                  onPanUpdate(x, y);
+                case TileRelation.outOfBounds:
+                case TileRelation.notInSameRowOrColumn:
+                  panStartCoordinate = (x: 0, y: 0);
+                  isPanCancelled = true;
+              }
+            },
+            onInteractionUpdate: (details) {
+              if (checkIfPanCancelled(details)) return;
+              final (:x, :y) = getCoordinateOfPosition(details.localFocalPoint);
+              if (getTileRelation(x, y) == TileRelation.valid) {
                 onPanUpdate(x, y);
-              case TileRelation.outOfBounds:
-              case TileRelation.notInSameRowOrColumn:
-                panStartCoordinate = (x: 0, y: 0);
-                isPanCancelled = true;
-            }
-          },
-          onInteractionUpdate: (details) {
-            if (checkIfPanCancelled(details)) return;
-            final (:x, :y) = getCoordinateOfPosition(details.localFocalPoint);
-            if (getTileRelation(x, y) == TileRelation.valid) {
-              onPanUpdate(x, y);
-            }
-          },
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              GridView.builder(
-                itemCount: width * height + width + height + 1,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: width + 1,
-                  mainAxisSpacing: Board.tileSize * 0.1,
-                  crossAxisSpacing: Board.tileSize * 0.1,
-                ),
-                padding: const EdgeInsets.all(Board.tileSize * 0.2),
-                itemBuilder: (context, index) {
-                  final int x = index % (width + 1) - 1;
-                  final int y = index ~/ (width + 1) - 1;
-                  late final colorScheme = Theme.of(context).colorScheme;
-                  return switch ((x, y)) {
-                    (-1, -1) => const SizedBox(),
-                    (-1, _) => Align(
-                      alignment: Alignment.centerRight,
-                      child: ValueListenableBuilder(
-                        valueListenable: currentAnswers,
-                        builder: (context, _, child) {
-                          final status = BoardLabels.statusOfRow(y, answer, currentAnswers.value);
-                          return AnimatedOpacity(
-                            opacity: switch (status) {
-                              BoardLabelStatus.correct => 0,
-                              _ => 1,
-                            },
-                            duration: const Duration(milliseconds: 500),
-                            child: DefaultTextStyle.merge(
-                              style: TextStyle(
-                                fontSize: Board.tileSize * 0.2,
-                                color: switch (status) {
-                                  BoardLabelStatus.correct => colorScheme.primary,
-                                  BoardLabelStatus.incorrect => colorScheme.error,
-                                  BoardLabelStatus.incomplete => colorScheme.onBackground,
-                                },
+              }
+            },
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                GridView.builder(
+                  itemCount: width * height + width + height + 1,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: width + 1,
+                    mainAxisSpacing: Board.tileSize * 0.1,
+                    crossAxisSpacing: Board.tileSize * 0.1,
+                  ),
+                  padding: const EdgeInsets.all(Board.tileSize * 0.2),
+                  itemBuilder: (context, index) {
+                    final int x = index % (width + 1) - 1;
+                    final int y = index ~/ (width + 1) - 1;
+                    late final colorScheme = Theme.of(context).colorScheme;
+                    return switch ((x, y)) {
+                      (-1, -1) => const SizedBox(),
+                      (-1, _) => Align(
+                        alignment: Alignment.centerRight,
+                        child: ValueListenableBuilder(
+                          valueListenable: currentAnswers,
+                          builder: (context, _, child) {
+                            final status = BoardLabels.statusOfRow(y, answer, currentAnswers.value);
+                            return AnimatedOpacity(
+                              opacity: switch (status) {
+                                BoardLabelStatus.correct => 0,
+                                _ => 1,
+                              },
+                              duration: const Duration(milliseconds: 500),
+                              child: DefaultTextStyle.merge(
+                                style: TextStyle(
+                                  fontSize: Board.tileSize * 0.2,
+                                  color: switch (status) {
+                                    BoardLabelStatus.correct => colorScheme.primary,
+                                    BoardLabelStatus.incorrect => colorScheme.error,
+                                    BoardLabelStatus.incomplete => colorScheme.onBackground,
+                                  },
+                                ),
+                                child: child!,
                               ),
-                              child: child!,
-                            ),
-                          );
-                        },
-                        child: Text(
-                          answer.labelRow(y),
-                          textAlign: TextAlign.center,
+                            );
+                          },
+                          child: Text(
+                            answer.labelRow(y),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
-                    ),
-                    (_, -1) => Align(
-                      alignment: Alignment.bottomCenter,
-                      child: ValueListenableBuilder(
-                        valueListenable: currentAnswers,
-                        builder: (context, _, child) {
-                          final status = BoardLabels.statusOfColumn(x, answer, currentAnswers.value);
-                          return AnimatedOpacity(
-                            opacity: switch (status) {
-                              BoardLabelStatus.correct => 0,
-                              _ => 1,
-                            },
-                            duration: const Duration(milliseconds: 500),
-                            child: DefaultTextStyle.merge(
-                              style: TextStyle(
-                                height: 1.2,
-                                fontSize: Board.tileSize * 0.2,
-                                color: switch (status) {
-                                  BoardLabelStatus.correct => colorScheme.primary,
-                                  BoardLabelStatus.incorrect => colorScheme.error,
-                                  BoardLabelStatus.incomplete => colorScheme.onBackground,
-                                },
+                      (_, -1) => Align(
+                        alignment: Alignment.bottomCenter,
+                        child: ValueListenableBuilder(
+                          valueListenable: currentAnswers,
+                          builder: (context, _, child) {
+                            final status = BoardLabels.statusOfColumn(x, answer, currentAnswers.value);
+                            return AnimatedOpacity(
+                              opacity: switch (status) {
+                                BoardLabelStatus.correct => 0,
+                                _ => 1,
+                              },
+                              duration: const Duration(milliseconds: 500),
+                              child: DefaultTextStyle.merge(
+                                style: TextStyle(
+                                  height: 1.2,
+                                  fontSize: Board.tileSize * 0.2,
+                                  color: switch (status) {
+                                    BoardLabelStatus.correct => colorScheme.primary,
+                                    BoardLabelStatus.incorrect => colorScheme.error,
+                                    BoardLabelStatus.incomplete => colorScheme.onBackground,
+                                  },
+                                ),
+                                child: child!,
                               ),
-                              child: child!,
-                            ),
-                          );
-                        },
-                        child: Text(
-                          answer.labelColumn(x),
-                          textAlign: TextAlign.center,
+                            );
+                          },
+                          child: Text(
+                            answer.labelColumn(x),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
+                      _ => ValueListenableBuilder(
+                        valueListenable: board[y][x],
+                        builder: (context, tileState, child) {
+                          return Tile(
+                            tileState: tileState,
+                          );
+                        },
+                      ),
+                    };
+                  },
+                ),
+                if (widget.srcImage != null) Opacity(
+                  opacity: 0.2,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: Board.tileSize,
+                      left: Board.tileSize,
                     ),
-                    _ => ValueListenableBuilder(
-                      valueListenable: board[y][x],
-                      builder: (context, tileState, child) {
-                        return Tile(
-                          tileState: tileState,
-                        );
-                      },
+                    child: Image.memory(
+                      widget.srcImage!,
+                      fit: BoxFit.fill,
                     ),
-                  };
-                },
-              ),
-              if (widget.srcImage != null) Opacity(
-                opacity: 0.2,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: Board.tileSize,
-                    left: Board.tileSize,
-                  ),
-                  child: Image.memory(
-                    widget.srcImage!,
-                    fit: BoxFit.fill,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
