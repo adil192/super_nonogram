@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +40,9 @@ class _BoardState extends State<Board> {
   /// Whether secondary input is currently active
   /// (right-click or stylus button)
   bool secondaryInput = false;
+  /// If the player holds down at the start of a pan for 1s,
+  /// secondary input is activated.
+  Timer? tapHoldTimer;
 
   late final BoardState board = List.generate(
     height,
@@ -71,14 +76,25 @@ class _BoardState extends State<Board> {
     return TileRelation.valid;
   }
 
-  void onPanStart() {
+  void onPanStart(int x, int y) {
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
         boardBackup[y][x].value = board[y][x].value;
       }
     }
+
+    tapHoldTimer?.cancel();
+    tapHoldTimer = Timer(const Duration(seconds: 1), () {
+      secondaryInput = true;
+      board[y][x].value = TileState.crossed;
+      onPanUpdate(x, y);
+    });
   }
   void onPanUpdate(int x, int y) {
+    if (x != panStartCoordinate.x || y != panStartCoordinate.y) {
+      tapHoldTimer?.cancel();
+    }
+
     final tileState = board[y][x];
     final backupTileState = boardBackup[panStartCoordinate.y][panStartCoordinate.x];
 
@@ -173,8 +189,8 @@ class _BoardState extends State<Board> {
           child: InteractiveViewer(
             onInteractionStart: (details) {
               isPanCancelled = false;
-              onPanStart();
               final (:x, :y) = getCoordinateOfPosition(details.localFocalPoint);
+              onPanStart(x, y);
               panStartCoordinate = (x: x, y: y);
               switch (getTileRelation(x, y)) {
                 case TileRelation.valid:
@@ -192,6 +208,9 @@ class _BoardState extends State<Board> {
               if (getTileRelation(x, y) == TileRelation.valid) {
                 onPanUpdate(x, y);
               }
+            },
+            onInteractionEnd: (details) {
+              tapHoldTimer?.cancel();
             },
             child: Stack(
               fit: StackFit.expand,
