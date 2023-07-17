@@ -6,18 +6,10 @@ import 'package:games_services/games_services.dart';
 
 abstract class GamesServicesHelper {
   static bool get osSupported => !kIsWeb && (Platform.isAndroid || Platform.isIOS || Platform.isMacOS);
-
-  static bool _signedIn = false;
-
-  static Future<bool> signIn() async {
-    if (!osSupported) return _signedIn = false;
-    await GamesServices.signIn();
-    return _signedIn = await GamesServices.isSignedIn;
-  }
 }
 
 Future<T?> runAfterGamesSignIn<T>(FutureOr<T> Function() callback) async {
-  if (!GamesServicesHelper._signedIn) await GamesServicesHelper.signIn();
-  if (!GamesServicesHelper._signedIn) return null;
+  await GamesServices.signIn();
+  if (!await GamesServices.isSignedIn) return null;
   return await callback();
 }

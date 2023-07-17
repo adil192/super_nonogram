@@ -198,36 +198,14 @@ class _PlayPageState extends State<PlayPage> {
     );
   }
 
-  static Future recordLevelCompleteAchievement(int level) => runAfterGamesSignIn(() async {
-    await GamesServices.unlock(achievement: Achievement(
-      androidID: androidAchievements.level1,
-      iOSID: iosAchievements.level1,
-      percentComplete: min(100, level / 1 * 100),
-    ));
-    await GamesServices.unlock(achievement: Achievement(
-      androidID: androidAchievements.level10,
-      iOSID: iosAchievements.level10,
-      percentComplete: min(100, level / 10 * 100),
-    ));
-    await GamesServices.unlock(achievement: Achievement(
-      androidID: androidAchievements.level50,
-      iOSID: iosAchievements.level50,
-      percentComplete: min(100, level / 50 * 100),
-    ));
-    await GamesServices.unlock(achievement: Achievement(
-      androidID: androidAchievements.level100,
-      iOSID: iosAchievements.level100,
-      percentComplete: min(100, level / 100 * 100),
-    ));
-    await GamesServices.unlock(achievement: Achievement(
-      androidID: androidAchievements.level500,
-      iOSID: iosAchievements.level500,
-      percentComplete: min(100, level / 500 * 100),
-    ));
-    await GamesServices.unlock(achievement: Achievement(
-      androidID: androidAchievements.level1000,
-      iOSID: iosAchievements.level1000,
-      percentComplete: min(100, level / 1000 * 100),
-    ));
-  });
+  static Future recordLevelCompleteAchievement(int level) async {
+    for (int tier in androidAchievements.levels.tiers) {
+      await runAfterGamesSignIn(() => GamesServices.unlock(achievement: Achievement(
+        androidID: androidAchievements.levels[tier],
+        iOSID: iosAchievements.levels[tier],
+        percentComplete: min(100, level / tier * 100),
+        steps: level,
+      )));
+    }
+  }
 }
