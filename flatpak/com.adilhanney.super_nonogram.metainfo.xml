@@ -71,6 +71,15 @@
     </screenshots>
 
     <releases>
+        <release version="0.7.2" type="development" date="2023-07-17">
+            <description>
+                <ul>
+                    <li>You can now tap and hold to cross out tiles (or right click on desktop)</li>
+                    <li>Fixed only the first achievement being awarded on Android</li>
+                    <li>Fixed the app name on iOS and macOS</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.7.1" type="development" date="2023-07-16">
             <description>
                 <ul>
