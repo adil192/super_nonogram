@@ -4,6 +4,10 @@
     alt='Get it on Google Play'
     height=80>][google_play]
 &nbsp;
+[<img src='https://github.com/adil192/super_nonogram/blob/main/assets_raw/app-store-badge.svg'
+    alt='Download on the App Store'
+    height=80>][app_store]
+&nbsp;
 [<img src='https://github.com/adil192/super_nonogram/blob/main/assets_raw/pwa-badge.png'
     alt='Launch as web app'
     height=80>][web_app]
@@ -66,6 +70,7 @@ Check [_missing_translations.json](https://github.com/adil192/super_nonogram/blo
 Also see [`slang`'s Getting Started](https://pub.dev/packages/slang#getting-started) for more information.
 
 [google_play]: https://play.google.com/store/apps/details?id=com.adilhanney.super_nonogram
+[app_store]: https://apps.apple.com/gb/app/super-nonogram/id6450968056
 [web_app]: https://adil192.github.io/super_nonogram/
 [flathub]: https://flathub.org/apps/details/com.adilhanney.super_nonogram
 [download_windows]: https://github.com/adil192/super_nonogram/releases/download/v0.7.2/SuperNonogramInstaller_v0.7.2.exe
