@@ -96,27 +96,32 @@ class _PlayPageState extends State<PlayPage> {
                 ),
                 const SizedBox(height: 8),
                 if (imageInfo != null) RichText(
-                  text: t.play.imageAttribution(
-                    author: TextSpan(
-                      text: imageInfo!.authorName,
-                      style: TextStyle(
-                        color: colorScheme.primary,
-                        decoration: TextDecoration.underline,
-                      ),
-                      recognizer: TapGestureRecognizer()..onTap = () {
-                        launchUrl(Uri.parse(imageInfo!.authorPageUrl));
-                      },
+                  text: TextSpan(
+                    style: TextStyle(
+                      color: colorScheme.onSurface,
                     ),
-                    pixabay: TextSpan(
-                      text: 'Pixabay',
-                      style: TextStyle(
-                        color: colorScheme.primary,
-                        decoration: TextDecoration.underline,
+                    children: [
+                      t.play.imageAttribution(
+                        author: TextSpan(
+                          text: imageInfo!.authorName,
+                          style: TextStyle(
+                            color: colorScheme.primary,
+                          ),
+                          recognizer: TapGestureRecognizer()..onTap = () {
+                            launchUrl(Uri.parse(imageInfo!.authorPageUrl));
+                          },
+                        ),
+                        pixabay: TextSpan(
+                          text: 'Pixabay',
+                          style: TextStyle(
+                            color: colorScheme.primary,
+                          ),
+                          recognizer: TapGestureRecognizer()..onTap = () {
+                            launchUrl(Uri.parse(imageInfo!.pageUrl));
+                          },
+                        ),
                       ),
-                      recognizer: TapGestureRecognizer()..onTap = () {
-                        launchUrl(Uri.parse(imageInfo!.pageUrl));
-                      },
-                    ),
+                    ],
                   ),
                 ),
               ],
