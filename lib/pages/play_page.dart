@@ -88,8 +88,11 @@ class _PlayPageState extends State<PlayPage> {
           content: Column(
             children: [
               if (imageBytes != null) ...[
-                Image(
-                  image: MemoryImage(imageBytes!),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxHeight: 300),
+                  child: Image(
+                    image: MemoryImage(imageBytes!),
+                  ),
                 ),
                 const SizedBox(height: 8),
                 if (imageInfo != null) RichText(
