@@ -39,7 +39,7 @@ abstract class FileManager {
     }
   }
 
-  static Future<T> readFile<T>(String path) async {
+  static Future<T?> readFile<T>(String path) async {
     assert(path.startsWith('/'));
     if (T == String) {
       assert(path.endsWith('.ngb') || path.endsWith('.json'));
@@ -52,14 +52,16 @@ abstract class FileManager {
     if (kIsWeb) {
       _prefs ??= await SharedPreferences.getInstance();
       final string = _prefs!.getString(path);
+      if (string == null) return null;
       if (T == Uint8List) {
-        return base64Decode(string!) as T;
+        return base64Decode(string) as T;
       } else {
         return string as T;
       }
     } else {
       _documentsDir ??= await getApplicationSupportDirectory();
       final file = File('${_documentsDir!.path}$_documentsSubDir$path');
+      if (!file.existsSync()) return null;
       if (T == Uint8List) {
         return await file.readAsBytes() as T;
       } else {

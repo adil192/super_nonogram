@@ -55,8 +55,8 @@ class _PlayPageState extends State<PlayPage> {
       final ngbContents = await FileManager.readFile<String>('/$encodedQuery.ngb');
       final infoJson = await FileManager.readFile<String>('/$encodedQuery.json');
       imageBytes = await FileManager.readFile<Uint8List>('/$encodedQuery.png');
-      imageInfo = PixabayImage.fromJson(jsonDecode(infoJson));
-      answerBoard = Ngb.readNgb(ngbContents);
+      imageInfo = infoJson == null ? null : PixabayImage.fromJson(jsonDecode(infoJson));
+      answerBoard = Ngb.readNgb(ngbContents!);
       if (mounted) setState(() {});
     } else if (widget.level != null) {
       answerBoard = LevelToBoard.generate(widget.level!);
@@ -87,12 +87,12 @@ class _PlayPageState extends State<PlayPage> {
           ),
           content: Column(
             children: [
-              if (imageInfo != null) ...[
+              if (imageBytes != null) ...[
                 Image(
                   image: MemoryImage(imageBytes!),
                 ),
                 const SizedBox(height: 8),
-                RichText(
+                if (imageInfo != null) RichText(
                   text: t.play.imageAttribution(
                     author: TextSpan(
                       text: imageInfo!.authorName,
