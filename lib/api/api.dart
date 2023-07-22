@@ -85,6 +85,14 @@ class PixabayImage {
   final String webformatUrl;
   final Size webformatSize;
 
+  final int authorId;
+  final String authorName;
+  final String authorImageUrl;
+  String get authorPageUrl => 'https://pixabay.com/users/'
+      '${Uri.encodeComponent(authorName.toLowerCase())}-$authorId/'
+      '?utm_source=link-attribution&utm_medium=referral'
+      '&utm_campaign=image&utm_content=$id';
+
   const PixabayImage._({
     required this.id,
     required this.pageUrl,
@@ -92,6 +100,9 @@ class PixabayImage {
     required this.previewSize,
     required this.webformatUrl,
     required this.webformatSize,
+    required this.authorId,
+    required this.authorName,
+    required this.authorImageUrl,
   });
   
   factory PixabayImage.fromJson(Map<String, dynamic> json) {
@@ -108,6 +119,9 @@ class PixabayImage {
         json['webformatWidth'].toDouble(),
         json['webformatHeight'].toDouble(),
       ),
+      authorId: json['user_id'],
+      authorName: json['user'],
+      authorImageUrl: json['userImageURL'],
     );
   }
 
@@ -121,6 +135,9 @@ class PixabayImage {
       'webformatURL': webformatUrl,
       'webformatWidth': webformatSize.width,
       'webformatHeight': webformatSize.height,
+      'user_id': authorId,
+      'user': authorName,
+      'userImageURL': authorImageUrl,
     };
   }
 }

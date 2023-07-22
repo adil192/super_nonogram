@@ -18,6 +18,8 @@ void main() {
     expect(image.previewSize, const Size(150, 84));
     expect(image.webformatUrl, 'https://pixabay.com/get/35bbf209e13e39d2_640.jpg');
     expect(image.webformatSize, const Size(640, 360));
+    expect(image.authorPageUrl, 'https://pixabay.com/users/josch13-48777/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=195893');
+    expect(image.authorImageUrl, 'https://cdn.pixabay.com/user/2013/11/05/02-10-23-764_250x250.jpg');
   });
 }
 
