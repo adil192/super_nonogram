@@ -86,6 +86,7 @@ class _PlayPageState extends State<PlayPage> {
             ),
           ),
           content: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               if (imageBytes != null) ...[
                 ConstrainedBox(
