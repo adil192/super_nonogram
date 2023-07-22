@@ -26,7 +26,7 @@ abstract class PixabayApi {
     }
   }
 
-  static Future<(Uint8List?, BoardState?)> getBoardFromSearch(String query) async {
+  static Future<(PixabayImage?, Uint8List?, BoardState?)> getBoardFromSearch(String query) async {
     final searchResults = await search(query);
     for (final image in searchResults.images) {
       if (kDebugMode) print('Trying to import image ${image.id} from ${image.webformatUrl}');
@@ -35,11 +35,12 @@ abstract class PixabayApi {
       if (response.statusCode != 200) {
         throw Exception('Pixabay image download error: ${response.statusCode}');
       }
+      final imageBytes = response.bodyBytes;
 
-      final board = await ImageToBoard.importFromBytes(response.bodyBytes);
-      if (board != null) return (response.bodyBytes, board);
+      final board = await ImageToBoard.importFromBytes(imageBytes);
+      if (board != null) return (image, imageBytes, board);
     }
-    return (null, null);
+    return (null, null, null);
   }
 }
 

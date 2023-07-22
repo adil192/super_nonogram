@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:super_nonogram/api/api.dart';
@@ -83,14 +85,15 @@ class _SearchPageState extends State<SearchPage> {
                         final query = _searchController.text;
                         final file = '/${Uri.encodeComponent(query)}.ngb';
                         if (!await FileManager.doesFileExist(file)) {
-                          final (srcImage, board) = await PixabayApi.getBoardFromSearch(query);
-                          if (board == null || srcImage == null) {
+                          final (info, srcImage, board) = await PixabayApi.getBoardFromSearch(query);
+                          if (info == null || srcImage == null || board == null) {
                             _failedSearch = true;
                             return;
                           }
                           final ngb = Ngb.writeNgb(board);
                           await FileManager.writeFile(file, string: ngb);
                           await FileManager.writeFile('/${Uri.encodeComponent(query)}.png', bytes: srcImage);
+                          await FileManager.writeFile('/${Uri.encodeComponent(query)}.json', string: jsonEncode(info));
                         }
                         if (!mounted) return;
                         GoRouter.of(context).push('/play?query=${Uri.encodeComponent(query)}');

@@ -13,7 +13,7 @@ abstract class FileManager {
   static Future<void> writeFile(String path, {String? string, Uint8List? bytes}) async {
     assert(path.startsWith('/'));
     if (string != null) {
-      assert(path.endsWith('.ngb'));
+      assert(path.endsWith('.ngb') || path.endsWith('.json'));
     } else if (bytes != null) {
       assert(path.endsWith('.png'));
     } else {
@@ -42,7 +42,7 @@ abstract class FileManager {
   static Future<T> readFile<T>(String path) async {
     assert(path.startsWith('/'));
     if (T == String) {
-      assert(path.endsWith('.ngb'));
+      assert(path.endsWith('.ngb') || path.endsWith('.json'));
     } else if (T == Uint8List) {
       assert(path.endsWith('.png'));
     } else {
