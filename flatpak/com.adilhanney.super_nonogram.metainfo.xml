@@ -71,6 +71,13 @@
     </screenshots>
 
     <releases>
+        <release version="0.7.3" type="development" date="2023-07-22">
+            <description>
+                <ul>
+                    <li>Attribution is now displayed for images from Pixabay</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.7.2" type="development" date="2023-07-17">
             <description>
                 <ul>
