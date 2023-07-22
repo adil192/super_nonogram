@@ -33,14 +33,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
-  blobs:
-    dependency: "direct main"
-    description:
-      name: blobs
-      sha256: "7fb3f0d9928e73c646d5ad418a6755eae825a5572f1334f3c3a7d74fd471e9c3"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   boolean_selector:
     dependency: transitive
     description:

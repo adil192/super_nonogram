@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:super_nonogram/ads/banner_ad_widget.dart';
 import 'package:super_nonogram/data/prefs.dart';
 import 'package:super_nonogram/i18n/strings.g.dart';
-import 'package:super_nonogram/settings/settings_blob.dart';
+import 'package:super_nonogram/settings/settings_item.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -29,30 +29,31 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           child: ListView(
             children: [
-              // ad banner
-              if (AdState.adsSupported) const Padding(
-                padding: EdgeInsets.all(32),
-                child: BannerAdWidget(
-                  adSize: AdSize.mediumRectangle,
-                ),
-              ),
-      
-              // ad consent
-              if (AdState.adsSupported) SettingsBlob(
-                onTap: AdState.showConsentForm,
-                children: [
-                  const FaIcon(FontAwesomeIcons.rectangleAd),
-                  Text(
-                    t.settings.configureAdsConsent,
-                    style: TextStyle(
-                      color: colorScheme.onBackground,
-                    ),
+              if (AdState.adsSupported) ...[
+                // ad banner
+                const Padding(
+                  padding: EdgeInsets.all(32),
+                  child: BannerAdWidget(
+                    adSize: AdSize.mediumRectangle,
                   ),
-                ],
-              ),
+                ),
+                const Divider(),
+
+                // ad consent
+                SettingsItem(
+                  onTap: AdState.showConsentForm,
+                  children: [
+                    const FaIcon(FontAwesomeIcons.rectangleAd),
+                    Text(
+                      t.settings.configureAdsConsent,
+                    ),
+                  ],
+                ),
+                const Divider(),
+              ],
       
               // hyperlegible font
-              SettingsBlob(
+              SettingsItem(
                 onTap: () => setState(() {
                   Prefs.hyperlegibleFont.value = !Prefs.hyperlegibleFont.value;
                 }),
@@ -61,14 +62,10 @@ class _SettingsPageState extends State<SettingsPage> {
                     'Aa',
                     style: TextStyle(
                       fontSize: iconTheme.size ?? 24,
-                      color: colorScheme.onBackground,
                     ),
                   ),
                   Text(
                     t.settings.hyperlegibleFont,
-                    style: TextStyle(
-                      color: colorScheme.onBackground,
-                    ),
                   ),
                   Switch(
                     value: Prefs.hyperlegibleFont.value,
@@ -78,6 +75,30 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ],
               ),
+              const Divider(),
+
+              if (AdState.adsSupported) ...[
+                // ad banner
+                const Padding(
+                  padding: EdgeInsets.all(32),
+                  child: BannerAdWidget(
+                    adSize: AdSize.mediumRectangle,
+                  ),
+                ),
+                const Divider(),
+              ] else ...[
+                // something to put at the bottom after the last divider
+                SettingsItem(
+                  onTap: () {},
+                  children: const [
+                    Image(
+                      image: AssetImage('assets/icon/resized/icon-512x512.png'),
+                      width: 128,
+                      height: 128,
+                    ),
+                  ],
+                ),
+              ],
             ],
           ),
         ),

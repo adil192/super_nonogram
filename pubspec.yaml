@@ -59,8 +59,6 @@ dependencies:
   google_mobile_ads: ^3.0.0
   font_awesome_flutter: ^10.5.0
 
-  blobs: ^2.0.0
-
   games_services: ^3.0.1
 
   url_launcher: ^6.1.12
@@ -91,6 +89,8 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/icon/resized/icon-512x512.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
