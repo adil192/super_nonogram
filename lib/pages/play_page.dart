@@ -1,11 +1,14 @@
+import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:games_services/games_services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:super_nonogram/ads/banner_ad_widget.dart';
+import 'package:super_nonogram/api/api.dart';
 import 'package:super_nonogram/api/file_manager.dart';
 import 'package:super_nonogram/api/level_to_board.dart';
 import 'package:super_nonogram/board/board.dart';
@@ -16,6 +19,7 @@ import 'package:super_nonogram/data/prefs.dart';
 import 'package:super_nonogram/games_services/achievement_ids.dart';
 import 'package:super_nonogram/games_services/games_services_helper.dart';
 import 'package:super_nonogram/i18n/strings.g.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PlayPage extends StatefulWidget {
   const PlayPage({
@@ -33,7 +37,8 @@ class PlayPage extends StatefulWidget {
 }
 
 class _PlayPageState extends State<PlayPage> {
-  Uint8List? srcImage;
+  PixabayImage? imageInfo;
+  Uint8List? imageBytes;
   BoardState? answerBoard;
   
   TileState currentTileAction = TileState.selected;
@@ -46,8 +51,11 @@ class _PlayPageState extends State<PlayPage> {
 
   void loadBoard() async {
     if (widget.query != null) {
-      final ngbContents = await FileManager.readFile<String>('/${Uri.encodeComponent(widget.query!)}.ngb');
-      srcImage = await FileManager.readFile<Uint8List>('/${Uri.encodeComponent(widget.query!)}.png');
+      final encodedQuery = Uri.encodeComponent(widget.query!);
+      final ngbContents = await FileManager.readFile<String>('/$encodedQuery.ngb');
+      final infoJson = await FileManager.readFile<String>('/$encodedQuery.json');
+      imageBytes = await FileManager.readFile<Uint8List>('/$encodedQuery.png');
+      imageInfo = PixabayImage.fromJson(jsonDecode(infoJson));
       answerBoard = Ngb.readNgb(ngbContents);
       if (mounted) setState(() {});
     } else if (widget.level != null) {
@@ -77,8 +85,39 @@ class _PlayPageState extends State<PlayPage> {
               color: colorScheme.onSurface,
             ),
           ),
-          content: srcImage == null ? null : Image(
-            image: MemoryImage(srcImage!),
+          content: Column(
+            children: [
+              if (imageInfo != null) ...[
+                Image(
+                  image: MemoryImage(imageBytes!),
+                ),
+                const SizedBox(height: 8),
+                RichText(
+                  text: t.play.imageAttribution(
+                    author: TextSpan(
+                      text: imageInfo!.authorName,
+                      style: TextStyle(
+                        color: colorScheme.primary,
+                        decoration: TextDecoration.underline,
+                      ),
+                      recognizer: TapGestureRecognizer()..onTap = () {
+                        launchUrl(Uri.parse(imageInfo!.authorPageUrl));
+                      },
+                    ),
+                    pixabay: TextSpan(
+                      text: 'Pixabay',
+                      style: TextStyle(
+                        color: colorScheme.primary,
+                        decoration: TextDecoration.underline,
+                      ),
+                      recognizer: TapGestureRecognizer()..onTap = () {
+                        launchUrl(Uri.parse(imageInfo!.pageUrl));
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ],
           ),
           actions: [
             TextButton(
@@ -118,8 +157,8 @@ class _PlayPageState extends State<PlayPage> {
   Widget build(BuildContext context) {
     final parentTheme = Theme.of(context);
     return FutureBuilder(
-      future: srcImage == null ? null : ColorScheme.fromImageProvider(
-        provider: MemoryImage(srcImage!),
+      future: imageBytes == null ? null : ColorScheme.fromImageProvider(
+        provider: MemoryImage(imageBytes!),
         brightness: parentTheme.brightness,
       ),
       builder: (context, snapshot) {
@@ -170,7 +209,7 @@ class _PlayPageState extends State<PlayPage> {
                       ? const CircularProgressIndicator()
                       : Board(
                           answerBoard: answerBoard!,
-                          srcImage: srcImage,
+                          srcImage: imageBytes,
                           onSolved: onSolved,
                           currentTileAction: currentTileAction,
                         ),

@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 1
-/// Strings: 19
+/// Strings: 20
 ///
-/// Built on 2023-07-15 at 20:46 UTC
+/// Built on 2023-07-22 at 17:39 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -186,6 +186,12 @@ class _StringsPlayEn {
 	String get restartLevel => 'Restart level';
 	String get restartPuzzle => 'Restart puzzle';
 	String get backToTitlePage => 'Back to title page';
+	TextSpan imageAttribution({required InlineSpan author, required InlineSpan pixabay}) => TextSpan(children: [
+		const TextSpan(text: 'Image by '),
+		author,
+		const TextSpan(text: ' from '),
+		pixabay,
+	]);
 }
 
 // Path: settings

@@ -19,7 +19,8 @@
     "nextLevel": "Next level",
     "restartLevel": "Restart level",
     "restartPuzzle": "Restart puzzle",
-    "backToTitlePage": "Back to title page"
+    "backToTitlePage": "Back to title page",
+    "imageAttribution(rich)": "Image by $author from $pixabay"
   },
   "settings": {
     "settings": "Settings",
