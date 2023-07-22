@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -95,12 +96,29 @@ class _BoardState extends State<Board> {
       tapHoldTimer?.cancel();
     }
 
-    final tileState = board[y][x];
-    final backupTileState = boardBackup[panStartCoordinate.y][panStartCoordinate.x];
-
     final TileState targetTileState = secondaryInput
         ? TileState.crossed
         : widget.currentTileAction;
+
+    /// This tile is either in the same row or the same column as the pan start tile.
+    bool inSameRow = y == panStartCoordinate.y;
+
+    // Interpolate between the start and end coordinates.
+    if (inSameRow) {
+      for (int i = min(x, panStartCoordinate.x); i <= max(x, panStartCoordinate.x); i++) {
+        _updateTile(i, y, targetTileState);
+      }
+    } else {
+      for (int i = min(y, panStartCoordinate.y); i <= max(y, panStartCoordinate.y); i++) {
+        _updateTile(x, i, targetTileState);
+      }
+    }
+
+    currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
+  }
+  void _updateTile(int x, int y, TileState targetTileState) {
+    final tileState = board[y][x];
+    final backupTileState = boardBackup[panStartCoordinate.y][panStartCoordinate.x];
 
     if (backupTileState.value == targetTileState) {
       if (tileState.value == targetTileState) {
@@ -115,8 +133,6 @@ class _BoardState extends State<Board> {
       // so just set the tile state indiscriminately
       tileState.value = targetTileState;
     }
-
-    currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
   }
 
   /// Handles cases where a one-finger pan turns into a two-finger pan.
