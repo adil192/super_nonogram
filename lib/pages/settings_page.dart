@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:super_nonogram/ads/banner_ad_widget.dart';
 import 'package:super_nonogram/data/prefs.dart';
 import 'package:super_nonogram/i18n/strings.g.dart';
+import 'package:super_nonogram/settings/animated_app_icon.dart';
 import 'package:super_nonogram/settings/settings_item.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -86,19 +87,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 const Divider(),
-              ] else ...[
-                // something to put at the bottom after the last divider
-                SettingsItem(
-                  onTap: () {},
-                  children: const [
-                    Image(
-                      image: AssetImage('assets/icon/resized/icon-512x512.png'),
-                      width: 128,
-                      height: 128,
-                    ),
-                  ],
-                ),
               ],
+
+              // something to put at the bottom after the last divider
+              const AnimatedAppIcon(),
             ],
           ),
         ),
