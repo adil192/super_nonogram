@@ -1,0 +1,3 @@
+• Improved input to prevent gaps when dragging to select tiles
+• Improved the settings page
+• The title screen is now darker in dark mode
