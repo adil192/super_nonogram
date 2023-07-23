@@ -23,75 +23,80 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         title: Text(t.settings.settings),
       ),
-      body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: 600,
-          ),
-          child: ListView(
-            children: [
-              if (AdState.adsSupported) ...[
-                // ad banner
-                const Padding(
-                  padding: EdgeInsets.all(32),
-                  child: BannerAdWidget(
-                    adSize: AdSize.mediumRectangle,
+      body: DefaultTextStyle.merge(
+        style: TextStyle(
+          color: colorScheme.onBackground,
+        ),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 600,
+            ),
+            child: ListView(
+              children: [
+                if (AdState.adsSupported) ...[
+                  // ad banner
+                  const Padding(
+                    padding: EdgeInsets.all(32),
+                    child: BannerAdWidget(
+                      adSize: AdSize.mediumRectangle,
+                    ),
                   ),
-                ),
-                const Divider(),
-
-                // ad consent
+                  const Divider(),
+      
+                  // ad consent
+                  SettingsItem(
+                    onTap: AdState.showConsentForm,
+                    children: [
+                      const FaIcon(FontAwesomeIcons.rectangleAd),
+                      Text(
+                        t.settings.configureAdsConsent,
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                ],
+        
+                // hyperlegible font
                 SettingsItem(
-                  onTap: AdState.showConsentForm,
+                  onTap: () => setState(() {
+                    Prefs.hyperlegibleFont.value = !Prefs.hyperlegibleFont.value;
+                  }),
                   children: [
-                    const FaIcon(FontAwesomeIcons.rectangleAd),
                     Text(
-                      t.settings.configureAdsConsent,
+                      'Aa',
+                      style: TextStyle(
+                        fontSize: iconTheme.size ?? 24,
+                      ),
+                    ),
+                    Text(
+                      t.settings.hyperlegibleFont,
+                    ),
+                    Switch(
+                      value: Prefs.hyperlegibleFont.value,
+                      onChanged: (_) => setState(() {
+                        Prefs.hyperlegibleFont.value = !Prefs.hyperlegibleFont.value;
+                      }),
                     ),
                   ],
                 ),
                 const Divider(),
-              ],
       
-              // hyperlegible font
-              SettingsItem(
-                onTap: () => setState(() {
-                  Prefs.hyperlegibleFont.value = !Prefs.hyperlegibleFont.value;
-                }),
-                children: [
-                  Text(
-                    'Aa',
-                    style: TextStyle(
-                      fontSize: iconTheme.size ?? 24,
+                if (AdState.adsSupported) ...[
+                  // ad banner
+                  const Padding(
+                    padding: EdgeInsets.all(32),
+                    child: BannerAdWidget(
+                      adSize: AdSize.mediumRectangle,
                     ),
                   ),
-                  Text(
-                    t.settings.hyperlegibleFont,
-                  ),
-                  Switch(
-                    value: Prefs.hyperlegibleFont.value,
-                    onChanged: (_) => setState(() {
-                      Prefs.hyperlegibleFont.value = !Prefs.hyperlegibleFont.value;
-                    }),
-                  ),
+                  const Divider(),
                 ],
-              ),
-              const Divider(),
-
-              if (AdState.adsSupported) ...[
-                // ad banner
-                const Padding(
-                  padding: EdgeInsets.all(32),
-                  child: BannerAdWidget(
-                    adSize: AdSize.mediumRectangle,
-                  ),
-                ),
-                const Divider(),
+      
+                // something to put at the bottom after the last divider
+                const AnimatedAppIcon(),
               ],
-
-              // something to put at the bottom after the last divider
-              const AnimatedAppIcon(),
-            ],
+            ),
           ),
         ),
       ),
