@@ -34,9 +34,18 @@ class TitlePage extends StatelessWidget {
       borderRadius: BorderRadius.circular(buttonFontSize * 2),
     );
 
+    final Color bg, fg;
+    if (colorScheme.brightness == Brightness.light) {
+      bg = colorScheme.primary;
+      fg = colorScheme.onPrimary;
+    } else {
+      bg = colorScheme.background;
+      fg = colorScheme.onBackground;
+    }
+
     return Scaffold(
       body: ColoredBox(
-        color: colorScheme.primary,
+        color: bg,
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(vertical: 32),
@@ -47,7 +56,7 @@ class TitlePage extends StatelessWidget {
                   t.title.appName,
                   style: TextStyle(
                     fontSize: titleFontSize,
-                    color: colorScheme.onPrimary,
+                    color: fg,
                   ),
                 ),
                 const SizedBox(height: 64),
