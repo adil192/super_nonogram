@@ -68,8 +68,10 @@ class _AnimatedAppIconState extends State<AnimatedAppIcon> with TickerProviderSt
 }
 
 class _ScaleHeartBeatTween extends Tween<double> {
-  _ScaleHeartBeatTween({this.minScale = 0.8})
-      : super(begin: 1, end: 1);
+  _ScaleHeartBeatTween({
+    // ignore: unused_element
+    this.minScale = 0.8,
+  })  : super(begin: 1, end: 1);
 
   final double minScale;
 
