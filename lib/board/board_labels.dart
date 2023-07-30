@@ -27,7 +27,8 @@ class BoardLabels {
   String labelColumn(int x) => columns[x].join('\n');
   String labelRow(int y) => rows[y].join(' ');
 
-  const BoardLabels._({
+  @visibleForTesting
+  const BoardLabels.fromLists({
     required this.columns,
     required this.rows,
   });
@@ -57,7 +58,7 @@ class BoardLabels {
       }
     }
 
-    return BoardLabels._(
+    return BoardLabels.fromLists(
       columns: columns.map((column) => column.where((group) => group != 0).toList()).toList(),
       rows: rows.map((row) => row.where((group) => group != 0).toList()).toList(),
     );

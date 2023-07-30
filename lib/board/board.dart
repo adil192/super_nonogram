@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:super_nonogram/board/board_labels.dart';
 import 'package:super_nonogram/board/tile.dart';
 import 'package:super_nonogram/board/tile_state.dart';
@@ -26,12 +27,18 @@ class Board extends StatefulWidget {
   final TileState currentTileAction;
 
   static const double tileSize = 100;
+  static const double tileSpacing = Board.tileSize * 0.1;
+  static const double labelFontSize = tileSize * 0.2;
 
   @override
-  State<Board> createState() => _BoardState();
+  State<Board> createState() => BoardWidgetState();
 }
 
-class _BoardState extends State<Board> {
+@visibleForTesting
+class BoardWidgetState extends State<Board> {
+  @visibleForTesting
+  static const double colLabelLineHeight = 1.2;
+
   late final int width = widget.answerBoard[0].length;
   late final int height = widget.answerBoard.length;
   late final BoardLabels answer = BoardLabels.fromBoardState(widget.answerBoard, width, height);
@@ -63,8 +70,9 @@ class _BoardState extends State<Board> {
   Coordinate panStartCoordinate = (x: 0, y: 0);
 
   Coordinate getCoordinateOfPosition(Offset position) {
-    final x = position.dx ~/ Board.tileSize - 1;
-    final y = position.dy ~/ Board.tileSize - 1;
+    final columnLabelsHeight = getColumnLabelsHeight(answer);
+    final x = ((position.dx - Board.tileSize) / Board.tileSize).floor();
+    final y = ((position.dy - columnLabelsHeight) / Board.tileSize).floor();
     return (x: x, y: y);
   }
   TileRelation getTileRelation(int x, int y) {
@@ -181,6 +189,19 @@ class _BoardState extends State<Board> {
     widget.onSolved();
   }
 
+  /// Returns the expected height of the first row
+  /// (the one with the column labels).
+  @visibleForTesting
+  static double getColumnLabelsHeight(BoardLabels answer) {
+    /// The number of lines in the longest column label.
+    final lines = answer.columns
+        .map((column) => column.length)
+        .reduce(max);
+
+    return lines * Board.labelFontSize * colLabelLineHeight
+        + Board.tileSpacing / 2;
+  }
+
   @override
   void initState() {
     autoselectCompleteRowsCols();
@@ -191,149 +212,164 @@ class _BoardState extends State<Board> {
 
   @override
   Widget build(BuildContext context) {
+    final columnLabelsHeight = getColumnLabelsHeight(answer);
     return FittedBox(
-      child: SizedBox(
-        width: Board.tileSize * (width + 1),
-        height: Board.tileSize * (height + 1),
-        child: Listener(
-          onPointerDown: (event) {
-            secondaryInput = event.buttons == kSecondaryButton;
-          },
-          onPointerUp: (event) {
-            secondaryInput = false;
-          },
-          child: InteractiveViewer(
-            onInteractionStart: (details) {
-              isPanCancelled = false;
-              final (:x, :y) = getCoordinateOfPosition(details.localFocalPoint);
-              onPanStart(x, y);
-              panStartCoordinate = (x: x, y: y);
-              switch (getTileRelation(x, y)) {
-                case TileRelation.valid:
-                  panStartCoordinate = (x: x, y: y);
+      child: Padding(
+        padding: const EdgeInsets.all(Board.tileSpacing * 2),
+        child: SizedBox(
+          width: Board.tileSize * (width + 1),
+          height: Board.tileSize * height + columnLabelsHeight,
+          child: Listener(
+            onPointerDown: (event) {
+              secondaryInput = event.buttons == kSecondaryButton;
+            },
+            onPointerUp: (event) {
+              secondaryInput = false;
+            },
+            child: InteractiveViewer(
+              onInteractionStart: (details) {
+                isPanCancelled = false;
+                final (:x, :y) = getCoordinateOfPosition(details.localFocalPoint);
+                onPanStart(x, y);
+                panStartCoordinate = (x: x, y: y);
+                switch (getTileRelation(x, y)) {
+                  case TileRelation.valid:
+                    panStartCoordinate = (x: x, y: y);
+                    onPanUpdate(x, y);
+                  case TileRelation.outOfBounds:
+                  case TileRelation.notInSameRowOrColumn:
+                    panStartCoordinate = (x: 0, y: 0);
+                    isPanCancelled = true;
+                }
+              },
+              onInteractionUpdate: (details) {
+                if (checkIfPanCancelled(details)) return;
+                final (:x, :y) = getCoordinateOfPosition(details.localFocalPoint);
+                if (getTileRelation(x, y) == TileRelation.valid) {
                   onPanUpdate(x, y);
-                case TileRelation.outOfBounds:
-                case TileRelation.notInSameRowOrColumn:
-                  panStartCoordinate = (x: 0, y: 0);
-                  isPanCancelled = true;
-              }
-            },
-            onInteractionUpdate: (details) {
-              if (checkIfPanCancelled(details)) return;
-              final (:x, :y) = getCoordinateOfPosition(details.localFocalPoint);
-              if (getTileRelation(x, y) == TileRelation.valid) {
-                onPanUpdate(x, y);
-              }
-            },
-            onInteractionEnd: (details) {
-              tapHoldTimer?.cancel();
-            },
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                GridView.builder(
-                  itemCount: width * height + width + height + 1,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                }
+              },
+              onInteractionEnd: (details) {
+                tapHoldTimer?.cancel();
+              },
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  AlignedGridView.count(
+                    itemCount: width * height + width + height + 1,
+                    physics: const NeverScrollableScrollPhysics(),
                     crossAxisCount: width + 1,
-                    mainAxisSpacing: Board.tileSize * 0.1,
-                    crossAxisSpacing: Board.tileSize * 0.1,
-                  ),
-                  padding: const EdgeInsets.all(Board.tileSize * 0.2),
-                  itemBuilder: (context, index) {
-                    final int x = index % (width + 1) - 1;
-                    final int y = index ~/ (width + 1) - 1;
-                    late final colorScheme = Theme.of(context).colorScheme;
-                    return switch ((x, y)) {
-                      (-1, -1) => const SizedBox(),
-                      (-1, _) => Align(
-                        alignment: Alignment.centerRight,
-                        child: ValueListenableBuilder(
-                          valueListenable: currentAnswers,
-                          builder: (context, _, child) {
-                            final status = BoardLabels.statusOfRow(y, answer, currentAnswers.value);
-                            return AnimatedOpacity(
-                              opacity: switch (status) {
-                                BoardLabelStatus.correct => 0,
-                                _ => 1,
-                              },
-                              duration: const Duration(milliseconds: 500),
-                              child: DefaultTextStyle.merge(
-                                style: TextStyle(
-                                  fontSize: Board.tileSize * 0.2,
-                                  color: switch (status) {
-                                    BoardLabelStatus.correct => colorScheme.primary,
-                                    BoardLabelStatus.incorrect => colorScheme.error,
-                                    BoardLabelStatus.incomplete => colorScheme.onBackground,
-                                  },
+                    itemBuilder: (context, index) {
+                      final int x = index % (width + 1) - 1;
+                      final int y = index ~/ (width + 1) - 1;
+                      late final colorScheme = Theme.of(context).colorScheme;
+                      return switch ((x, y)) {
+                        (-1, -1) => const SizedBox(),
+                        (-1, _) => Align(
+                          alignment: Alignment.centerRight,
+                          child: ValueListenableBuilder(
+                            valueListenable: currentAnswers,
+                            builder: (context, _, child) {
+                              final status = BoardLabels.statusOfRow(y, answer, currentAnswers.value);
+                              return AnimatedOpacity(
+                                opacity: switch (status) {
+                                  BoardLabelStatus.correct => 0,
+                                  _ => 1,
+                                },
+                                duration: const Duration(milliseconds: 500),
+                                child: DefaultTextStyle.merge(
+                                  style: TextStyle(
+                                    fontSize: Board.tileSize * 0.2,
+                                    color: switch (status) {
+                                      BoardLabelStatus.correct => colorScheme.primary,
+                                      BoardLabelStatus.incorrect => colorScheme.error,
+                                      BoardLabelStatus.incomplete => colorScheme.onBackground,
+                                    },
+                                  ),
+                                  child: child!,
                                 ),
-                                child: child!,
+                              );
+                            },
+                            child: Text(
+                              answer.labelRow(y),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        (_, -1) => Align(
+                          alignment: Alignment.bottomCenter,
+                          child: ValueListenableBuilder(
+                            valueListenable: currentAnswers,
+                            builder: (context, _, child) {
+                              final status = BoardLabels.statusOfColumn(x, answer, currentAnswers.value);
+                              return AnimatedOpacity(
+                                opacity: switch (status) {
+                                  BoardLabelStatus.correct => 0,
+                                  _ => 1,
+                                },
+                                duration: const Duration(milliseconds: 500),
+                                child: DefaultTextStyle.merge(
+                                  style: TextStyle(
+                                    height: colLabelLineHeight,
+                                    fontSize: Board.tileSize * 0.2,
+                                    color: switch (status) {
+                                      BoardLabelStatus.correct => colorScheme.primary,
+                                      BoardLabelStatus.incorrect => colorScheme.error,
+                                      BoardLabelStatus.incomplete => colorScheme.onBackground,
+                                    },
+                                  ),
+                                  child: child!,
+                                ),
+                              );
+                            },
+                            child: SizedBox(
+                              height: columnLabelsHeight,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: Board.tileSpacing / 2),
+                                child: Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Text(
+                                    answer.labelColumn(x),
+                                    textAlign: TextAlign.center,
+                                    overflow: kDebugMode ? TextOverflow.clip : TextOverflow.fade,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        _ => ValueListenableBuilder(
+                          valueListenable: board[y][x],
+                          builder: (context, tileState, child) {
+                            return AspectRatio(
+                              aspectRatio: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.all(Board.tileSpacing / 2),
+                                child: Tile(
+                                  tileState: tileState,
+                                ),
                               ),
                             );
                           },
-                          child: Text(
-                            answer.labelRow(y),
-                            textAlign: TextAlign.center,
-                          ),
                         ),
+                      };
+                    },
+                  ),
+                  if (widget.srcImage != null) Opacity(
+                    opacity: 0.2,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: Board.tileSize,
+                        left: Board.tileSize,
                       ),
-                      (_, -1) => Align(
-                        alignment: Alignment.bottomCenter,
-                        child: ValueListenableBuilder(
-                          valueListenable: currentAnswers,
-                          builder: (context, _, child) {
-                            final status = BoardLabels.statusOfColumn(x, answer, currentAnswers.value);
-                            return AnimatedOpacity(
-                              opacity: switch (status) {
-                                BoardLabelStatus.correct => 0,
-                                _ => 1,
-                              },
-                              duration: const Duration(milliseconds: 500),
-                              child: DefaultTextStyle.merge(
-                                style: TextStyle(
-                                  height: 1.2,
-                                  fontSize: Board.tileSize * 0.2,
-                                  color: switch (status) {
-                                    BoardLabelStatus.correct => colorScheme.primary,
-                                    BoardLabelStatus.incorrect => colorScheme.error,
-                                    BoardLabelStatus.incomplete => colorScheme.onBackground,
-                                  },
-                                ),
-                                child: child!,
-                              ),
-                            );
-                          },
-                          child: Text(
-                            answer.labelColumn(x),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
+                      child: Image.memory(
+                        widget.srcImage!,
+                        fit: BoxFit.fill,
                       ),
-                      _ => ValueListenableBuilder(
-                        valueListenable: board[y][x],
-                        builder: (context, tileState, child) {
-                          return Tile(
-                            tileState: tileState,
-                          );
-                        },
-                      ),
-                    };
-                  },
-                ),
-                if (widget.srcImage != null) Opacity(
-                  opacity: 0.2,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: Board.tileSize,
-                      left: Board.tileSize,
-                    ),
-                    child: Image.memory(
-                      widget.srcImage!,
-                      fit: BoxFit.fill,
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
