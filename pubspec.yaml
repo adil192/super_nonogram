@@ -56,7 +56,9 @@ dependencies:
 
   animations: ^2.0.7
 
+  app_tracking_transparency: ^2.0.4
   google_mobile_ads: ^3.0.0
+
   font_awesome_flutter: ^10.5.0
 
   games_services: ^3.0.1
