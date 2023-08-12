@@ -71,6 +71,14 @@
     </screenshots>
 
     <releases>
+        <release version="0.7.5" type="development" date="2023-08-12">
+            <description>
+                <ul>
+                    <li>Fixed column labels overflowing</li>
+                    <li>Added support for App Tracking Transparency on iOS</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.7.4" type="development" date="2023-07-23">
             <description>
                 <ul>
