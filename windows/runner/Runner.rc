@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "Adil Hanney" "\0"
-            VALUE "FileDescription", "super_nonogram" "\0"
+            VALUE "FileDescription", "Super Nonogram" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "super_nonogram" "\0"
+            VALUE "InternalName", "Super Nonogram" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 Adil Hanney. All rights reserved." "\0"
             VALUE "OriginalFilename", "super_nonogram.exe" "\0"
-            VALUE "ProductName", "super_nonogram" "\0"
+            VALUE "ProductName", "Super Nonogram" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
