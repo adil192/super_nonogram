@@ -9,7 +9,7 @@ abstract class ImageToBoard {
 
   /// The first row and column of the resized image are ignored
   /// since they're always empty.
-  static Future<BoardState?> importFromBytes(Uint8List bytes, [int width = 10]) async {
+  static Future<BoardState?> importFromBytes(Uint8List bytes, [int width = 14]) async {
     var cmd = img.Command()
       ..decodeImage(bytes)
       ..copyResize(width: width + 1, interpolation: img.Interpolation.cubic);
