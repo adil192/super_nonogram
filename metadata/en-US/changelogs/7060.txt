@@ -1,0 +1,2 @@
+• Increased the resolution of boards generated from images
+• Updated to the latest Flutter version

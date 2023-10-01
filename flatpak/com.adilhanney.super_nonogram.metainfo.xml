@@ -71,6 +71,14 @@
     </screenshots>
 
     <releases>
+        <release version="0.7.6" type="development" date="2023-10-01">
+            <description>
+                <ul>
+                    <li>Increased the resolution of boards generated from images</li>
+                    <li>Updated to the latest Flutter version</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.7.5" type="development" date="2023-08-12">
             <description>
                 <ul>
