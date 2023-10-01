@@ -92,6 +92,29 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   const Divider(),
                 ],
+
+                SettingsItem(
+                  onTap: () {
+                    showAboutDialog(
+                      context: context,
+                      applicationName: t.title.appName,
+                      applicationLegalese: t.settings.legalese,
+                    );
+                  },
+                  children: [
+                    const FaIcon(FontAwesomeIcons.info),
+                    Text(
+                      t.title.appName,
+                    ),
+                    Text(
+                      t.settings.about,
+                      style: const TextStyle(
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+                const Divider(),
       
                 // something to put at the bottom after the last divider
                 const AnimatedAppIcon(),

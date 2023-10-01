@@ -25,6 +25,8 @@
   "settings": {
     "settings": "Settings",
     "configureAdsConsent": "Configure ads consent",
-    "hyperlegibleFont": "Use Atkinson Hyperlegible font"
+    "hyperlegibleFont": "Use Atkinson Hyperlegible font",
+    "about": "Tap here for more information about this app",
+    "legalese": "Super Nonogram  Copyright (C) 2023  Adil Hanney\nThis program comes with absolutely no warranty. This is free software, and you are welcome to redistribute it under certain conditions."
   }
 }

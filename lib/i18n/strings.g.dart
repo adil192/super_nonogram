@@ -1,9 +1,12 @@
 /// Generated file. Do not edit.
 ///
-/// Locales: 1
-/// Strings: 20
+/// Original: lib/i18n
+/// To regenerate, run: `dart run slang`
 ///
-/// Built on 2023-07-22 at 17:39 UTC
+/// Locales: 1
+/// Strings: 22
+///
+/// Built on 2023-10-01 at 16:49 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -204,4 +207,6 @@ class _StringsSettingsEn {
 	String get settings => 'Settings';
 	String get configureAdsConsent => 'Configure ads consent';
 	String get hyperlegibleFont => 'Use Atkinson Hyperlegible font';
+	String get about => 'Tap here for more information about this app';
+	String get legalese => 'Super Nonogram  Copyright (C) 2023  Adil Hanney\nThis program comes with absolutely no warranty. This is free software, and you are welcome to redistribute it under certain conditions.';
 }
