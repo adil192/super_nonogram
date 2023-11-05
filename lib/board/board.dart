@@ -4,10 +4,8 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:super_nonogram/board/board_grid.dart';
 import 'package:super_nonogram/board/board_labels.dart';
-import 'package:super_nonogram/board/tile.dart';
 import 'package:super_nonogram/board/tile_state.dart';
 
 typedef BoardState = List<List<ValueNotifier<TileState>>>;
