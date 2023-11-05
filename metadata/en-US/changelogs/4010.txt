@@ -1,5 +1,0 @@
-• Fixed app name on Android
-• Fixed web compatibility
-• Levels get hard more slowly
-• Added an ad to the settings page
-• UI improvements

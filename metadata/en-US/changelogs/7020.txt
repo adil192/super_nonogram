@@ -1,3 +1,0 @@
-• You can now tap and hold to cross out tiles (or right click on desktop)
-• Fixed only the first achievement being awarded on Android
-• Fixed the app name on iOS and macOS
