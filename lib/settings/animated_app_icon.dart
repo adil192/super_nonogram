@@ -10,7 +10,8 @@ class AnimatedAppIcon extends StatefulWidget {
   State<AnimatedAppIcon> createState() => _AnimatedAppIconState();
 }
 
-class _AnimatedAppIconState extends State<AnimatedAppIcon> with TickerProviderStateMixin {
+class _AnimatedAppIconState extends State<AnimatedAppIcon>
+    with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -27,6 +28,7 @@ class _AnimatedAppIconState extends State<AnimatedAppIcon> with TickerProviderSt
 
     super.initState();
   }
+
   @override
   void dispose() {
     _controller.dispose();
@@ -48,9 +50,7 @@ class _AnimatedAppIconState extends State<AnimatedAppIcon> with TickerProviderSt
         AnimatedBuilder(
           animation: _animation,
           builder: (context, child) {
-            final scale = _controller.isAnimating
-                ? _animation.value
-                : 1.0;
+            final scale = _controller.isAnimating ? _animation.value : 1.0;
             return Transform.scale(
               scale: scale,
               child: child,
@@ -71,7 +71,7 @@ class _ScaleHeartBeatTween extends Tween<double> {
   _ScaleHeartBeatTween({
     // ignore: unused_element
     this.minScale = 0.8,
-  })  : super(begin: 1, end: 1);
+  }) : super(begin: 1, end: 1);
 
   final double minScale;
 

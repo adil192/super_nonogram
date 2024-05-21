@@ -17,7 +17,8 @@ class SettingsItem extends StatefulWidget {
   State<SettingsItem> createState() => _SettingsItemState();
 }
 
-class _SettingsItemState extends State<SettingsItem> with AutomaticKeepAliveClientMixin {
+class _SettingsItemState extends State<SettingsItem>
+    with AutomaticKeepAliveClientMixin {
   static final _r = Random();
   static (Color bg, Color fg) generateColors(Color primary) {
     final randomPrimary = Colors.primaries[_r.nextInt(Colors.primaries.length)];

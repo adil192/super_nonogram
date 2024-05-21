@@ -25,15 +25,16 @@ class _AchievementIdsLevels {
 
   final List<int> tiers = const [1, 10, 50, 100, 500, 1000];
 
-  String operator [](int level) => switch(level) {
-    1 => level1,
-    10 => level10,
-    50 => level50,
-    100 => level100,
-    500 => level500,
-    1000 => level1000,
-    _ => throw ArgumentError.value(level, 'level', 'must be 1, 10, 50, 100, 500, or 1000'),
-  };
+  String operator [](int level) => switch (level) {
+        1 => level1,
+        10 => level10,
+        50 => level50,
+        100 => level100,
+        500 => level500,
+        1000 => level1000,
+        _ => throw ArgumentError.value(
+            level, 'level', 'must be 1, 10, 50, 100, 500, or 1000'),
+      };
 }
 
 const androidAchievements = _AchievementIds(

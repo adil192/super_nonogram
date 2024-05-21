@@ -16,7 +16,7 @@ class BoardGrid extends StatelessWidget {
     required this.colLabelLineHeight,
     required this.columnLabelsHeight,
   });
-  
+
   final int width;
   final int height;
   final BoardLabels answer;
@@ -39,92 +39,98 @@ class BoardGrid extends StatelessWidget {
         return switch ((x, y)) {
           (-1, -1) => const SizedBox(),
           (-1, _) => Align(
-            alignment: Alignment.centerRight,
-            child: ValueListenableBuilder(
-              valueListenable: currentAnswers,
-              builder: (context, _, child) {
-                final status = BoardLabels.statusOfRow(y, answer, currentAnswers.value);
-                return AnimatedOpacity(
-                  opacity: switch (status) {
-                    BoardLabelStatus.correct => 0,
-                    _ => 1,
-                  },
-                  duration: const Duration(milliseconds: 500),
-                  child: DefaultTextStyle.merge(
-                    style: TextStyle(
-                      fontSize: Board.tileSize * 0.2,
-                      color: switch (status) {
-                        BoardLabelStatus.correct => colorScheme.primary,
-                        BoardLabelStatus.incorrect => colorScheme.error,
-                        BoardLabelStatus.incomplete => colorScheme.onBackground,
-                      },
+              alignment: Alignment.centerRight,
+              child: ValueListenableBuilder(
+                valueListenable: currentAnswers,
+                builder: (context, _, child) {
+                  final status =
+                      BoardLabels.statusOfRow(y, answer, currentAnswers.value);
+                  return AnimatedOpacity(
+                    opacity: switch (status) {
+                      BoardLabelStatus.correct => 0,
+                      _ => 1,
+                    },
+                    duration: const Duration(milliseconds: 500),
+                    child: DefaultTextStyle.merge(
+                      style: TextStyle(
+                        fontSize: Board.tileSize * 0.2,
+                        color: switch (status) {
+                          BoardLabelStatus.correct => colorScheme.primary,
+                          BoardLabelStatus.incorrect => colorScheme.error,
+                          BoardLabelStatus.incomplete =>
+                            colorScheme.onBackground,
+                        },
+                      ),
+                      child: child!,
                     ),
-                    child: child!,
-                  ),
-                );
-              },
-              child: Text(
-                answer.labelRow(y),
-                textAlign: TextAlign.center,
+                  );
+                },
+                child: Text(
+                  answer.labelRow(y),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
-          ),
           (_, -1) => Align(
-            alignment: Alignment.bottomCenter,
-            child: ValueListenableBuilder(
-              valueListenable: currentAnswers,
-              builder: (context, _, child) {
-                final status = BoardLabels.statusOfColumn(x, answer, currentAnswers.value);
-                return AnimatedOpacity(
-                  opacity: switch (status) {
-                    BoardLabelStatus.correct => 0,
-                    _ => 1,
-                  },
-                  duration: const Duration(milliseconds: 500),
-                  child: DefaultTextStyle.merge(
-                    style: TextStyle(
-                      height: colLabelLineHeight,
-                      fontSize: Board.tileSize * 0.2,
-                      color: switch (status) {
-                        BoardLabelStatus.correct => colorScheme.primary,
-                        BoardLabelStatus.incorrect => colorScheme.error,
-                        BoardLabelStatus.incomplete => colorScheme.onBackground,
-                      },
+              alignment: Alignment.bottomCenter,
+              child: ValueListenableBuilder(
+                valueListenable: currentAnswers,
+                builder: (context, _, child) {
+                  final status = BoardLabels.statusOfColumn(
+                      x, answer, currentAnswers.value);
+                  return AnimatedOpacity(
+                    opacity: switch (status) {
+                      BoardLabelStatus.correct => 0,
+                      _ => 1,
+                    },
+                    duration: const Duration(milliseconds: 500),
+                    child: DefaultTextStyle.merge(
+                      style: TextStyle(
+                        height: colLabelLineHeight,
+                        fontSize: Board.tileSize * 0.2,
+                        color: switch (status) {
+                          BoardLabelStatus.correct => colorScheme.primary,
+                          BoardLabelStatus.incorrect => colorScheme.error,
+                          BoardLabelStatus.incomplete =>
+                            colorScheme.onBackground,
+                        },
+                      ),
+                      child: child!,
                     ),
-                    child: child!,
-                  ),
-                );
-              },
-              child: SizedBox(
-                height: columnLabelsHeight,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: Board.tileSpacing / 2),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      answer.labelColumn(x),
-                      textAlign: TextAlign.center,
-                      overflow: kDebugMode ? TextOverflow.clip : TextOverflow.fade,
+                  );
+                },
+                child: SizedBox(
+                  height: columnLabelsHeight,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(bottom: Board.tileSpacing / 2),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        answer.labelColumn(x),
+                        textAlign: TextAlign.center,
+                        overflow:
+                            kDebugMode ? TextOverflow.clip : TextOverflow.fade,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
           _ => ValueListenableBuilder(
-            valueListenable: board[y][x],
-            builder: (context, tileState, child) {
-              return AspectRatio(
-                aspectRatio: 1,
-                child: Padding(
-                  padding: const EdgeInsets.all(Board.tileSpacing / 2),
-                  child: Tile(
-                    tileState: tileState,
+              valueListenable: board[y][x],
+              builder: (context, tileState, child) {
+                return AspectRatio(
+                  aspectRatio: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(Board.tileSpacing / 2),
+                    child: Tile(
+                      tileState: tileState,
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
+                );
+              },
+            ),
         };
       },
     );

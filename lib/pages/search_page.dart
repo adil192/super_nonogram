@@ -76,31 +76,41 @@ class _SearchPageState extends State<SearchPage> {
                   ],
                   const SizedBox(height: 8),
                   ElevatedButton(
-                    onPressed: _disableInput ? null : () async {
-                      if (_disableInput) return;
-                      if (!_formKey.currentState!.validate()) return;
-                      _failedSearch = false;
-                      setState(() => _disableInput = true);
-                      try {
-                        final query = _searchController.text;
-                        final file = '/${Uri.encodeComponent(query)}.ngb';
-                        if (!await FileManager.doesFileExist(file)) {
-                          final (info, srcImage, board) = await PixabayApi.getBoardFromSearch(query);
-                          if (info == null || srcImage == null || board == null) {
-                            _failedSearch = true;
-                            return;
-                          }
-                          final ngb = Ngb.writeNgb(board);
-                          await FileManager.writeFile(file, string: ngb);
-                          await FileManager.writeFile('/${Uri.encodeComponent(query)}.png', bytes: srcImage);
-                          await FileManager.writeFile('/${Uri.encodeComponent(query)}.json', string: jsonEncode(info));
-                        }
-                        if (!mounted) return;
-                        GoRouter.of(context).push('/play?query=${Uri.encodeComponent(query)}');
-                      } finally {
-                        setState(() => _disableInput = false);
-                      }
-                    },
+                    onPressed: _disableInput
+                        ? null
+                        : () async {
+                            if (_disableInput) return;
+                            if (!_formKey.currentState!.validate()) return;
+                            _failedSearch = false;
+                            setState(() => _disableInput = true);
+                            try {
+                              final query = _searchController.text;
+                              final file = '/${Uri.encodeComponent(query)}.ngb';
+                              if (!await FileManager.doesFileExist(file)) {
+                                final (info, srcImage, board) =
+                                    await PixabayApi.getBoardFromSearch(query);
+                                if (info == null ||
+                                    srcImage == null ||
+                                    board == null) {
+                                  _failedSearch = true;
+                                  return;
+                                }
+                                final ngb = Ngb.writeNgb(board);
+                                await FileManager.writeFile(file, string: ngb);
+                                await FileManager.writeFile(
+                                    '/${Uri.encodeComponent(query)}.png',
+                                    bytes: srcImage);
+                                await FileManager.writeFile(
+                                    '/${Uri.encodeComponent(query)}.json',
+                                    string: jsonEncode(info));
+                              }
+                              if (!mounted) return;
+                              GoRouter.of(context).push(
+                                  '/play?query=${Uri.encodeComponent(query)}');
+                            } finally {
+                              setState(() => _disableInput = false);
+                            }
+                          },
                     child: Text(
                       t.search.create,
                     ),

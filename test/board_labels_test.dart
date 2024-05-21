@@ -57,7 +57,7 @@ void main() {
           (_) => ValueNotifier(TileState.empty),
         ),
       );
-      
+
       for (int x = 0; x < width; ++x) {
         if (x.isOdd) continue;
         boardState[0][x].value = TileState.selected;

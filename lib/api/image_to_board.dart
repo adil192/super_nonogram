@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:image/image.dart' as img;
 import 'package:super_nonogram/board/board.dart';
@@ -9,7 +8,8 @@ abstract class ImageToBoard {
 
   /// The first row and column of the resized image are ignored
   /// since they're always empty.
-  static Future<BoardState?> importFromBytes(Uint8List bytes, [int width = 14]) async {
+  static Future<BoardState?> importFromBytes(Uint8List bytes,
+      [int width = 14]) async {
     var cmd = img.Command()
       ..decodeImage(bytes)
       ..copyResize(width: width + 1, interpolation: img.Interpolation.cubic);
@@ -27,7 +27,8 @@ abstract class ImageToBoard {
 
     int selectedTiles = 0;
     for (final pixel in image) {
-      if (pixel.x == 0 || pixel.y == 0) continue; // ignore first row and column (always empty)
+      if (pixel.x == 0 || pixel.y == 0)
+        continue; // ignore first row and column (always empty)
       final selected = pixel.aNormalized > 0.5;
       if (!selected) continue;
       board[pixel.y - 1][pixel.x - 1].value = TileState.selected;
@@ -36,10 +37,12 @@ abstract class ImageToBoard {
 
     final totalTiles = (image.width - 1) * (image.height - 1);
     if (selectedTiles < totalTiles * minSelectedRatio) {
-      if (kDebugMode) print('ImageToBoard: too few tiles selected, try another image');
+      if (kDebugMode)
+        print('ImageToBoard: too few tiles selected, try another image');
       return null;
     } else if (selectedTiles > totalTiles * (1 - minSelectedRatio)) {
-      if (kDebugMode) print('ImageToBoard: too many tiles selected, try another image');
+      if (kDebugMode)
+        print('ImageToBoard: too many tiles selected, try another image');
       return null;
     }
 

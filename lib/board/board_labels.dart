@@ -6,13 +6,13 @@ import 'package:super_nonogram/board/tile_state.dart';
 
 class BoardLabels {
   /// List of groups of selected tiles for each column.
-  /// 
+  ///
   /// Each group is represented by an integer,
   /// and unselected tiles are omitted.
-  /// 
+  ///
   /// Multiple [BoardState]s can have the same [BoardLabels],
   /// so the player can solve the puzzle in multiple ways.
-  /// 
+  ///
   /// For example:
   /// - A column with a selected tile, an unselected tile, and another selected tile would be represented as [1, 1].
   /// - A column with two selected tiles, an unselected tile, and another selected tile would be represented as [2, 1].
@@ -20,7 +20,7 @@ class BoardLabels {
   final List<List<int>> columns;
 
   /// List of groups of selected tiles for each row.
-  /// 
+  ///
   /// See [columns] for more information.
   final List<List<int>> rows;
 
@@ -32,14 +32,15 @@ class BoardLabels {
     required this.columns,
     required this.rows,
   });
-  factory BoardLabels.fromBoardState(BoardState boardState, int width, int height) {
+  factory BoardLabels.fromBoardState(
+      BoardState boardState, int width, int height) {
     final List<List<int>> columns = List.generate(width, (_) => [0]);
     final List<List<int>> rows = List.generate(height, (_) => [0]);
 
     for (int y = 0; y < height; ++y) {
       for (int x = 0; x < width; ++x) {
         final selected = boardState[y][x].value == TileState.selected;
-        
+
         if (columns[x].last != 0 && !selected) {
           // Tile not selected so break column's previous group
           columns[x].add(0);
@@ -59,8 +60,11 @@ class BoardLabels {
     }
 
     return BoardLabels.fromLists(
-      columns: columns.map((column) => column.where((group) => group != 0).toList()).toList(),
-      rows: rows.map((row) => row.where((group) => group != 0).toList()).toList(),
+      columns: columns
+          .map((column) => column.where((group) => group != 0).toList())
+          .toList(),
+      rows:
+          rows.map((row) => row.where((group) => group != 0).toList()).toList(),
     );
   }
 
@@ -69,7 +73,7 @@ class BoardLabels {
     if (identical(this, other)) return true;
 
     if (other is! BoardLabels) return false;
-    
+
     for (int r = 0; r < rows.length; ++r) {
       if (!listEquals(rows[r], other.rows[r])) {
         return false;
@@ -87,12 +91,15 @@ class BoardLabels {
   @override
   int get hashCode => Object.hash(columns, rows);
 
-  static BoardLabelStatus statusOfRow(int y, BoardLabels answer, BoardLabels currentAnswers) {
+  static BoardLabelStatus statusOfRow(
+      int y, BoardLabels answer, BoardLabels currentAnswers) {
     final List<int> answerRow = answer.rows[y];
     final List<int> currentRow = currentAnswers.rows[y];
     return BoardLabelStatus.fromGroups(answerRow, currentRow);
   }
-  static BoardLabelStatus statusOfColumn(int x, BoardLabels answer, BoardLabels currentAnswers) {
+
+  static BoardLabelStatus statusOfColumn(
+      int x, BoardLabels answer, BoardLabels currentAnswers) {
     final List<int> answerColumn = answer.columns[x];
     final List<int> currentColumn = currentAnswers.columns[x];
     return BoardLabelStatus.fromGroups(answerColumn, currentColumn);
@@ -102,8 +109,10 @@ class BoardLabels {
 enum BoardLabelStatus {
   /// This row/column is definitely correct.
   correct,
+
   /// This row/column is definitely incorrect.
   incorrect,
+
   /// This row/column is neither definitely correct nor definitely incorrect.
   incomplete;
 
@@ -125,8 +134,9 @@ enum BoardLabelStatus {
     } else if (current.length > answer.length) {
       // More groups than answer, so check sum of groups
       final answerSum = answer.isEmpty
-        ? 0
-        : answer.reduce((sum, group) => sum + group + 1); // +1 for space between groups
+          ? 0
+          : answer.reduce(
+              (sum, group) => sum + group + 1); // +1 for space between groups
       final currentSum = current.reduce((sum, group) => sum + group + 1);
 
       if (currentSum > answerSum) {
@@ -137,7 +147,8 @@ enum BoardLabelStatus {
       // to the following groups of [answer].
       for (int i = 0; i < current.length; ++i) {
         // Check if group is bigger than the sum of [answer].
-        if (current[i] > answer.skip(i).reduce((sum, group) => sum + group + 1)) {
+        if (current[i] >
+            answer.skip(i).reduce((sum, group) => sum + group + 1)) {
           return BoardLabelStatus.incorrect;
         }
         // Check if group is bigger than the max of [answer].

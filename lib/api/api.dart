@@ -10,7 +10,7 @@ abstract class PixabayApi {
   static const apiKey = '25286000-bf7eb8ff8e6d2d1630cf59fae';
   static const maxResults = 5;
   static const baseUrl = 'https://pixabay.com/api/';
-  
+
   static Future<PixabaySearchResults> search(String query) async {
     final url = '$baseUrl'
         '?key=$apiKey'
@@ -26,10 +26,12 @@ abstract class PixabayApi {
     }
   }
 
-  static Future<(PixabayImage?, Uint8List?, BoardState?)> getBoardFromSearch(String query) async {
+  static Future<(PixabayImage?, Uint8List?, BoardState?)> getBoardFromSearch(
+      String query) async {
     final searchResults = await search(query);
     for (final image in searchResults.images) {
-      if (kDebugMode) print('Trying to import image ${image.id} from ${image.webformatUrl}');
+      if (kDebugMode)
+        print('Trying to import image ${image.id} from ${image.webformatUrl}');
 
       final response = await http.get(Uri.parse(image.webformatUrl));
       if (response.statusCode != 200) {
@@ -105,7 +107,7 @@ class PixabayImage {
     required this.authorName,
     required this.authorImageUrl,
   });
-  
+
   factory PixabayImage.fromJson(Map<String, dynamic> json) {
     return PixabayImage._(
       id: json['id'],

@@ -10,14 +10,16 @@ abstract class FileManager {
   static Directory? _documentsDir;
   static const String _documentsSubDir = '/nonogram';
 
-  static Future<void> writeFile(String path, {String? string, Uint8List? bytes}) async {
+  static Future<void> writeFile(String path,
+      {String? string, Uint8List? bytes}) async {
     assert(path.startsWith('/'));
     if (string != null) {
       assert(path.endsWith('.ngb') || path.endsWith('.json'));
     } else if (bytes != null) {
       assert(path.endsWith('.png'));
     } else {
-      assert(false, 'FileManager.writeFile: At least one of string or bytes must be provided');
+      assert(false,
+          'FileManager.writeFile: At least one of string or bytes must be provided');
     }
 
     if (kIsWeb) {
@@ -46,7 +48,8 @@ abstract class FileManager {
     } else if (T == Uint8List) {
       assert(path.endsWith('.png'));
     } else {
-      assert(false, 'FileManager.readFile: T ($T) must be either String or Uint8List');
+      assert(false,
+          'FileManager.readFile: T ($T) must be either String or Uint8List');
     }
 
     if (kIsWeb) {

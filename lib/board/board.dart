@@ -18,7 +18,7 @@ class Board extends StatefulWidget {
     required this.srcImage,
     required this.onSolved,
     required this.currentTileAction,
-  }): assert(currentTileAction != TileState.empty);
+  }) : assert(currentTileAction != TileState.empty);
 
   final BoardState answerBoard;
   final Uint8List? srcImage;
@@ -40,13 +40,16 @@ class BoardWidgetState extends State<Board> {
 
   late final int width = widget.answerBoard[0].length;
   late final int height = widget.answerBoard.length;
-  late final BoardLabels answer = BoardLabels.fromBoardState(widget.answerBoard, width, height);
-  late ValueNotifier<BoardLabels> currentAnswers = ValueNotifier(BoardLabels.fromBoardState(board, width, height));
+  late final BoardLabels answer =
+      BoardLabels.fromBoardState(widget.answerBoard, width, height);
+  late ValueNotifier<BoardLabels> currentAnswers =
+      ValueNotifier(BoardLabels.fromBoardState(board, width, height));
   bool get isSolved => currentAnswers.value == answer;
 
   /// Whether secondary input is currently active
   /// (right-click or stylus button)
   bool secondaryInput = false;
+
   /// If the player holds down at the start of a pan for 1s,
   /// secondary input is activated.
   Timer? tapHoldTimer;
@@ -74,6 +77,7 @@ class BoardWidgetState extends State<Board> {
     final y = ((position.dy - columnLabelsHeight) / Board.tileSize).floor();
     return (x: x, y: y);
   }
+
   TileRelation getTileRelation(int x, int y) {
     if (x < 0 || x >= width || y < 0 || y >= height) {
       return TileRelation.outOfBounds;
@@ -98,34 +102,40 @@ class BoardWidgetState extends State<Board> {
       onPanUpdate(x, y);
     });
   }
+
   void onPanUpdate(int x, int y) {
     if (x != panStartCoordinate.x || y != panStartCoordinate.y) {
       tapHoldTimer?.cancel();
     }
 
-    final TileState targetTileState = secondaryInput
-        ? TileState.crossed
-        : widget.currentTileAction;
+    final TileState targetTileState =
+        secondaryInput ? TileState.crossed : widget.currentTileAction;
 
     /// This tile is either in the same row or the same column as the pan start tile.
     bool inSameRow = y == panStartCoordinate.y;
 
     // Interpolate between the start and end coordinates.
     if (inSameRow) {
-      for (int i = min(x, panStartCoordinate.x); i <= max(x, panStartCoordinate.x); i++) {
+      for (int i = min(x, panStartCoordinate.x);
+          i <= max(x, panStartCoordinate.x);
+          i++) {
         _updateTile(i, y, targetTileState);
       }
     } else {
-      for (int i = min(y, panStartCoordinate.y); i <= max(y, panStartCoordinate.y); i++) {
+      for (int i = min(y, panStartCoordinate.y);
+          i <= max(y, panStartCoordinate.y);
+          i++) {
         _updateTile(x, i, targetTileState);
       }
     }
 
     currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
   }
+
   void _updateTile(int x, int y, TileState targetTileState) {
     final tileState = board[y][x];
-    final backupTileState = boardBackup[panStartCoordinate.y][panStartCoordinate.x];
+    final backupTileState =
+        boardBackup[panStartCoordinate.y][panStartCoordinate.x];
 
     if (backupTileState.value == targetTileState) {
       if (tileState.value == targetTileState) {
@@ -193,12 +203,10 @@ class BoardWidgetState extends State<Board> {
   @visibleForTesting
   static double getColumnLabelsHeight(BoardLabels answer) {
     /// The number of lines in the longest column label.
-    final lines = answer.columns
-        .map((column) => column.length)
-        .reduce(max);
+    final lines = answer.columns.map((column) => column.length).reduce(max);
 
-    return lines * Board.labelFontSize * colLabelLineHeight
-        + Board.tileSpacing / 2;
+    return lines * Board.labelFontSize * colLabelLineHeight +
+        Board.tileSpacing / 2;
   }
 
   @override
@@ -228,7 +236,8 @@ class BoardWidgetState extends State<Board> {
             child: InteractiveViewer(
               onInteractionStart: (details) {
                 isPanCancelled = false;
-                final (:x, :y) = getCoordinateOfPosition(details.localFocalPoint);
+                final (:x, :y) =
+                    getCoordinateOfPosition(details.localFocalPoint);
                 onPanStart(x, y);
                 panStartCoordinate = (x: x, y: y);
                 switch (getTileRelation(x, y)) {
@@ -243,7 +252,8 @@ class BoardWidgetState extends State<Board> {
               },
               onInteractionUpdate: (details) {
                 if (checkIfPanCancelled(details)) return;
-                final (:x, :y) = getCoordinateOfPosition(details.localFocalPoint);
+                final (:x, :y) =
+                    getCoordinateOfPosition(details.localFocalPoint);
                 if (getTileRelation(x, y) == TileRelation.valid) {
                   onPanUpdate(x, y);
                 }
@@ -260,23 +270,23 @@ class BoardWidgetState extends State<Board> {
                     answer: answer,
                     currentAnswers: currentAnswers,
                     board: board,
-
                     colLabelLineHeight: colLabelLineHeight,
                     columnLabelsHeight: columnLabelsHeight,
                   ),
-                  if (widget.srcImage != null) Opacity(
-                    opacity: 0.2,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        top: Board.tileSize,
-                        left: Board.tileSize,
-                      ),
-                      child: Image.memory(
-                        widget.srcImage!,
-                        fit: BoxFit.fill,
+                  if (widget.srcImage != null)
+                    Opacity(
+                      opacity: 0.2,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: Board.tileSize,
+                          left: Board.tileSize,
+                        ),
+                        child: Image.memory(
+                          widget.srcImage!,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),

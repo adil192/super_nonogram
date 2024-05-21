@@ -22,13 +22,15 @@ class Tile extends StatelessWidget {
           TileState.empty => colorScheme.primary.withOpacity(0.3),
         },
       ),
-      child: tileState == TileState.crossed ? Center(
-        child: Icon(
-          Icons.close,
-          color: colorScheme.onBackground.withOpacity(0.7),
-          size: Board.tileSize * 0.5,
-        ),
-      ) : null,
+      child: tileState == TileState.crossed
+          ? Center(
+              child: Icon(
+                Icons.close,
+                color: colorScheme.onBackground.withOpacity(0.7),
+                size: Board.tileSize * 0.5,
+              ),
+            )
+          : null,
     );
   }
 }

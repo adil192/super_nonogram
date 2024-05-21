@@ -41,7 +41,7 @@ abstract class LevelToBoard {
   /// Returns the size of the square board at the given level,
   /// which is the number of tiles on one side of the board.
   /// The [level] must be greater than 0.
-  /// 
+  ///
   /// The size of the board is calculated as follows:
   /// - Levels 1-4: 5x5
   /// - Levels 5-9: 6x6

@@ -28,7 +28,9 @@ class Toolbar extends StatelessWidget {
             icon: AnimatedScale(
               duration: const Duration(milliseconds: 100),
               curve: Curves.easeIn,
-              scale: currentTileAction == tileAction ? 1 : _unselectedIconSizeRatio,
+              scale: currentTileAction == tileAction
+                  ? 1
+                  : _unselectedIconSizeRatio,
               child: SizedBox(
                 width: _iconSize,
                 height: _iconSize,

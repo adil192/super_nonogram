@@ -112,7 +112,8 @@ class TitlePage extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       shape: buttonShape,
                     ),
-                    onPressed: () => runAfterGamesSignIn(() => GamesServices.showAchievements()),
+                    onPressed: () => runAfterGamesSignIn(
+                        () => GamesServices.showAchievements()),
                     child: Padding(
                       padding: EdgeInsets.all(buttonFontSize / 2),
                       child: Text(

@@ -43,7 +43,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                   const Divider(),
-      
+
                   // ad consent
                   SettingsItem(
                     onTap: AdState.showConsentForm,
@@ -56,11 +56,12 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   const Divider(),
                 ],
-        
+
                 // hyperlegible font
                 SettingsItem(
                   onTap: () => setState(() {
-                    Prefs.hyperlegibleFont.value = !Prefs.hyperlegibleFont.value;
+                    Prefs.hyperlegibleFont.value =
+                        !Prefs.hyperlegibleFont.value;
                   }),
                   children: [
                     Text(
@@ -75,13 +76,14 @@ class _SettingsPageState extends State<SettingsPage> {
                     Switch(
                       value: Prefs.hyperlegibleFont.value,
                       onChanged: (_) => setState(() {
-                        Prefs.hyperlegibleFont.value = !Prefs.hyperlegibleFont.value;
+                        Prefs.hyperlegibleFont.value =
+                            !Prefs.hyperlegibleFont.value;
                       }),
                     ),
                   ],
                 ),
                 const Divider(),
-      
+
                 if (AdState.adsSupported) ...[
                   // ad banner
                   const Padding(
@@ -115,7 +117,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ],
                 ),
                 const Divider(),
-      
+
                 // something to put at the bottom after the last divider
                 const AnimatedAppIcon(),
               ],

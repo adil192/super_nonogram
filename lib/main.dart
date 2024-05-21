@@ -10,29 +10,27 @@ import 'package:super_nonogram/pages/search_page.dart';
 import 'package:super_nonogram/pages/settings_page.dart';
 import 'package:super_nonogram/pages/title_page.dart';
 
-final _router = GoRouter(
-  routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const TitlePage(),
+final _router = GoRouter(routes: [
+  GoRoute(
+    path: '/',
+    builder: (context, state) => const TitlePage(),
+  ),
+  GoRoute(
+    path: '/search',
+    builder: (context, state) => const SearchPage(),
+  ),
+  GoRoute(
+    path: '/play',
+    builder: (context, state) => PlayPage(
+      query: state.uri.queryParameters['query'],
+      level: int.tryParse(state.uri.queryParameters['level'] ?? ''),
     ),
-    GoRoute(
-      path: '/search',
-      builder: (context, state) => const SearchPage(),
-    ),
-    GoRoute(
-      path: '/play',
-      builder: (context, state) => PlayPage(
-        query: state.uri.queryParameters['query'],
-        level: int.tryParse(state.uri.queryParameters['level'] ?? ''),
-      ),
-    ),
-    GoRoute(
-      path: '/settings',
-      builder: (context, state) => const SettingsPage(),
-    ),
-  ]
-);
+  ),
+  GoRoute(
+    path: '/settings',
+    builder: (context, state) => const SettingsPage(),
+  ),
+]);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,6 +61,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     Prefs.hyperlegibleFont.addListener(_setState);
   }
+
   @override
   void dispose() {
     Prefs.hyperlegibleFont.removeListener(_setState);

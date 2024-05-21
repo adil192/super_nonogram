@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class Prefs {
-
   /// If true, the user's preferences will not be loaded and the default values will be used instead.
   /// The values will not be saved either.
   @visibleForTesting
@@ -19,7 +18,7 @@ abstract class Prefs {
   static bool warnIfPrefAccessedBeforeLoaded = true;
 
   static late final PlainPref<int> currentLevel;
-  
+
   static late final PlainPref<bool> hyperlegibleFont;
 
   static void init() {
@@ -31,8 +30,10 @@ abstract class Prefs {
 
 abstract class IPref<T> extends ValueNotifier<T> {
   final String key;
+
   /// The keys that were used in the past for this Pref. If one of these keys is found, the value will be migrated to the current key.
   final List<String> historicalKeys;
+
   /// The keys that were used in the past for a similar Pref. If one of these keys is found, it will be deleted.
   final List<String> deprecatedKeys;
 
@@ -44,10 +45,12 @@ abstract class IPref<T> extends ValueNotifier<T> {
   @protected
   bool _saved = true;
 
-  IPref(this.key, this.defaultValue, {
+  IPref(
+    this.key,
+    this.defaultValue, {
     List<String>? historicalKeys,
     List<String>? deprecatedKeys,
-  }) : historicalKeys = historicalKeys ?? [],
+  })  : historicalKeys = historicalKeys ?? [],
         deprecatedKeys = deprecatedKeys ?? [],
         super(defaultValue) {
     if (Prefs.testingMode) {
@@ -78,10 +81,12 @@ abstract class IPref<T> extends ValueNotifier<T> {
   @override
   T get value {
     if (!loaded && !Prefs.testingMode && Prefs.warnIfPrefAccessedBeforeLoaded) {
-      if (kDebugMode) print("WARNING: Pref '$key' accessed before it was loaded.");
+      if (kDebugMode)
+        print("WARNING: Pref '$key' accessed before it was loaded.");
     }
     return super.value;
   }
+
   bool get loaded => _loaded;
   bool get saved => _saved;
 
@@ -106,18 +111,24 @@ abstract class IPref<T> extends ValueNotifier<T> {
   @override
   void notifyListeners() => super.notifyListeners();
 }
+
 class PlainPref<T> extends IPref<T> {
   SharedPreferences? _prefs;
 
-  PlainPref(super.key, super.defaultValue, {super.historicalKeys, super.deprecatedKeys}) {
+  PlainPref(super.key, super.defaultValue,
+      {super.historicalKeys, super.deprecatedKeys}) {
     // Accepted types
-    assert(
-      T == bool || T == int || T == double || T == String
-        || T == typeOf<Uint8List?>()
-        || T == typeOf<List<String>>() || T == typeOf<Set<String>>()
-        || T == typeOf<Queue<String>>()
-        || T == AxisDirection || T == ThemeMode || T == TargetPlatform
-    );
+    assert(T == bool ||
+        T == int ||
+        T == double ||
+        T == String ||
+        T == typeOf<Uint8List?>() ||
+        T == typeOf<List<String>>() ||
+        T == typeOf<Set<String>>() ||
+        T == typeOf<Queue<String>>() ||
+        T == AxisDirection ||
+        T == ThemeMode ||
+        T == TargetPlatform);
   }
 
   @override
@@ -144,6 +155,7 @@ class PlainPref<T> extends IPref<T> {
 
     return null;
   }
+
   @override
   Future<void> _afterLoad() async {
     _prefs = null;
@@ -171,9 +183,11 @@ class PlainPref<T> extends IPref<T> {
       } else if (T == typeOf<List<String>>()) {
         return await _prefs!.setStringList(key, value as List<String>);
       } else if (T == typeOf<Set<String>>()) {
-        return await _prefs!.setStringList(key, (value as Set<String>).toList());
+        return await _prefs!
+            .setStringList(key, (value as Set<String>).toList());
       } else if (T == typeOf<Queue<String>>()) {
-        return await _prefs!.setStringList(key, (value as Queue<String>).toList());
+        return await _prefs!
+            .setStringList(key, (value as Queue<String>).toList());
       } else if (T == AxisDirection) {
         return await _prefs!.setInt(key, (value as AxisDirection).index);
       } else if (T == ThemeMode) {

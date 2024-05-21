@@ -17,7 +17,8 @@ abstract class AdState {
   static bool get adsSupported => _bannerAdUnitId.isNotEmpty;
 
   static void init() {
-    if (kDebugMode) { // test ads
+    if (kDebugMode) {
+      // test ads
       if (kIsWeb) {
         _bannerAdUnitId = '';
       } else if (Platform.isAndroid) {
@@ -27,7 +28,8 @@ abstract class AdState {
       } else {
         _bannerAdUnitId = '';
       }
-    } else { // actual ads
+    } else {
+      // actual ads
       if (kIsWeb) {
         _bannerAdUnitId = '';
       } else if (Platform.isAndroid) {
@@ -81,6 +83,7 @@ abstract class AdState {
       (formError) {},
     );
   }
+
   static void showConsentForm() {
     ConsentForm.loadConsentForm(
       (ConsentForm consentForm) async {
@@ -90,7 +93,7 @@ abstract class AdState {
               // Handle dismissal by reloading form
               showConsentForm();
             }
-          }
+          },
         );
       },
       (formError) {},
@@ -139,7 +142,8 @@ class BannerAdWidget extends StatefulWidget {
   State<BannerAdWidget> createState() => _BannerAdWidgetState();
 }
 
-class _BannerAdWidgetState extends State<BannerAdWidget> with AutomaticKeepAliveClientMixin {
+class _BannerAdWidgetState extends State<BannerAdWidget>
+    with AutomaticKeepAliveClientMixin {
   BannerAd? _bannerAd;
 
   @override
@@ -193,7 +197,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> with AutomaticKeepAlive
     _bannerAd = null;
     super.dispose();
   }
-  
+
   @override
   bool get wantKeepAlive => _bannerAd != null;
 }
