@@ -209,7 +209,7 @@ class _PlayPageState extends State<PlayPage> {
                               t.play.level(n: widget.level!),
                               style: TextStyle(
                                 fontSize: 24,
-                                color: colorScheme.onBackground,
+                                color: colorScheme.onSurface,
                               ),
                             ),
                             IconButton(

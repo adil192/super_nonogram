@@ -30,8 +30,9 @@ abstract class PixabayApi {
       String query) async {
     final searchResults = await search(query);
     for (final image in searchResults.images) {
-      if (kDebugMode)
+      if (kDebugMode) {
         print('Trying to import image ${image.id} from ${image.webformatUrl}');
+      }
 
       final response = await http.get(Uri.parse(image.webformatUrl));
       if (response.statusCode != 200) {

@@ -39,8 +39,8 @@ class TitlePage extends StatelessWidget {
       bg = colorScheme.primary;
       fg = colorScheme.onPrimary;
     } else {
-      bg = colorScheme.background;
-      fg = colorScheme.onBackground;
+      bg = colorScheme.surface;
+      fg = colorScheme.onSurface;
     }
 
     return Scaffold(

@@ -57,8 +57,7 @@ class BoardGrid extends StatelessWidget {
                         color: switch (status) {
                           BoardLabelStatus.correct => colorScheme.primary,
                           BoardLabelStatus.incorrect => colorScheme.error,
-                          BoardLabelStatus.incomplete =>
-                            colorScheme.onBackground,
+                          BoardLabelStatus.incomplete => colorScheme.onSurface,
                         },
                       ),
                       child: child!,
@@ -91,8 +90,7 @@ class BoardGrid extends StatelessWidget {
                         color: switch (status) {
                           BoardLabelStatus.correct => colorScheme.primary,
                           BoardLabelStatus.incorrect => colorScheme.error,
-                          BoardLabelStatus.incomplete =>
-                            colorScheme.onBackground,
+                          BoardLabelStatus.incomplete => colorScheme.onSurface,
                         },
                       ),
                       child: child!,

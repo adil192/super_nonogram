@@ -95,13 +95,13 @@ class _MyAppState extends State<MyApp> {
             useMaterial3: true,
             colorScheme: lightDynamic,
             textTheme: textTheme,
-            scaffoldBackgroundColor: lightDynamic.background,
+            scaffoldBackgroundColor: lightDynamic.surface,
           ),
           darkTheme: ThemeData(
             useMaterial3: true,
             colorScheme: darkDynamic,
             textTheme: textTheme,
-            scaffoldBackgroundColor: darkDynamic.background,
+            scaffoldBackgroundColor: darkDynamic.surface,
           ),
           routerConfig: _router,
         );

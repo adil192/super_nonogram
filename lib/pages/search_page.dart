@@ -44,7 +44,7 @@ class _SearchPageState extends State<SearchPage> {
                   Text(
                     t.search.createNewPuzzle,
                     style: TextStyle(
-                      color: colorScheme.onBackground,
+                      color: colorScheme.onSurface,
                       fontSize: 24,
                     ),
                   ),
@@ -55,7 +55,7 @@ class _SearchPageState extends State<SearchPage> {
                       labelText: t.search.prompt,
                     ),
                     style: TextStyle(
-                      color: colorScheme.onBackground,
+                      color: colorScheme.onSurface,
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -104,11 +104,12 @@ class _SearchPageState extends State<SearchPage> {
                                     '/${Uri.encodeComponent(query)}.json',
                                     string: jsonEncode(info));
                               }
-                              if (!mounted) return;
+                              if (!context.mounted) return;
                               GoRouter.of(context).push(
                                   '/play?query=${Uri.encodeComponent(query)}');
                             } finally {
-                              setState(() => _disableInput = false);
+                              _disableInput = false;
+                              setState(() {});
                             }
                           },
                     child: Text(

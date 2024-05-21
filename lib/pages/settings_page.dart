@@ -25,7 +25,7 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: DefaultTextStyle.merge(
         style: TextStyle(
-          color: colorScheme.onBackground,
+          color: colorScheme.onSurface,
         ),
         child: Center(
           child: ConstrainedBox(

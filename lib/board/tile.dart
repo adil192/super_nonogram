@@ -26,7 +26,7 @@ class Tile extends StatelessWidget {
           ? Center(
               child: Icon(
                 Icons.close,
-                color: colorScheme.onBackground.withOpacity(0.7),
+                color: colorScheme.onSurface.withOpacity(0.7),
                 size: Board.tileSize * 0.5,
               ),
             )

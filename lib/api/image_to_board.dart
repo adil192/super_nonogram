@@ -27,8 +27,9 @@ abstract class ImageToBoard {
 
     int selectedTiles = 0;
     for (final pixel in image) {
-      if (pixel.x == 0 || pixel.y == 0)
+      if (pixel.x == 0 || pixel.y == 0) {
         continue; // ignore first row and column (always empty)
+      }
       final selected = pixel.aNormalized > 0.5;
       if (!selected) continue;
       board[pixel.y - 1][pixel.x - 1].value = TileState.selected;
@@ -37,12 +38,14 @@ abstract class ImageToBoard {
 
     final totalTiles = (image.width - 1) * (image.height - 1);
     if (selectedTiles < totalTiles * minSelectedRatio) {
-      if (kDebugMode)
+      if (kDebugMode) {
         print('ImageToBoard: too few tiles selected, try another image');
+      }
       return null;
     } else if (selectedTiles > totalTiles * (1 - minSelectedRatio)) {
-      if (kDebugMode)
+      if (kDebugMode) {
         print('ImageToBoard: too many tiles selected, try another image');
+      }
       return null;
     }
 
