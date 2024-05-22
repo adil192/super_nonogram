@@ -22,6 +22,45 @@ class _SearchPageState extends State<SearchPage> {
 
   bool _failedSearch = false;
 
+  void _createPuzzle() async {
+    if (_disableInput) return;
+    if (!_formKey.currentState!.validate()) return;
+
+    _failedSearch = false;
+    _disableInput = true;
+    if (mounted) setState(() {});
+
+    try {
+      final query = _searchController.text;
+      final baseFilename = Uri.encodeComponent(query);
+      final fileNgb = '/$baseFilename.ngb';
+      final filePng = '/$baseFilename.png';
+      final fileJson = '/$baseFilename.json';
+
+      if (!await FileManager.doesFileExist(fileNgb)) {
+        final (info, srcImage, board) =
+            await PixabayApi.getBoardFromSearch(query);
+        if (info == null || srcImage == null || board == null) {
+          _failedSearch = true;
+          return;
+        }
+
+        final ngb = Ngb.writeNgb(board);
+        await FileManager.writeFile(fileNgb, string: ngb);
+        await FileManager.writeFile(filePng, bytes: srcImage);
+        await FileManager.writeFile(fileJson, string: jsonEncode(info));
+      }
+
+      if (mounted) GoRouter.of(context).push('/play?query=$baseFilename');
+    } catch (_) {
+      _failedSearch = true;
+      rethrow;
+    } finally {
+      _disableInput = false;
+      if (mounted) setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -76,45 +115,8 @@ class _SearchPageState extends State<SearchPage> {
                   ],
                   const SizedBox(height: 8),
                   ElevatedButton(
-                    onPressed: _disableInput
-                        ? null
-                        : () async {
-                            if (_disableInput) return;
-                            if (!_formKey.currentState!.validate()) return;
-                            _failedSearch = false;
-                            setState(() => _disableInput = true);
-                            try {
-                              final query = _searchController.text;
-                              final file = '/${Uri.encodeComponent(query)}.ngb';
-                              if (!await FileManager.doesFileExist(file)) {
-                                final (info, srcImage, board) =
-                                    await PixabayApi.getBoardFromSearch(query);
-                                if (info == null ||
-                                    srcImage == null ||
-                                    board == null) {
-                                  _failedSearch = true;
-                                  return;
-                                }
-                                final ngb = Ngb.writeNgb(board);
-                                await FileManager.writeFile(file, string: ngb);
-                                await FileManager.writeFile(
-                                    '/${Uri.encodeComponent(query)}.png',
-                                    bytes: srcImage);
-                                await FileManager.writeFile(
-                                    '/${Uri.encodeComponent(query)}.json',
-                                    string: jsonEncode(info));
-                              }
-                              if (!context.mounted) return;
-                              GoRouter.of(context).push(
-                                  '/play?query=${Uri.encodeComponent(query)}');
-                            } finally {
-                              _disableInput = false;
-                              setState(() {});
-                            }
-                          },
-                    child: Text(
-                      t.search.create,
-                    ),
+                    onPressed: _disableInput ? null : _createPuzzle,
+                    child: Text(t.search.create),
                   ),
                 ],
               ),
