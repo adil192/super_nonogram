@@ -13,9 +13,21 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: subosito/flutter-action@v1
+      - name: Setup cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            build
+          key: ${{ runner.OS }}-super_nonogram-${{ hashFiles('**/pubspec.lock') }}-${{ hashFiles('**/*.dart') }}
+          restore-keys: |
+            ${{ runner.OS }}-super_nonogram-
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
           channel: stable
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:'
 
       - run: flutter pub get
 

@@ -21,15 +21,15 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Setup cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             build
-          key: ${{ runner.OS }}-super_nonogram-ubuntu-${{ hashFiles('**/pubspec.lock') }}-${{ hashFiles('**/*.dart') }}
+          key: ${{ runner.OS }}-super_nonogram-${{ hashFiles('**/pubspec.lock') }}-${{ hashFiles('**/*.dart') }}
           restore-keys: |
-            ${{ runner.OS }}-super_nonogram-ubuntu-
+            ${{ runner.OS }}-super_nonogram-
 
-      - name: Install Flutter
+      - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
