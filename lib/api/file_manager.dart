@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:super_nonogram/api/web_file_image.dart';
 
 abstract class FileManager {
   static SharedPreferences? _prefs;
@@ -85,5 +87,52 @@ abstract class FileManager {
       final file = File('${_documentsDir!.path}$_documentsSubDir$path');
       return file.existsSync();
     }
+  }
+
+  /// Returns a list of the saved puzzle prompts,
+  /// sorted alphabetically.
+  static Future<List<String>> listPuzzles() async {
+    if (kIsWeb) {
+      _prefs ??= await SharedPreferences.getInstance();
+      return _prefs!
+          .getKeys()
+          .where((key) => key.endsWith('.ngb'))
+          .map((filePath) => filePath.substring(filePath.lastIndexOf('/') + 1))
+          .map((fileName) => fileName.substring(0, fileName.lastIndexOf('.')))
+          .toList()
+        ..sort();
+    } else {
+      _documentsDir ??= await getApplicationSupportDirectory();
+      final dir = Directory('${_documentsDir!.path}$_documentsSubDir');
+      if (!dir.existsSync()) return [];
+
+      return dir
+          .listSync()
+          .whereType<File>()
+          .where((file) => file.path.endsWith('.ngb'))
+          .map((file) => file.path.substring(file.path.lastIndexOf('/') + 1))
+          .map((fileName) => fileName.substring(0, fileName.lastIndexOf('.')))
+          .toList()
+        ..sort();
+    }
+  }
+
+  /// Returns an ImageProvider for the saved puzzle image.
+  ///
+  /// This doesn't check if the image exists.
+  static FileImage getPuzzleImage(String baseFilename) {
+    final path = '/$baseFilename.png';
+
+    if (kIsWeb) return WebFileImage(path);
+
+    if (_documentsDir == null) {
+      if (kDebugMode) {
+        print('Warning: FileManager.getPuzzleImage: _documentsDir is null');
+      }
+      return WebFileImage(path);
+    }
+
+    final file = File('${_documentsDir!.path}$_documentsSubDir$path');
+    return FileImage(file);
   }
 }

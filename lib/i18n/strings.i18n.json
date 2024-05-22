@@ -6,7 +6,7 @@
     "achievements": "Achievements"
   },
   "search": {
-    "createNewPuzzle": "Create a new puzzle",
+    "createNewPuzzle": "Create a puzzle",
     "enterPrompt": "Please enter a prompt",
     "prompt": "Prompt",
     "failedToGenerateBoard": "Failed to generate board, please try another prompt",

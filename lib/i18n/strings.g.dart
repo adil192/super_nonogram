@@ -6,7 +6,7 @@
 /// Locales: 1
 /// Strings: 22
 ///
-/// Built on 2024-05-21 at 20:51 UTC
+/// Built on 2024-05-22 at 15:34 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -166,7 +166,7 @@ class _StringsSearchEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get createNewPuzzle => 'Create a new puzzle';
+	String get createNewPuzzle => 'Create a puzzle';
 	String get enterPrompt => 'Please enter a prompt';
 	String get prompt => 'Prompt';
 	String get failedToGenerateBoard => 'Failed to generate board, please try another prompt';

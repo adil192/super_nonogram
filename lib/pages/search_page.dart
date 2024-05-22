@@ -109,10 +109,109 @@ class _SearchPageState extends State<SearchPage> {
                   onPressed: _disableInput ? null : _createPuzzle,
                   child: Text(t.search.create),
                 ),
+                const SizedBox(height: 32),
+                const PreviousPuzzles(),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class PreviousPuzzles extends StatefulWidget {
+  const PreviousPuzzles({super.key});
+
+  @override
+  State<PreviousPuzzles> createState() => _PreviousPuzzlesState();
+
+  static void recordPuzzle(String puzzle) {
+    final puzzles = _PreviousPuzzlesState._puzzles;
+    // Insert in the correct position to stay sorted.
+    for (var i = 0; i < puzzles.length; i++) {
+      final cmp = puzzles[i].compareTo(puzzle);
+      if (cmp == 0) return;
+      if (cmp > 0) {
+        puzzles.insert(i, puzzle);
+        return;
+      }
+    }
+  }
+}
+
+class _PreviousPuzzlesState extends State<PreviousPuzzles> {
+  static List<String> _puzzles = const [];
+
+  static const double _separation = 16,
+      _imageSize = 100,
+      _imagePadding = 8,
+      _textSize = 16,
+      _totalWidth = _imageSize + _imagePadding * 2 + _separation,
+      _totalHeight = _totalWidth + _textSize * 2;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPreviousPuzzles();
+  }
+
+  @override
+  void didUpdateWidget(covariant PreviousPuzzles oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _loadPreviousPuzzles();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void _loadPreviousPuzzles() async {
+    _PreviousPuzzlesState._puzzles = await FileManager.listPuzzles();
+    if (mounted) setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: _totalHeight,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: _puzzles.length,
+        itemExtent: _totalWidth,
+        itemBuilder: (context, index) {
+          if (index >= _puzzles.length) {
+            return const SizedBox.shrink();
+          }
+
+          final puzzle = _puzzles[index];
+          return GestureDetector(
+            onTap: () {
+              final baseFilename = Uri.encodeComponent(puzzle);
+              GoRouter.of(context).push('/play?query=$baseFilename');
+            },
+            child: Card(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(_imagePadding),
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: Image(image: FileManager.getPuzzleImage(puzzle)),
+                    ),
+                  ),
+                  Text(
+                    puzzle,
+                    style: const TextStyle(fontSize: _textSize),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
