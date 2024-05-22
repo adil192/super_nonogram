@@ -70,32 +70,24 @@ class _SearchPageState extends State<SearchPage> {
       ),
       body: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: 600,
-          ),
-          child: Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    t.search.createNewPuzzle,
-                    style: TextStyle(
-                      color: colorScheme.onSurface,
-                      fontSize: 24,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  TextFormField(
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  t.search.createNewPuzzle,
+                  style: TextStyle(color: colorScheme.onSurface, fontSize: 24),
+                ),
+                const SizedBox(height: 8),
+                Form(
+                  key: _formKey,
+                  child: TextFormField(
                     controller: _searchController,
-                    decoration: InputDecoration(
-                      labelText: t.search.prompt,
-                    ),
-                    style: TextStyle(
-                      color: colorScheme.onSurface,
-                    ),
+                    decoration: InputDecoration(labelText: t.search.prompt),
+                    style: TextStyle(color: colorScheme.onSurface),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return t.search.enterPrompt;
@@ -104,22 +96,20 @@ class _SearchPageState extends State<SearchPage> {
                     },
                     enabled: !_disableInput,
                   ),
-                  if (_failedSearch) ...[
-                    const SizedBox(height: 8),
-                    Text(
-                      t.search.failedToGenerateBoard,
-                      style: TextStyle(
-                        color: colorScheme.error,
-                      ),
-                    ),
-                  ],
+                ),
+                if (_failedSearch) ...[
                   const SizedBox(height: 8),
-                  ElevatedButton(
-                    onPressed: _disableInput ? null : _createPuzzle,
-                    child: Text(t.search.create),
+                  Text(
+                    t.search.failedToGenerateBoard,
+                    style: TextStyle(color: colorScheme.error),
                   ),
                 ],
-              ),
+                const SizedBox(height: 8),
+                ElevatedButton(
+                  onPressed: _disableInput ? null : _createPuzzle,
+                  child: Text(t.search.create),
+                ),
+              ],
             ),
           ),
         ),
