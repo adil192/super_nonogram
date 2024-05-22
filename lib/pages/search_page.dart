@@ -49,6 +49,7 @@ class _SearchPageState extends State<SearchPage> {
         await FileManager.writeFile(fileNgb, string: ngb);
         await FileManager.writeFile(filePng, bytes: srcImage);
         await FileManager.writeFile(fileJson, string: jsonEncode(info));
+        PreviousPuzzles.recordPuzzle(query);
       }
 
       if (mounted) GoRouter.of(context).push('/play?query=$baseFilename');
@@ -126,22 +127,28 @@ class PreviousPuzzles extends StatefulWidget {
   @override
   State<PreviousPuzzles> createState() => _PreviousPuzzlesState();
 
+  // Insert [puzzle] in the correct position to stay sorted.
   static void recordPuzzle(String puzzle) {
-    final puzzles = _PreviousPuzzlesState._puzzles;
-    // Insert in the correct position to stay sorted.
+    final puzzles = _PreviousPuzzlesState._puzzles.value.toList();
+    bool inserted = false;
     for (var i = 0; i < puzzles.length; i++) {
       final cmp = puzzles[i].compareTo(puzzle);
-      if (cmp == 0) return;
-      if (cmp > 0) {
+      if (cmp == 0) {
+        inserted = true;
+        break;
+      } else if (cmp > 0) {
         puzzles.insert(i, puzzle);
-        return;
+        inserted = true;
+        break;
       }
     }
+    if (!inserted) puzzles.add(puzzle);
+    _PreviousPuzzlesState._puzzles.value = puzzles;
   }
 }
 
 class _PreviousPuzzlesState extends State<PreviousPuzzles> {
-  static List<String> _puzzles = const [];
+  static final ValueNotifier<List<String>> _puzzles = ValueNotifier([]);
 
   static const double _separation = 16,
       _imageSize = 100,
@@ -168,7 +175,7 @@ class _PreviousPuzzlesState extends State<PreviousPuzzles> {
   }
 
   void _loadPreviousPuzzles() async {
-    _PreviousPuzzlesState._puzzles = await FileManager.listPuzzles();
+    _PreviousPuzzlesState._puzzles.value = await FileManager.listPuzzles();
     if (mounted) setState(() {});
   }
 
@@ -176,40 +183,47 @@ class _PreviousPuzzlesState extends State<PreviousPuzzles> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: _totalHeight,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: _puzzles.length,
-        itemExtent: _totalWidth,
-        itemBuilder: (context, index) {
-          if (index >= _puzzles.length) {
-            return const SizedBox.shrink();
-          }
+      child: ValueListenableBuilder(
+        valueListenable: _puzzles,
+        builder: (context, puzzles, child) {
+          return ListView.builder(
+            key: ValueKey(puzzles),
+            scrollDirection: Axis.horizontal,
+            itemCount: puzzles.length,
+            itemExtent: _totalWidth,
+            itemBuilder: (context, index) {
+              if (index >= puzzles.length) {
+                return const SizedBox.shrink();
+              }
 
-          final puzzle = _puzzles[index];
-          return GestureDetector(
-            onTap: () {
-              final baseFilename = Uri.encodeComponent(puzzle);
-              GoRouter.of(context).push('/play?query=$baseFilename');
+              final puzzle = puzzles[index];
+              return GestureDetector(
+                onTap: () {
+                  final baseFilename = Uri.encodeComponent(puzzle);
+                  GoRouter.of(context).push('/play?query=$baseFilename');
+                },
+                child: Card(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(_imagePadding),
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child:
+                              Image(image: FileManager.getPuzzleImage(puzzle)),
+                        ),
+                      ),
+                      Text(
+                        puzzle,
+                        style: const TextStyle(fontSize: _textSize),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ],
+                  ),
+                ),
+              );
             },
-            child: Card(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(_imagePadding),
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: Image(image: FileManager.getPuzzleImage(puzzle)),
-                    ),
-                  ),
-                  Text(
-                    puzzle,
-                    style: const TextStyle(fontSize: _textSize),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
-                ],
-              ),
-            ),
           );
         },
       ),
