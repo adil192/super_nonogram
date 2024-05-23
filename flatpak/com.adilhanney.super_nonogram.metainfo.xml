@@ -78,6 +78,15 @@
     </screenshots>
 
     <releases>
+        <release version="0.7.7" type="development" date="2024-05-23">
+            <description>
+                <ul>
+                    <li>You can now see and replay previously generated image puzzles</li>
+                    <li>Added an app info dialog</li>
+                    <li>Bug fixes and performance improvements from updated Flutter and dependencies</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.7.6" type="development" date="2023-10-01">
             <description>
                 <ul>

@@ -1,0 +1,3 @@
+• You can now see and replay previously generated image puzzles
+• Added an app info dialog
+• Bug fixes and performance improvements from updated Flutter and dependencies
