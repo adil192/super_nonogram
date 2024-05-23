@@ -9,9 +9,11 @@
     <name>Super Nonogram</name>
     <summary>Solve unlimited procedurally-generated nonogram puzzles!</summary>
 
-    <developer_name>Adil Hanney</developer_name>
-    <url type="homepage">https://github.com/adil192/super_nonogram</url>
+    <developer id="com.adilhanney">
+        <name>Adil Hanney</name>
+    </developer>
 
+    <url type="homepage">https://github.com/adil192/super_nonogram</url>
     <metadata_license>MIT</metadata_license>
     <project_license>AGPL-3.0-only</project_license>
 
