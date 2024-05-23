@@ -15,6 +15,11 @@
     <metadata_license>MIT</metadata_license>
     <project_license>AGPL-3.0-only</project_license>
 
+    <branding>
+        <color type="primary" scheme_preference="light">#ffb4b4</color>
+        <color type="primary" scheme_preference="dark">#590000</color>
+    </branding>
+
     <supports>
         <control>pointing</control>
         <control>keyboard</control>
