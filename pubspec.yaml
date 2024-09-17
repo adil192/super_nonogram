@@ -49,7 +49,7 @@ dependencies:
   path_provider: ^2.0.15
   shared_preferences: ^2.1.2
 
-  icons_launcher: ^2.1.2
+  icons_launcher: ^3.0.0
 
   slang: ^3.19.0
   slang_flutter: ^3.19.0
