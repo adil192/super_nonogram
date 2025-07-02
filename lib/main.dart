@@ -67,7 +67,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final _appKey = GlobalKey<State<MaterialApp>>();
+
   void _setState() => setState(() {});
+
   @override
   void initState() {
     super.initState();
@@ -101,6 +104,7 @@ class _MyAppState extends State<MyApp> {
         }
 
         return MaterialApp.router(
+          key: _appKey,
           title: 'Super Nonogram',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
