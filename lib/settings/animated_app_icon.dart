@@ -69,7 +69,7 @@ class _AnimatedAppIconState extends State<AnimatedAppIcon>
 
 class _ScaleHeartBeatTween extends Tween<double> {
   _ScaleHeartBeatTween({
-    // ignore: unused_element
+    // ignore: unused_element_parameter
     this.minScale = 0.8,
   }) : super(begin: 1, end: 1);
 

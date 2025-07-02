@@ -181,7 +181,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget>
                 ? Center(
                     child: FaIcon(
                       FontAwesomeIcons.rectangleAd,
-                      color: colorScheme.onSurface.withOpacity(0.5),
+                      color: colorScheme.onSurface.withValues(alpha: 0.5),
                     ),
                   )
                 : AdWidget(ad: _bannerAd!),

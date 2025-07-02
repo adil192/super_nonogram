@@ -18,15 +18,15 @@ class Tile extends StatelessWidget {
         borderRadius: BorderRadius.circular(Board.tileSize * 0.2),
         color: switch (tileState) {
           TileState.selected => colorScheme.primary,
-          TileState.crossed => colorScheme.primary.withOpacity(0.1),
-          TileState.empty => colorScheme.primary.withOpacity(0.3),
+          TileState.crossed => colorScheme.primary.withValues(alpha: 0.1),
+          TileState.empty => colorScheme.primary.withValues(alpha: 0.3),
         },
       ),
       child: tileState == TileState.crossed
           ? Center(
               child: Icon(
                 Icons.close,
-                color: colorScheme.onSurface.withOpacity(0.7),
+                color: colorScheme.onSurface.withValues(alpha: 0.7),
                 size: Board.tileSize * 0.5,
               ),
             )
