@@ -9,7 +9,11 @@ abstract class GamesServicesHelper {
       !kIsWeb && (Platform.isAndroid || Platform.isIOS || Platform.isMacOS);
 }
 
+bool isGamesServicesSupported =
+    !kIsWeb && (Platform.isAndroid || Platform.isIOS || Platform.isMacOS);
+
 Future<T?> runAfterGamesSignIn<T>(FutureOr<T> Function() callback) async {
+  if (!isGamesServicesSupported) return null;
   await GamesServices.signIn();
   if (!await GamesServices.isSignedIn) return null;
   return await callback();

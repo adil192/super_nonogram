@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:super_nonogram/ads/banner_ad_widget.dart';
 import 'package:super_nonogram/data/prefs.dart';
+import 'package:super_nonogram/games_services/games_services_helper.dart';
 import 'package:super_nonogram/pages/play_page.dart';
 import 'package:super_nonogram/pages/search_page.dart';
 import 'package:super_nonogram/pages/settings_page.dart';
@@ -42,7 +43,7 @@ void main() async {
     Prefs.currentLevel.waitUntilLoaded(),
   ]);
 
-  GamesServices.signIn();
+  if (isGamesServicesSupported) GamesServices.signIn();
 
   runApp(const MyApp());
 }
