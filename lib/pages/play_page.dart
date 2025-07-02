@@ -15,7 +15,7 @@ import 'package:super_nonogram/board/board.dart';
 import 'package:super_nonogram/board/ngb.dart';
 import 'package:super_nonogram/board/tile_state.dart';
 import 'package:super_nonogram/board/toolbar.dart';
-import 'package:super_nonogram/data/prefs.dart';
+import 'package:super_nonogram/data/stows.dart';
 import 'package:super_nonogram/games_services/achievement_ids.dart';
 import 'package:super_nonogram/games_services/games_services_helper.dart';
 import 'package:super_nonogram/i18n/strings.g.dart';
@@ -146,7 +146,7 @@ class _PlayPageState extends State<PlayPage> {
               onPressed: () {
                 context.pushReplacement(
                   onALevel
-                      ? '/play?level=${Prefs.currentLevel.value}'
+                      ? '/play?level=${stows.currentLevel.value}'
                       : '/play?query=${Uri.encodeComponent(widget.query!)}',
                 );
               },
@@ -157,9 +157,9 @@ class _PlayPageState extends State<PlayPage> {
             if (onALevel)
               TextButton(
                 onPressed: () {
-                  Prefs.currentLevel.value = widget.level! + 1;
+                  stows.currentLevel.value = widget.level! + 1;
                   context.pushReplacement(
-                      '/play?level=${Prefs.currentLevel.value}');
+                      '/play?level=${stows.currentLevel.value}');
                 },
                 child: Text(t.play.nextLevel),
               ),
@@ -199,9 +199,9 @@ class _PlayPageState extends State<PlayPage> {
                             if (widget.level! > 1)
                               IconButton(
                                 onPressed: () {
-                                  Prefs.currentLevel.value = widget.level! - 1;
+                                  stows.currentLevel.value = widget.level! - 1;
                                   context.pushReplacement(
-                                      '/play?level=${Prefs.currentLevel.value}');
+                                      '/play?level=${stows.currentLevel.value}');
                                 },
                                 icon: const Icon(Icons.arrow_left),
                               ),
@@ -214,9 +214,9 @@ class _PlayPageState extends State<PlayPage> {
                             ),
                             IconButton(
                               onPressed: () {
-                                Prefs.currentLevel.value = widget.level! + 1;
+                                stows.currentLevel.value = widget.level! + 1;
                                 context.pushReplacement(
-                                    '/play?level=${Prefs.currentLevel.value}');
+                                    '/play?level=${stows.currentLevel.value}');
                               },
                               icon: const Icon(Icons.arrow_right),
                             ),

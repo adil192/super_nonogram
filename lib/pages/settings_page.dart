@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:super_nonogram/ads/banner_ad_widget.dart';
-import 'package:super_nonogram/data/prefs.dart';
+import 'package:super_nonogram/data/stows.dart';
 import 'package:super_nonogram/i18n/strings.g.dart';
 import 'package:super_nonogram/settings/animated_app_icon.dart';
 import 'package:super_nonogram/settings/settings_item.dart';
@@ -60,8 +60,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 // hyperlegible font
                 SettingsItem(
                   onTap: () => setState(() {
-                    Prefs.hyperlegibleFont.value =
-                        !Prefs.hyperlegibleFont.value;
+                    stows.hyperlegibleFont.value =
+                        !stows.hyperlegibleFont.value;
                   }),
                   children: [
                     Text(
@@ -74,10 +74,10 @@ class _SettingsPageState extends State<SettingsPage> {
                       t.settings.hyperlegibleFont,
                     ),
                     Switch(
-                      value: Prefs.hyperlegibleFont.value,
+                      value: stows.hyperlegibleFont.value,
                       onChanged: (_) => setState(() {
-                        Prefs.hyperlegibleFont.value =
-                            !Prefs.hyperlegibleFont.value;
+                        stows.hyperlegibleFont.value =
+                            !stows.hyperlegibleFont.value;
                       }),
                     ),
                   ],

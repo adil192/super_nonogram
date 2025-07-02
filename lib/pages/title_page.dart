@@ -2,7 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:games_services/games_services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:super_nonogram/data/prefs.dart';
+import 'package:super_nonogram/data/stows.dart';
 import 'package:super_nonogram/games_services/games_services_helper.dart';
 import 'package:super_nonogram/i18n/strings.g.dart';
 import 'package:super_nonogram/pages/search_page.dart';
@@ -65,7 +65,7 @@ class TitlePage extends StatelessWidget {
                     shape: buttonShape,
                   ),
                   onPressed: () {
-                    context.push('/play?level=${Prefs.currentLevel.value}');
+                    context.push('/play?level=${stows.currentLevel.value}');
                   },
                   child: Padding(
                     padding: EdgeInsets.all(buttonFontSize / 2),

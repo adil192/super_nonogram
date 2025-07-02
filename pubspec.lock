@@ -317,6 +317,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.16.0"
+  mutex:
+    dependency: transitive
+    description:
+      name: mutex
+      sha256: "8827da25de792088eb33e572115a5eb0d61d61a3c01acbc8bcbe76ed78f1a1f2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
   path:
     dependency: transitive
     description:
@@ -498,6 +506,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.12.1"
+  stow:
+    dependency: transitive
+    description:
+      name: stow
+      sha256: "0caa7c292ed44138b0dfb5a30142426f745f2a850ad10999937fb20314a36052"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
+  stow_codecs:
+    dependency: transitive
+    description:
+      name: stow_codecs
+      sha256: edfaee5b03d6b23df277889ec80e587e66d48fbbf7f7ef925a9d1046d08a3ec0
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0+1"
+  stow_plain:
+    dependency: "direct main"
+    description:
+      name: stow_plain
+      sha256: ad75704e212ee3f77f3863c417eab7344efd69fa82c8166df48a00ad81ee0e7a
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   stream_channel:
     dependency: transitive
     description:
