@@ -1,5 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:games_services/games_services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -38,14 +40,23 @@ void main() async {
   AdState.init();
 
   Prefs.init();
-
   await Future.wait([
     Prefs.currentLevel.waitUntilLoaded(),
   ]);
 
+  _addLicenses();
+
   if (isGamesServicesSupported) GamesServices.signIn();
 
   runApp(const MyApp());
+}
+
+void _addLicenses() {
+  LicenseRegistry.addLicense(() async* {
+    final license =
+        await rootBundle.loadString('assets/google_fonts/Righteous/OFL.txt');
+    yield LicenseEntryWithLineBreaks(['google_fonts'], license);
+  });
 }
 
 class MyApp extends StatefulWidget {
