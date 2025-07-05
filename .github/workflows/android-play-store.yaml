@@ -33,30 +33,24 @@ jobs:
           channel: stable
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:'
+    
+      - name: Setup keystore
+        run: |
+          echo "${{ secrets.SIGNING_KEY }}" | base64 -d > android/android.keystore
+          echo "storePassword=${{ secrets.KEY_STORE_PASSWORD }}" > android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.ALIAS }}" >> android/key.properties
+          echo "storeFile=../android.keystore" >> android/key.properties
 
       - run: flutter pub get
 
       - name: Build aab
-        run: |
-          flutter build appbundle
+        run: flutter build appbundle
 
-      - name: Move unsigned apk
+      - name: Rename aab
         run: |
           mkdir -p output
           mv build/app/outputs/bundle/release/app-release.aab output/SuperNonogram.aab
-
-      - name: Sign aab
-        uses: ilharp/sign-android-release@v1
-        id: sign_app
-        with:
-          releaseDir: output
-          signingKey: ${{ secrets.SIGNING_KEY }}
-          keyAlias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-
-      - name: Rename signed apk
-        run: mv ${{ steps.sign_app.outputs.signedFile }} output/SuperNonogram.aab
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
