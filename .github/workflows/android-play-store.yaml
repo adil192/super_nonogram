@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Remove signingConfig
         run: ./patches/remove_signing_android.sh
@@ -59,7 +59,7 @@ jobs:
         run: mv ${{ steps.sign_app.outputs.signedFile }} output/SuperNonogram.aab
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SuperNonogram-Android-PlayStore
           path: output/SuperNonogram.aab
@@ -70,10 +70,10 @@ jobs:
     needs: build-aab
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: SuperNonogram-Android-PlayStore
           path: output

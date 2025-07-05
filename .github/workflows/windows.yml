@@ -16,7 +16,7 @@ jobs:
       buildNumber: ${{ steps.get_version.outputs.buildNumber }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get version
         id: get_version
@@ -35,7 +35,7 @@ jobs:
     needs: get-version
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup cache
         uses: actions/cache@v4
@@ -78,7 +78,7 @@ jobs:
           mv installers/SuperNonogramInstaller.exe installers/$installerName
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SuperNonogram-Windows
           path: installers/${{ steps.rename.outputs.installerName }}
