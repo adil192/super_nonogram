@@ -1,0 +1,3 @@
+• Fixed game service errors
+• Bundled the font for offline usage
+• Small performance improvements

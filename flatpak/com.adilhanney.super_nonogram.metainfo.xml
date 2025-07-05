@@ -78,6 +78,15 @@
     </screenshots>
 
     <releases>
+        <release version="0.7.9" type="development" date="2025-07-05">
+            <description>
+                <ul>
+                    <li>Fixed game service errors</li>
+                    <li>Bundled the font for offline usage</li>
+                    <li>Small performance improvements</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.7.8" type="development" date="2024-09-17">
             <description>
                 <ul>
