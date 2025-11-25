@@ -85,7 +85,7 @@ jobs:
           mv installers/SuperNonogramInstaller.exe installers/$installerName
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: SuperNonogram-Windows
           path: installers/${{ steps.rename.outputs.installerName }}
