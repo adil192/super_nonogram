@@ -99,7 +99,7 @@ jobs:
           mv build/app/outputs/bundle/release/app-release.aab output/SuperNonogram.aab
 
       - name: Upload aab artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: SuperNonogram-Android-PlayStore
           path: output/SuperNonogram.aab
