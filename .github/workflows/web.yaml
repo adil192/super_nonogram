@@ -52,7 +52,7 @@ jobs:
         run: ./scripts/build_privacy_policy_html.sh
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: build/web
 
