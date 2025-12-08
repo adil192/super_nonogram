@@ -46,7 +46,7 @@ dependencies:
 
   icons_launcher: ^3.0.0
 
-  slang: ^4.11.0
+  slang: ^4.11.1
   slang_flutter:
 
   animations: ^2.0.7
