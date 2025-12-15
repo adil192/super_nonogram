@@ -41,7 +41,7 @@ dependencies:
   image: ^4.0.17
 
   path_provider: ^2.0.15
-  shared_preferences: ^2.1.2
+  shared_preferences: ^2.5.4
   stow_plain: ^0.5.1
 
   icons_launcher: ^3.0.0
