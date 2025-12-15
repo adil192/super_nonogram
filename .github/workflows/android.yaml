@@ -78,7 +78,7 @@ jobs:
           echo "apkName=$apkName" >> $GITHUB_OUTPUT
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: Super-Nonogram-Android
           path: output/${{ steps.rename_apk.outputs.apkName }}
@@ -99,7 +99,7 @@ jobs:
           mv build/app/outputs/bundle/release/app-release.aab output/SuperNonogram.aab
 
       - name: Upload aab artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: SuperNonogram-Android-PlayStore
           path: output/SuperNonogram.aab
