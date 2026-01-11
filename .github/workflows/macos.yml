@@ -114,7 +114,7 @@ jobs:
           keychain use-login
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: Super-Nonogram-macOS-Archive
           path: build/macos/Build/Products/Release/${{ steps.compress.outputs.zipName }}
