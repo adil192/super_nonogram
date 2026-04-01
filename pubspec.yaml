@@ -41,15 +41,15 @@ dependencies:
   image: ^4.0.17
 
   path_provider: ^2.0.15
-  shared_preferences: ^2.1.2
+  shared_preferences: ^2.5.5
   stow_plain: ^0.6.0
 
-  icons_launcher: ^3.0.0
+  icons_launcher: ^3.1.0
 
-  slang: ^4.11.0
+  slang: ^4.14.0
   slang_flutter:
 
-  animations: ^2.0.7
+  animations: ^2.1.2
 
   games_services: ^5.0.0
 
@@ -67,7 +67,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
 
-  golden_screenshot: ^10.0.0
+  golden_screenshot: ^11.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
