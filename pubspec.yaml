@@ -32,9 +32,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  google_fonts: ^8.0.0
+  google_fonts: ^8.1.0
 
-  go_router: ^17.0.0
+  go_router: ^17.2.2
 
   http: ^1.0.0
 
@@ -49,7 +49,7 @@ dependencies:
   slang: ^4.11.0
   slang_flutter:
 
-  animations: ^2.0.7
+  animations: ^2.2.0
 
   games_services: ^5.0.0
 
