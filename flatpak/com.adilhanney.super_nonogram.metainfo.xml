@@ -87,6 +87,13 @@
     </screenshots>
 
     <releases>
+        <release version="0.12.1" date="2026-05-27">
+            <description>
+                <ul>
+                    <li>Added an Italian translation</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.12.0" type="development" date="2026-04-05">
             <description>
                 <ul>
