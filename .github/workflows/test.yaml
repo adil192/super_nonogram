@@ -10,10 +10,10 @@ jobs:
     name: Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup cache
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: |
             .dart_tool/
@@ -27,7 +27,7 @@ jobs:
             ${{ runner.OS }}-super_nonogram-
 
       - name: Setup Flutter
-        uses: adil192/setup-flutter-submodule@v1
+        uses: adil192/setup-flutter-submodule@v3
         with:
           flutter-path: submodules/flutter
 
@@ -40,7 +40,7 @@ jobs:
         run: flutter test --coverage
 
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: coverage/lcov.info

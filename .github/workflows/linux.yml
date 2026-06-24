@@ -35,7 +35,7 @@ jobs:
     name: Build Linux (${{ matrix.arch.target-platform }})
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Install apt dependencies
         uses: awalsh128/cache-apt-pkgs-action@latest
@@ -45,7 +45,7 @@ jobs:
           execute_install_scripts: true
 
       - name: Setup cache
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: |
             .dart_tool/
@@ -62,7 +62,7 @@ jobs:
         run: ./patches/remove_dev_dependencies.sh
 
       - name: Setup Flutter
-        uses: adil192/setup-flutter-submodule@v1
+        uses: adil192/setup-flutter-submodule@v3
         with:
           flutter-path: submodules/flutter
 
@@ -120,7 +120,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Install AppImage dependencies
         run: |
@@ -182,7 +182,7 @@ jobs:
       options: --privileged
     steps:
       - name: Checkout flathub repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: flathub/com.adilhanney.super_nonogram
           submodules: recursive
