@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter/rendering.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:super_nonogram/board/board_labels.dart';
 
 /// A widget that lays out the board grid along with its labels.
