@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:super_nonogram/board/board.dart';
 import 'package:super_nonogram/board/tile_state.dart';
 

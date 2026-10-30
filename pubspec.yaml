@@ -32,6 +32,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  material_ui: ^1.0.0
+  cupertino_ui: ^1.0.0
+
   google_fonts: ^9.0.0
 
   go_router: ^18.1.2

@@ -82,7 +82,7 @@ packages:
     source: hosted
     version: "3.0.8"
   cupertino_ui:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: cupertino_ui
       sha256: e003b87afde18cb396ec15928c7894063d64af04462c68df9a1404c461316dd2
@@ -318,7 +318,7 @@ packages:
     source: hosted
     version: "0.13.0"
   material_ui:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: material_ui
       sha256: feb289df1e5f9ed9522f9fe3d909432a7f7bc76943f16abad09f80a16cd25196

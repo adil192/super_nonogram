@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:super_nonogram/data/stows.dart';
 import 'package:super_nonogram/i18n/strings.g.dart';
 import 'package:super_nonogram/settings/animated_app_icon.dart';
