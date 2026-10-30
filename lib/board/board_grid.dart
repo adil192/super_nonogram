@@ -37,23 +37,25 @@ class BoardGrid extends StatelessWidget {
       child: ValueListenableBuilder(
         valueListenable: currentAnswers,
         builder: (context, currentAnswers, child) {
-          final size = MediaQuery.sizeOf(context);
-          final maxPossibleTileSize = min(
-            size.width / width,
-            // subtract 300 for header and footer
-            max((size.height - 300), 300) / height,
-          );
-          final labelFontSize = min(24.0, maxPossibleTileSize * 0.7);
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              final maxPossibleTileSize = min(
+                constraints.maxWidth / width,
+                constraints.maxHeight / height,
+              );
+              final labelFontSize = min(24.0, maxPossibleTileSize * 0.64);
 
-          return BoardGridLabelsRenderObjectWidget(
-            answer: answer,
-            currentAnswers: currentAnswers,
-            textDirection: Directionality.of(context),
-            textStyle: TextTheme.of(context).bodyLarge!.copyWith(
-              fontSize: labelFontSize,
-              letterSpacing: labelFontSize * -0.1,
-            ),
-            child: child,
+              return BoardGridLabelsRenderObjectWidget(
+                answer: answer,
+                currentAnswers: currentAnswers,
+                textDirection: Directionality.of(context),
+                textStyle: TextTheme.of(context).bodyLarge!.copyWith(
+                  fontSize: labelFontSize,
+                  letterSpacing: labelFontSize * -0.1,
+                ),
+                child: child,
+              );
+            },
           );
         },
         child: Stack(
