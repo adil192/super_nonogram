@@ -213,9 +213,7 @@ class BoardGridLabelsRenderObject extends RenderBox
     double maxColumnLabelsHeight = 0;
     for (var x = 0; x < _columnLabelPainters.length; x++) {
       final painter = _columnLabelPainters[x];
-      painter.layout(
-        maxWidth: (constraints.maxWidth - maxRowLabelsWidth) / boardWidth,
-      );
+      painter.layout(maxWidth: double.infinity); // prevent wrapping mid-number
       maxColumnLabelsHeight = max(maxColumnLabelsHeight, painter.height);
     }
     _colLabelHeight = maxColumnLabelsHeight;
