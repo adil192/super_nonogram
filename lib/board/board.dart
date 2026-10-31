@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:mutex/mutex.dart';
 import 'package:super_nonogram/api/file_manager.dart';
 import 'package:super_nonogram/board/board_grid.dart';
 import 'package:super_nonogram/board/board_labels.dart';
@@ -257,13 +258,15 @@ class BoardWidgetState extends State<Board> {
     autoselectCompleteRowsCols();
   }
 
+  late final _saveMutex = Mutex();
+
   /// Saves the current board state to a file.
   /// See also [_restoreBoard].
-  void _saveBoard() async {
+  void _saveBoard() => _saveMutex.protect(() async {
     final ngbPath = _getCurrentAnswersNgbPath();
     final ngb = Ngb.writeNgb(board);
     await FileManager.writeFile(ngbPath, string: ngb);
-  }
+  });
 
   /// The file that contains the current [board] state.
   String _getCurrentAnswersNgbPath() {

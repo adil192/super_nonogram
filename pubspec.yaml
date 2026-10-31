@@ -58,6 +58,7 @@ dependencies:
 
   url_launcher: ^6.1.12
   flex_seed_scheme: ^5.0.1
+  mutex: ^3.1.0
 
 dev_dependencies:
   flutter_test:
