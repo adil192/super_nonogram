@@ -260,8 +260,9 @@ class BoardWidgetState extends State<Board> {
         }
         currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
       }
-    } catch (_) {
+    } catch (e, st) {
       // ignore corrupted saves
+      debugPrint('Warning: Failed to restore board: $e: $st');
     }
     autoselectCompleteRowsCols();
   }
