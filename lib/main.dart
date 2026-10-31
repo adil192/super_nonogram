@@ -48,7 +48,10 @@ final _router = GoRouter(
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await stows.currentLevel.waitUntilRead();
+  await Future.wait([
+    stows.currentLevel.waitUntilRead(),
+    stows.lastClassicGameModeSeed.waitUntilRead(),
+  ]);
 
   _addLicenses();
 
