@@ -87,6 +87,7 @@ class _Translations$play$it extends Translations$play$en {
 	@override String get nextLevel => 'Livello successivo';
 	@override String get restartLevel => 'Ricomincia livello';
 	@override String get restartPuzzle => 'Ricomincia puzzle';
+	@override String get playAnother => 'Gioca un\'altra';
 	@override String get backToTitlePage => 'Torna al menu';
 	@override TextSpan imageAttribution({required InlineSpan author, required InlineSpan pixabay}) => TextSpan(children: [
 		const TextSpan(text: 'Immagine di '),
