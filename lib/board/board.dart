@@ -247,14 +247,22 @@ class BoardWidgetState extends State<Board> {
     final ngbPath = _getCurrentAnswersNgbPath();
     final ngb = await FileManager.readFile<String>(ngbPath);
     if (ngb != null) {
-      final restored = Ngb.readNgb(ngb);
-      for (int x = 0; x < width; x++) {
-        for (int y = 0; y < height; y++) {
-          board[y][x].value = restored[y][x].value;
+      try {
+        final restored = Ngb.readNgb(ngb);
+        for (int x = 0; x < width; x++) {
+          for (int y = 0; y < height; y++) {
+            try {
+              board[y][x].value = restored[y][x].value;
+            } on RangeError {
+              // ignore malsized saves
+            }
+          }
         }
+      } catch (_) {
+        // ignore corrupted saves
       }
+      currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
     }
-    currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
     autoselectCompleteRowsCols();
   }
 
