@@ -123,7 +123,9 @@ class PlayPageState extends State<PlayPage> {
   @override
   Widget build(BuildContext context) {
     final parentTheme = Theme.of(context);
+    final screenSize = MediaQuery.sizeOf(context);
     final gameMode = widget.gameMode;
+    final answerBoard = this.answerBoard;
     return ValueListenableBuilder(
       valueListenable: colorSchemeFromImage,
       builder: (context, colorSchemeFromImage, child) {
@@ -134,9 +136,11 @@ class PlayPageState extends State<PlayPage> {
       },
       child: Scaffold(
         appBar: AppBar(
+          toolbarHeight: 64,
           title: Row(
             children: [
-              Flexible(child: Text('${t.title.appName} ')),
+              if (screenSize.width > 360)
+                Flexible(child: Text('${t.title.appName} ')),
               _GameModeChip(
                 gameMode: gameMode,
                 // keep the same colors as home screen
@@ -144,10 +148,26 @@ class PlayPageState extends State<PlayPage> {
               ),
             ],
           ),
-          // Display level selector
-          bottom: gameMode is LevelGameMode
-              ? _LevelSelectionBar(gameMode: gameMode)
-              : null,
+          actions: [
+            if (gameMode is LevelGameMode)
+              Column(
+                mainAxisSize: .min,
+                mainAxisAlignment: .start,
+                children: [
+                  _LevelSelectionBar(
+                    gameMode: gameMode,
+                    child: answerBoard != null
+                        ? _BoardSizeIndicator(answerBoard)
+                        : null,
+                  ),
+                ],
+              )
+            else if (answerBoard != null)
+              Padding(
+                padding: .symmetric(horizontal: 16),
+                child: _BoardSizeIndicator(answerBoard),
+              ),
+          ],
         ),
         body: Column(
           children: [
@@ -157,7 +177,7 @@ class PlayPageState extends State<PlayPage> {
                     ? const CircularProgressIndicator.adaptive()
                     : Board(
                         gameMode: gameMode,
-                        answerBoard: answerBoard!,
+                        answerBoard: answerBoard,
                         srcImage: imageBytes,
                         onSolved: onSolved,
                         currentTileAction: currentTileAction,
@@ -210,16 +230,16 @@ class PlayPageState extends State<PlayPage> {
   }
 }
 
-class _LevelSelectionBar extends StatelessWidget
-    implements PreferredSizeWidget {
-  const _LevelSelectionBar({required this.gameMode});
+class _LevelSelectionBar extends StatelessWidget {
+  const _LevelSelectionBar({required this.gameMode, this.child});
 
   final LevelGameMode gameMode;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: .center,
       children: [
         IconButton(
           onPressed: gameMode.level > 1
@@ -232,9 +252,15 @@ class _LevelSelectionBar extends StatelessWidget
               : null,
           icon: const Icon(Icons.arrow_left),
         ),
-        Text(
-          t.play.level(n: gameMode.level),
-          style: TextTheme.of(context).titleLarge,
+        Column(
+          children: [
+            Text(
+              t.play.level(n: gameMode.level),
+              style: TextTheme.of(context).titleLarge?.copyWith(height: 1),
+              softWrap: false,
+            ),
+            ?child,
+          ],
         ),
         IconButton(
           onPressed: () {
@@ -246,9 +272,6 @@ class _LevelSelectionBar extends StatelessWidget
       ],
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(48);
 }
 
 class _GameModeChip extends StatelessWidget {
@@ -285,6 +308,22 @@ class _GameModeChip extends StatelessWidget {
       padding: const .all(6),
       labelPadding: .zero,
       side: MediaQuery.highContrastOf(context) ? null : BorderSide.none,
+    );
+  }
+}
+
+class _BoardSizeIndicator extends StatelessWidget {
+  const _BoardSizeIndicator(this.board);
+  final BoardState board;
+
+  @override
+  Widget build(BuildContext context) {
+    final boardWidth = board[0].length;
+    final boardHeight = board.length;
+    return Text(
+      '${boardWidth}x$boardHeight',
+      style: TextTheme.of(context).titleMedium?.copyWith(height: 1),
+      softWrap: false,
     );
   }
 }
