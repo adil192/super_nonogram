@@ -245,9 +245,9 @@ class BoardWidgetState extends State<Board> {
 
   Future<void> _restoreBoard() async {
     final ngbPath = _getCurrentAnswersNgbPath();
-    final ngb = await FileManager.readFile<String>(ngbPath);
-    if (ngb != null) {
-      try {
+    try {
+      final ngb = await FileManager.readFile<String>(ngbPath);
+      if (ngb != null) {
         final restored = Ngb.readNgb(ngb);
         for (int x = 0; x < width; x++) {
           for (int y = 0; y < height; y++) {
@@ -258,10 +258,10 @@ class BoardWidgetState extends State<Board> {
             }
           }
         }
-      } catch (_) {
-        // ignore corrupted saves
+        currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
       }
-      currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
+    } catch (_) {
+      // ignore corrupted saves
     }
     autoselectCompleteRowsCols();
   }
