@@ -11,7 +11,7 @@ abstract class Ngb {
     final lines = ngbContents.split('\n');
 
     final int width, height;
-    if (jsonDecode(lines[0])! case [int w, int h]) {
+    if (jsonDecode(lines[0]) case [int w, int h]) {
       width = w;
       height = h;
     } else {
