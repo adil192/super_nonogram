@@ -253,6 +253,7 @@ class BoardWidgetState extends State<Board> {
         }
       }
     }
+    currentAnswers.value = BoardLabels.fromBoardState(board, width, height);
     autoselectCompleteRowsCols();
   }
 
