@@ -52,6 +52,9 @@ class BoardWidgetState extends State<Board> {
   );
   bool get isSolved => currentAnswers.value == answer;
 
+  /// Whether to disable user input, e.g. when loading.
+  bool _blockInputs = true;
+
   /// Whether secondary input is currently active
   /// (right-click or stylus button)
   bool secondaryInput = false;
@@ -69,7 +72,7 @@ class BoardWidgetState extends State<Board> {
     (_) => List.generate(width, (_) => ValueNotifier(TileState.empty)),
   );
 
-  Coordinate panStartCoordinate = (x: 0, y: 0);
+  Coordinate panStartCoordinate = (x: -1, y: -1);
 
   TileRelation getTileRelation(int x, int y) {
     if (x < 0 || x >= width || y < 0 || y >= height) {
@@ -82,6 +85,11 @@ class BoardWidgetState extends State<Board> {
   }
 
   void onPanStart(Coordinate coordinate) {
+    if (_blockInputs) {
+      panStartCoordinate = (x: -1, y: -1);
+      return;
+    }
+
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
         boardBackup[y][x].value = board[y][x].value;
@@ -106,11 +114,13 @@ class BoardWidgetState extends State<Board> {
         onPanUpdate(coordinate);
       case TileRelation.outOfBounds:
       case TileRelation.notInSameRowOrColumn:
-        panStartCoordinate = (x: 0, y: 0);
+        panStartCoordinate = (x: -1, y: -1);
     }
   }
 
   void onPanUpdate(Coordinate coordinate) {
+    if (_blockInputs) return;
+
     final (:x, :y) = coordinate;
 
     if (x != panStartCoordinate.x || y != panStartCoordinate.y) {
@@ -149,6 +159,7 @@ class BoardWidgetState extends State<Board> {
   }
 
   void onPanEnd() {
+    if (_blockInputs) return;
     tapHoldTimer?.cancel();
     _saveBoard();
   }
@@ -216,10 +227,19 @@ class BoardWidgetState extends State<Board> {
 
   @override
   void initState() {
-    unawaited(_restoreBoard());
+    unawaited(_asyncInit());
     super.initState();
 
     currentAnswers.addListener(_onCurrentAnswersChanged);
+  }
+
+  Future<void> _asyncInit() async {
+    _blockInputs = true;
+    try {
+      await _restoreBoard();
+    } finally {
+      _blockInputs = false;
+    }
   }
 
   Future<void> _restoreBoard() async {
