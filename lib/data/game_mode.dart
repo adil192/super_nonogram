@@ -1,6 +1,12 @@
 sealed class GameMode {
   const GameMode();
 
+  /// A unique id for this game mode,
+  /// used to save and restore the game state across sessions.
+  ///
+  /// This must be a valid file name on all target platforms,
+  /// i.e. contain no restricted characters.
+  /// It should not contain a file extension.
   String get descriptor;
 }
 
@@ -10,7 +16,7 @@ class LevelGameMode extends GameMode {
     : assert(level > 0, 'Level must be greater than 0');
 
   @override
-  String get descriptor => 'level:$level';
+  String get descriptor => 'level_$level';
 }
 
 class ClassicGameMode extends GameMode {
@@ -18,7 +24,7 @@ class ClassicGameMode extends GameMode {
   final int seed;
 
   @override
-  String get descriptor => 'classic:$seed';
+  String get descriptor => 'classic_$seed';
 }
 
 class ImageGameMode extends GameMode {
@@ -27,5 +33,5 @@ class ImageGameMode extends GameMode {
   final String query;
 
   @override
-  String get descriptor => 'image:$query';
+  String get descriptor => 'image_$query';
 }
