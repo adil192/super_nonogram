@@ -20,7 +20,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	/// Constructing via the enum [AppLocale.build] is preferred.
 	Translations({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
 		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
-		  $meta = meta ?? TranslationMetadata(
+		  _meta = meta ?? TranslationMetadata(
 		    locale: AppLocale.en,
 		    overrides: overrides ?? {},
 		    cardinalResolver: cardinalResolver,
@@ -28,23 +28,24 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 		  );
 
 	/// Metadata for the translations of <en>.
-	@override final TranslationMetadata<AppLocale, Translations> $meta;
+	final TranslationMetadata<AppLocale, Translations> _meta;
+	@override TranslationMetadata<AppLocale, Translations> get $meta => _meta;
 
 	late final Translations _root = this; // ignore: unused_field
 
 	Translations $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => Translations(meta: meta ?? this.$meta);
 
 	// Translations
-	late final TranslationsTitleEn title = TranslationsTitleEn.internal(_root);
-	late final TranslationsSearchEn search = TranslationsSearchEn.internal(_root);
-	late final TranslationsPlayEn play = TranslationsPlayEn.internal(_root);
-	late final TranslationsSettingsEn settings = TranslationsSettingsEn.internal(_root);
-	late final TranslationsGameModesEn gameModes = TranslationsGameModesEn.internal(_root);
+	late final Translations$title$en title = Translations$title$en.internal(_root);
+	late final Translations$search$en search = Translations$search$en.internal(_root);
+	late final Translations$play$en play = Translations$play$en.internal(_root);
+	late final Translations$settings$en settings = Translations$settings$en.internal(_root);
+	late final Translations$gameModes$en gameModes = Translations$gameModes$en.internal(_root);
 }
 
 // Path: title
-class TranslationsTitleEn {
-	TranslationsTitleEn.internal(this._root);
+class Translations$title$en {
+	Translations$title$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -67,8 +68,8 @@ class TranslationsTitleEn {
 }
 
 // Path: search
-class TranslationsSearchEn {
-	TranslationsSearchEn.internal(this._root);
+class Translations$search$en {
+	Translations$search$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -98,8 +99,8 @@ class TranslationsSearchEn {
 }
 
 // Path: play
-class TranslationsPlayEn {
-	TranslationsPlayEn.internal(this._root);
+class Translations$play$en {
+	Translations$play$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -123,8 +124,8 @@ class TranslationsPlayEn {
 	/// en: 'Restart puzzle'
 	String get restartPuzzle => 'Restart puzzle';
 
-	/// en: 'Play again'
-	String get playAgain => 'Play again';
+	/// en: 'Play another'
+	String get playAnother => 'Play another';
 
 	/// en: 'Back to title page'
 	String get backToTitlePage => 'Back to title page';
@@ -139,8 +140,8 @@ class TranslationsPlayEn {
 }
 
 // Path: settings
-class TranslationsSettingsEn {
-	TranslationsSettingsEn.internal(this._root);
+class Translations$settings$en {
+	Translations$settings$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -169,8 +170,8 @@ class TranslationsSettingsEn {
 }
 
 // Path: gameModes
-class TranslationsGameModesEn {
-	TranslationsGameModesEn.internal(this._root);
+class Translations$gameModes$en {
+	Translations$gameModes$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 

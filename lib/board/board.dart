@@ -7,6 +7,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:super_nonogram/board/board_grid.dart';
 import 'package:super_nonogram/board/board_labels.dart';
 import 'package:super_nonogram/board/tile_state.dart';
+import 'package:super_nonogram/data/game_mode.dart';
 import 'package:super_nonogram/util/sonic_controller.dart';
 
 typedef BoardState = List<List<ValueNotifier<TileState>>>;
@@ -15,12 +16,14 @@ typedef Coordinate = ({int x, int y});
 class Board extends StatefulWidget {
   const Board({
     super.key,
+    required this.gameMode,
     required this.answerBoard,
     required this.srcImage,
     required this.onSolved,
     required this.currentTileAction,
   }) : assert(currentTileAction != TileState.empty);
 
+  final GameMode gameMode;
   final BoardState answerBoard;
   final Uint8List? srcImage;
   final VoidCallback onSolved;

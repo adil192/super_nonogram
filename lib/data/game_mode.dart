@@ -10,7 +10,7 @@ class LevelGameMode extends GameMode {
 
 class ClassicGameMode extends GameMode {
   const ClassicGameMode(this.seed);
-  final int? seed;
+  final int seed;
 }
 
 class ImageGameMode extends GameMode {

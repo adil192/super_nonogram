@@ -8,4 +8,6 @@ class Stows {
   final hyperlegibleFont = PlainStow('hyperlegibleFont', false);
 
   final useHapticFeedback = PlainStow('useHapticFeedback', true);
+
+  final lastClassicGameModeSeed = PlainStow('lastClassicGameModeSeed', 1234);
 }

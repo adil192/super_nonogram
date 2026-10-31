@@ -28,7 +28,9 @@ final _router = GoRouter(
         } else if (state.uri.queryParameters.containsKey('classic')) {
           return PlayPage(
             ClassicGameMode(
-              int.tryParse(state.uri.queryParameters['classic']!),
+              stows.lastClassicGameModeSeed.value =
+                  int.tryParse(state.uri.queryParameters['classic']!) ??
+                  stows.lastClassicGameModeSeed.value,
             ),
           );
         } else {
@@ -91,21 +93,21 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     final highContrast = MediaQuery.highContrastOf(context);
-        return MaterialApp.router(
-          key: _appKey,
-          title: 'Super Nonogram',
-          debugShowCheckedModeBanner: false,
-          theme: SuperNonogramTheme.createTheme(
-            brightness: Brightness.light,
-            platform: defaultTargetPlatform,
-            highContrast: highContrast,
-          ),
-          darkTheme: SuperNonogramTheme.createTheme(
-            brightness: Brightness.dark,
-            platform: defaultTargetPlatform,
-            highContrast: highContrast,
-          ),
-          routerConfig: _router,
-        );
+    return MaterialApp.router(
+      key: _appKey,
+      title: 'Super Nonogram',
+      debugShowCheckedModeBanner: false,
+      theme: SuperNonogramTheme.createTheme(
+        brightness: Brightness.light,
+        platform: defaultTargetPlatform,
+        highContrast: highContrast,
+      ),
+      darkTheme: SuperNonogramTheme.createTheme(
+        brightness: Brightness.dark,
+        platform: defaultTargetPlatform,
+        highContrast: highContrast,
+      ),
+      routerConfig: _router,
+    );
   }
 }

@@ -9,7 +9,7 @@ abstract class ClassicPuzzles {
     int width = 9,
     int height = 9,
     double pValue = 0.7,
-    required int? seed,
+    required int seed,
   }) {
     final BoardState board = List.generate(
       height,

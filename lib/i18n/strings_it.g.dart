@@ -16,7 +16,7 @@ class TranslationsIt extends Translations with BaseTranslations<AppLocale, Trans
 	/// Constructing via the enum [AppLocale.build] is preferred.
 	TranslationsIt({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
 		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
-		  $meta = meta ?? TranslationMetadata(
+		  _meta = meta ?? TranslationMetadata(
 		    locale: AppLocale.it,
 		    overrides: overrides ?? {},
 		    cardinalResolver: cardinalResolver,
@@ -25,7 +25,8 @@ class TranslationsIt extends Translations with BaseTranslations<AppLocale, Trans
 		  super(cardinalResolver: cardinalResolver, ordinalResolver: ordinalResolver);
 
 	/// Metadata for the translations of <it>.
-	@override final TranslationMetadata<AppLocale, Translations> $meta;
+	final TranslationMetadata<AppLocale, Translations> _meta;
+	@override TranslationMetadata<AppLocale, Translations> get $meta => _meta;
 
 	late final TranslationsIt _root = this; // ignore: unused_field
 
@@ -33,16 +34,16 @@ class TranslationsIt extends Translations with BaseTranslations<AppLocale, Trans
 	TranslationsIt $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => TranslationsIt(meta: meta ?? this.$meta);
 
 	// Translations
-	@override late final _TranslationsTitleIt title = _TranslationsTitleIt._(_root);
-	@override late final _TranslationsSearchIt search = _TranslationsSearchIt._(_root);
-	@override late final _TranslationsPlayIt play = _TranslationsPlayIt._(_root);
-	@override late final _TranslationsSettingsIt settings = _TranslationsSettingsIt._(_root);
-	@override late final _TranslationsGameModesIt gameModes = _TranslationsGameModesIt._(_root);
+	@override late final _Translations$title$it title = _Translations$title$it._(_root);
+	@override late final _Translations$search$it search = _Translations$search$it._(_root);
+	@override late final _Translations$play$it play = _Translations$play$it._(_root);
+	@override late final _Translations$settings$it settings = _Translations$settings$it._(_root);
+	@override late final _Translations$gameModes$it gameModes = _Translations$gameModes$it._(_root);
 }
 
 // Path: title
-class _TranslationsTitleIt extends TranslationsTitleEn {
-	_TranslationsTitleIt._(TranslationsIt root) : this._root = root, super.internal(root);
+class _Translations$title$it extends Translations$title$en {
+	_Translations$title$it._(TranslationsIt root) : this._root = root, super.internal(root);
 
 	final TranslationsIt _root; // ignore: unused_field
 
@@ -55,8 +56,8 @@ class _TranslationsTitleIt extends TranslationsTitleEn {
 }
 
 // Path: search
-class _TranslationsSearchIt extends TranslationsSearchEn {
-	_TranslationsSearchIt._(TranslationsIt root) : this._root = root, super.internal(root);
+class _Translations$search$it extends Translations$search$en {
+	_Translations$search$it._(TranslationsIt root) : this._root = root, super.internal(root);
 
 	final TranslationsIt _root; // ignore: unused_field
 
@@ -74,8 +75,8 @@ class _TranslationsSearchIt extends TranslationsSearchEn {
 }
 
 // Path: play
-class _TranslationsPlayIt extends TranslationsPlayEn {
-	_TranslationsPlayIt._(TranslationsIt root) : this._root = root, super.internal(root);
+class _Translations$play$it extends Translations$play$en {
+	_Translations$play$it._(TranslationsIt root) : this._root = root, super.internal(root);
 
 	final TranslationsIt _root; // ignore: unused_field
 
@@ -86,7 +87,6 @@ class _TranslationsPlayIt extends TranslationsPlayEn {
 	@override String get nextLevel => 'Livello successivo';
 	@override String get restartLevel => 'Ricomincia livello';
 	@override String get restartPuzzle => 'Ricomincia puzzle';
-	@override String get playAgain => 'Gioca ancora';
 	@override String get backToTitlePage => 'Torna al menu';
 	@override TextSpan imageAttribution({required InlineSpan author, required InlineSpan pixabay}) => TextSpan(children: [
 		const TextSpan(text: 'Immagine di '),
@@ -97,8 +97,8 @@ class _TranslationsPlayIt extends TranslationsPlayEn {
 }
 
 // Path: settings
-class _TranslationsSettingsIt extends TranslationsSettingsEn {
-	_TranslationsSettingsIt._(TranslationsIt root) : this._root = root, super.internal(root);
+class _Translations$settings$it extends Translations$settings$en {
+	_Translations$settings$it._(TranslationsIt root) : this._root = root, super.internal(root);
 
 	final TranslationsIt _root; // ignore: unused_field
 
@@ -113,8 +113,8 @@ class _TranslationsSettingsIt extends TranslationsSettingsEn {
 }
 
 // Path: gameModes
-class _TranslationsGameModesIt extends TranslationsGameModesEn {
-	_TranslationsGameModesIt._(TranslationsIt root) : this._root = root, super.internal(root);
+class _Translations$gameModes$it extends Translations$gameModes$en {
+	_Translations$gameModes$it._(TranslationsIt root) : this._root = root, super.internal(root);
 
 	final TranslationsIt _root; // ignore: unused_field
 

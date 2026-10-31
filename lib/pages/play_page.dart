@@ -156,6 +156,7 @@ class PlayPageState extends State<PlayPage> {
                 child: answerBoard == null
                     ? const CircularProgressIndicator.adaptive()
                     : Board(
+                        gameMode: gameMode,
                         answerBoard: answerBoard!,
                         srcImage: imageBytes,
                         onSolved: onSolved,
@@ -362,13 +363,14 @@ class _SolvedDialog extends StatelessWidget {
                   '/play?query=${Uri.encodeComponent(gameMode.query)}',
                 );
               case (ClassicGameMode _):
-                context.pushReplacement('/play?classic');
+                final seed = _seedGenerator.nextInt(1 << 32);
+                context.pushReplacement('/play?classic=$seed');
             }
           },
           child: Text(switch (gameMode) {
             (LevelGameMode _) => t.play.restartLevel,
             (ImageGameMode _) => t.play.restartPuzzle,
-            (ClassicGameMode _) => t.play.playAgain,
+            (ClassicGameMode _) => t.play.playAnother,
           }),
         ),
         if (gameMode is LevelGameMode)
@@ -385,3 +387,5 @@ class _SolvedDialog extends StatelessWidget {
     );
   }
 }
+
+final _seedGenerator = Random(stows.lastClassicGameModeSeed.value);
