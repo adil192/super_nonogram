@@ -221,16 +221,17 @@ class _LevelSelectionBar extends StatelessWidget
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        if (gameMode.level > 1)
-          IconButton(
-            onPressed: () {
-              stows.currentLevel.value = gameMode.level - 1;
-              context.pushReplacement(
-                '/play?level=${stows.currentLevel.value}',
-              );
-            },
-            icon: const Icon(Icons.arrow_left),
-          ),
+        IconButton(
+          onPressed: gameMode.level > 1
+              ? () {
+                  stows.currentLevel.value = gameMode.level - 1;
+                  context.pushReplacement(
+                    '/play?level=${stows.currentLevel.value}',
+                  );
+                }
+              : null,
+          icon: const Icon(Icons.arrow_left),
+        ),
         Text(
           t.play.level(n: gameMode.level),
           style: TextTheme.of(context).titleLarge,
