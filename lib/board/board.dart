@@ -244,7 +244,7 @@ class BoardWidgetState extends State<Board> {
   }
 
   Future<void> _restoreBoard() async {
-    final ngbPath = _getCurrentAnswersNgbPath();
+    final ngbPath = widget.gameMode.getCurrentAnswersNgbPath();
     try {
       final ngb = await FileManager.readFile<String>(ngbPath);
       if (ngb != null) {
@@ -272,16 +272,10 @@ class BoardWidgetState extends State<Board> {
   /// Saves the current board state to a file.
   /// See also [_restoreBoard].
   void _saveBoard() => _saveMutex.protect(() async {
-    final ngbPath = _getCurrentAnswersNgbPath();
+    final ngbPath = widget.gameMode.getCurrentAnswersNgbPath();
     final ngb = Ngb.writeNgb(board);
     await FileManager.writeFile(ngbPath, string: ngb);
   });
-
-  /// The file that contains the current [board] state.
-  String _getCurrentAnswersNgbPath() {
-    final descriptor = widget.gameMode.descriptor;
-    return '/currentAnswers/$descriptor.ngb';
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -353,26 +353,45 @@ class _SolvedDialog extends StatelessWidget {
           },
           child: Text(t.play.backToTitlePage),
         ),
-        TextButton(
-          onPressed: () {
-            switch (gameMode) {
-              case (LevelGameMode gameMode):
+
+        // Replay this puzzle
+        if (gameMode is LevelGameMode)
+          TextButton(
+            onPressed: () async {
+              final ngbPath = gameMode.getCurrentAnswersNgbPath();
+              await FileManager.deleteFile(ngbPath);
+              if (context.mounted) {
                 context.pushReplacement('/play?level=${gameMode.level}');
-              case (ImageGameMode gameMode):
+              }
+            },
+            child: Text(t.play.restartLevel),
+          ),
+        if (gameMode is ImageGameMode)
+          TextButton(
+            onPressed: () async {
+              final ngbPath = gameMode.getCurrentAnswersNgbPath();
+              await FileManager.deleteFile(ngbPath);
+              if (context.mounted) {
                 context.pushReplacement(
                   '/play?query=${Uri.encodeComponent(gameMode.query)}',
                 );
-              case (ClassicGameMode _):
-                final seed = _seedGenerator.nextInt(1 << 32);
-                context.pushReplacement('/play?classic=$seed');
-            }
-          },
-          child: Text(switch (gameMode) {
-            (LevelGameMode _) => t.play.restartLevel,
-            (ImageGameMode _) => t.play.restartPuzzle,
-            (ClassicGameMode _) => t.play.playAnother,
-          }),
-        ),
+              }
+            },
+            child: Text(t.play.restartPuzzle),
+          ),
+        if (gameMode is ClassicGameMode)
+          TextButton(
+            onPressed: () async {
+              final ngbPath = gameMode.getCurrentAnswersNgbPath();
+              await FileManager.deleteFile(ngbPath);
+              if (context.mounted) {
+                context.pushReplacement('/play?classic=${gameMode.seed}');
+              }
+            },
+            child: Text(t.play.restartPuzzle),
+          ),
+
+        // Play the next puzzle
         if (gameMode is LevelGameMode)
           TextButton(
             onPressed: () {
@@ -382,6 +401,18 @@ class _SolvedDialog extends StatelessWidget {
               );
             },
             child: Text(t.play.nextLevel),
+          ),
+        if (gameMode is ClassicGameMode)
+          TextButton(
+            onPressed: () async {
+              // Clear this seed's save since we're unlikely to see it again.
+              final ngbPath = gameMode.getCurrentAnswersNgbPath();
+              unawaited(FileManager.deleteFile(ngbPath));
+
+              final seed = _seedGenerator.nextInt(1 << 32);
+              context.pushReplacement('/play?classic=$seed');
+            },
+            child: Text(t.play.playAnother),
           ),
       ],
     );

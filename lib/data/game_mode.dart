@@ -8,6 +8,9 @@ sealed class GameMode {
   /// i.e. contain no restricted characters.
   /// It should not contain a file extension.
   String get descriptor;
+
+  /// The file that contains the current [BoardState].
+  String getCurrentAnswersNgbPath() => '/currentAnswers/$descriptor.ngb';
 }
 
 class LevelGameMode extends GameMode {

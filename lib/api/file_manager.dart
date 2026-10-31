@@ -142,4 +142,16 @@ abstract class FileManager {
     final file = File('${_documentsDir!.path}$_documentsSubDir$path');
     return FileImage(file);
   }
+
+  static Future<void> deleteFile(String path) async {
+    assert(path.startsWith('/'));
+    if (kIsWeb) {
+      _prefs ??= await SharedPreferences.getInstance();
+      _prefs!.remove(path);
+    } else {
+      _documentsDir ??= await getApplicationSupportDirectory();
+      final file = File('${_documentsDir!.path}$_documentsSubDir$path');
+      if (file.existsSync()) await file.delete();
+    }
+  }
 }
