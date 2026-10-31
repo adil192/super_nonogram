@@ -26,12 +26,18 @@ abstract class Ngb {
     for (int y = 0; y < height; y++) {
       final line = lines[y + 1];
       for (int x = 0; x < width; x++) {
-        final char = line[x];
-        if (char == '1') {
-          board[y][x].value = TileState.selected;
-        } else {
-          board[y][x].value = TileState.empty;
-        }
+        final symbol = line[x];
+        board[y][x].value = switch (symbol) {
+          '1' => .selected,
+          'X' => .crossed,
+          '-' => .empty,
+          _ => () {
+            if (kDebugMode) {
+              throw FormatException('Unknown symbol "$symbol" in NGB', line, x);
+            }
+            return TileState.empty;
+          }(),
+        };
       }
     }
 
@@ -47,8 +53,11 @@ abstract class Ngb {
     for (int y = 0; y < height; y++) {
       final line = StringBuffer();
       for (int x = 0; x < width; x++) {
-        final selected = board[y][x].value == TileState.selected;
-        line.write(selected ? '1' : '-');
+        line.write(switch (board[y][x].value) {
+          .selected => '1',
+          .crossed => 'X',
+          .empty => '-',
+        });
       }
       sb.writeln(line);
     }

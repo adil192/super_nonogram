@@ -5,9 +5,14 @@ import 'package:super_nonogram/data/game_mode.dart';
 import 'package:super_nonogram/pages/play_page.dart';
 import 'package:super_nonogram/theme/theme.dart';
 
+import 'util/mock_channel_handlers.dart';
+
 void main() {
   group('Board goldens', () {
-    setUpAll(loadAppFonts); // Fonts are needed before first layout
+    setUpAll(() async {
+      setupMockPathProvider();
+      await loadAppFonts(); // Fonts are needed before first layout
+    });
 
     for (final level in const [1, 10, 20, 50, 99, 143]) {
       group('Level $level', () {

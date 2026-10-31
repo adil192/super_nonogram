@@ -4,8 +4,10 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:super_nonogram/api/file_manager.dart';
 import 'package:super_nonogram/board/board_grid.dart';
 import 'package:super_nonogram/board/board_labels.dart';
+import 'package:super_nonogram/board/ngb.dart';
 import 'package:super_nonogram/board/tile_state.dart';
 import 'package:super_nonogram/data/game_mode.dart';
 import 'package:super_nonogram/util/sonic_controller.dart';
@@ -148,6 +150,7 @@ class BoardWidgetState extends State<Board> {
 
   void onPanEnd() {
     tapHoldTimer?.cancel();
+    _saveBoard();
   }
 
   void _updateTile(int x, int y, TileState targetTileState) {
@@ -213,10 +216,38 @@ class BoardWidgetState extends State<Board> {
 
   @override
   void initState() {
-    autoselectCompleteRowsCols();
+    unawaited(_restoreBoard());
     super.initState();
 
     currentAnswers.addListener(_onCurrentAnswersChanged);
+  }
+
+  Future<void> _restoreBoard() async {
+    final ngbPath = _getCurrentAnswersNgbPath();
+    final ngb = await FileManager.readFile<String>(ngbPath);
+    if (ngb != null) {
+      final restored = Ngb.readNgb(ngb);
+      for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+          board[y][x].value = restored[y][x].value;
+        }
+      }
+    }
+    autoselectCompleteRowsCols();
+  }
+
+  /// Saves the current board state to a file.
+  /// See also [_restoreBoard].
+  void _saveBoard() async {
+    final ngbPath = _getCurrentAnswersNgbPath();
+    final ngb = Ngb.writeNgb(board);
+    await FileManager.writeFile(ngbPath, string: ngb);
+  }
+
+  /// The file that contains the current [board] state.
+  String _getCurrentAnswersNgbPath() {
+    final descriptor = widget.gameMode.descriptor;
+    return '/currentAnswers/$descriptor.ngb';
   }
 
   @override
