@@ -1,5 +1,6 @@
 import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flex_seed_scheme/flex_seed_scheme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:super_nonogram/data/stows.dart';
@@ -113,6 +114,7 @@ abstract class SuperNonogramTheme {
         'AtkinsonHyperlegibleNext',
         'Atkinson Hyperlegible',
         'AtkinsonHyperlegible',
+        if (kIsWeb) 'system-ui',
       ],
     );
     late final hyperlegibleStyle = GoogleFonts.atkinsonHyperlegible();
