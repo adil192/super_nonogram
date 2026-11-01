@@ -136,7 +136,7 @@ class PlayPageState extends State<PlayPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          toolbarHeight: 64,
+          toolbarHeight: gameMode is LevelGameMode ? 64 : null,
           title: Row(
             children: [
               if (screenSize.width > 360)
