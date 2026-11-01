@@ -405,8 +405,8 @@ class _SolvedDialog extends StatelessWidget {
               }
             },
             child: Text(t.play.restartLevel),
-          ),
-        if (gameMode is ImageGameMode)
+          )
+        else if (gameMode is ImageGameMode)
           TextButton(
             onPressed: () async {
               final ngbPath = gameMode.getCurrentAnswersNgbPath();
@@ -415,17 +415,6 @@ class _SolvedDialog extends StatelessWidget {
                 context.pushReplacement(
                   '/play?query=${Uri.encodeComponent(gameMode.query)}',
                 );
-              }
-            },
-            child: Text(t.play.restartPuzzle),
-          ),
-        if (gameMode is ClassicGameMode)
-          TextButton(
-            onPressed: () async {
-              final ngbPath = gameMode.getCurrentAnswersNgbPath();
-              await FileManager.deleteFile(ngbPath);
-              if (context.mounted) {
-                context.pushReplacement('/play?classic=${gameMode.seed}');
               }
             },
             child: Text(t.play.restartPuzzle),
@@ -441,8 +430,8 @@ class _SolvedDialog extends StatelessWidget {
               );
             },
             child: Text(t.play.nextLevel),
-          ),
-        if (gameMode is ClassicGameMode)
+          )
+        else if (gameMode is ClassicGameMode)
           TextButton(
             onPressed: () async {
               // Clear this seed's save since we're unlikely to see it again.
