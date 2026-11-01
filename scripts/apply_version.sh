@@ -54,7 +54,7 @@ if [ "$#" -lt 2 ] || [ "$#" -gt 3 ]; then
   print_help
 fi
 
-DUMMY_CHANGELOG="Release notes will be added here"
+DUMMY_CHANGELOG="Release_notes_will_be_added_here"
 BUILD_NAME=$1
 BUILD_NUMBER=$2
 DATE=$(date +%Y-%m-%d)
@@ -127,7 +127,7 @@ else
   echo " - (*) Adding <release> tag to $FLATPAK_FILE"
   # shellcheck disable=SC1078,SC1079
   RELEASE_TAG="""\
-        <release version=\"$BUILD_NAME\" type=\"development\" date=\"$DATE\">
+        <release version=\"$BUILD_NAME\" date=\"$DATE\">
             <description>
                 <ul>
                     <li>$DUMMY_CHANGELOG</li>

@@ -1,0 +1,3 @@
+• Your game state is now saved and restored when you come back to it. No more starting from scratch (unless you want to)!
+• Added an indicator for the current board width and height.
+• Fixed numbers rendering/wrapping incorrectly on some devices.

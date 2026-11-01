@@ -87,6 +87,15 @@
     </screenshots>
 
     <releases>
+        <release version="0.13.0" date="2026-11-01">
+            <description>
+                <ul>
+                    <li>Your game state is now saved and restored when you come back to it. No more starting from scratch (unless you want to)!</li>
+                    <li>Added an indicator for the current board width and height.</li>
+                    <li>Fixed numbers rendering/wrapping incorrectly on some devices.</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.12.1" date="2026-05-27">
             <description>
                 <ul>
